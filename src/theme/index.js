@@ -10,6 +10,7 @@ import {
 import palette from "./palette";
 import typography from "./typography";
 import shadows, { customShadows } from "./shadows";
+import ComponentsOverrides from "./overrides";
 
 export default function CustomThemeProvider({ children }) {
     const themeOptions = useMemo(
@@ -24,6 +25,7 @@ export default function CustomThemeProvider({ children }) {
     );
 
     const theme = createTheme(themeOptions);
+    theme.components = ComponentsOverrides(theme);
 
     return (
         <StyledEngineProvider injectFirst>

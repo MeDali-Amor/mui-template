@@ -5,6 +5,7 @@ import {
     Collapse,
     List,
     ListItemButton,
+    ListItemIcon,
     ListItemText,
     styled,
     useTheme,
@@ -19,7 +20,7 @@ import {
     useLocation,
 } from "react-router-dom";
 
-const SidebarMenu = ({ navConfig }) => {
+const SidebarMenu = ({ navConfig, ...other }) => {
     const location = useLocation();
     const pathname = location.pathname;
     console.log(pathname);
@@ -38,8 +39,8 @@ const SidebarMenu = ({ navConfig }) => {
 
     return (
         <div>
-            <Box>
-                <List>
+            <Box {...other}>
+                <List disablePadding sx={{ p: 1 }}>
                     {navConfig.map((item) => (
                         <MenuItem
                             key={item.title}
@@ -58,7 +59,7 @@ export default SidebarMenu;
 function MenuItem({ item, isActive }) {
     const theme = useTheme();
     const isActiveRoot = isActive(item.path);
-    const { title, path, info, children } = item;
+    const { title, icon, path, info, children } = item;
     const [open, setOpen] = useState(isActiveRoot);
     const handleOpen = () => {
         setOpen(!open);
@@ -120,6 +121,7 @@ function MenuItem({ item, isActive }) {
                 ...(isActiveRoot && activeRootStyle),
             }}
         >
+            <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
             <ListItemText disableTypography primary={title} />
             {info && info}
         </ListItemStyle>
@@ -130,17 +132,19 @@ const ListItemStyle = styled((props) => (
 ))(({ theme }) => ({
     ...theme.typography.body2,
     height: 48,
+    marginBlock: 8,
     position: "relative",
     textTransform: "capitalize",
-    color: theme.palette.text.secondary,
+    color: theme.palette.grey[700],
     borderRadius: theme.shape.borderRadius,
+    fontWeight: "600",
 }));
 
-// const ListItemIconStyle = styled(ListItemIcon)({
-//   width: 22,
-//   height: 22,
-//   color: 'inherit',
-//   display: 'flex',
-//   alignItems: 'center',
-//   justifyContent: 'center',
-// });
+const ListItemIconStyle = styled(ListItemIcon)({
+    width: 22,
+    height: 22,
+    color: "inherit",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+});

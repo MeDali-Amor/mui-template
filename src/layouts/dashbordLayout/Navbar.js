@@ -3,7 +3,7 @@ import { alpha, styled } from "@mui/material/styles";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 
 // Styles
-const Sidebar_width = 280;
+const Sidebar_width = 260;
 
 const RootStyle = styled(AppBar)(({ theme }) => ({
     boxShadow: `1px 0px 20px 1px ${theme.palette.grey[300]}`,
@@ -17,7 +17,7 @@ const RootStyle = styled(AppBar)(({ theme }) => ({
 }));
 
 const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
-    minHeight: 64,
+    minHeight: 70,
     [theme.breakpoints.up("lg")]: {
         minHeight: 70,
         padding: theme.spacing(0, 5),

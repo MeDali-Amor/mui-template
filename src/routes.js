@@ -3,7 +3,7 @@ import { useRoutes } from "react-router-dom";
 import DashboardLayout from "./layouts/dashbordLayout";
 import Dashboard from "./pages/Dashboard";
 import Document from "./pages/Document";
-import Societes from "./pages/Societes";
+import Societes from "./pages/societe/Societes";
 
 function Router() {
     return useRoutes([

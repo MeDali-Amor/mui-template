@@ -15,7 +15,7 @@ import SidebarMenu from "../../components/SidebarMenu";
 
 const DRAWER_WIDTH = 260;
 const RootStyle = styled("div")(({ theme }) => ({
-    [theme.breakpoints.up("lg")]: {
+    [theme.breakpoints.up("md")]: {
         flexShrink: 0,
         minWidth: DRAWER_WIDTH,
     },
@@ -33,7 +33,7 @@ const SideBarLogoStyle = styled("img")({
 
 const Sidebar = ({ isSidebarOpen, onSidebarClose }) => {
     const theme = useTheme();
-    const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
+    const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
     // console.log(isDesktop);
     return (
         <RootStyle>
@@ -48,12 +48,40 @@ const Sidebar = ({ isSidebarOpen, onSidebarClose }) => {
                             width: DRAWER_WIDTH,
                             bgcolor: "background.default",
                             // borderRightStyle: "dashed",
-                            borderRight: `1px solid ${theme.palette.grey[300]}`,
+                            borderRight: `1px dashed  ${theme.palette.grey[300]}`,
                         },
                     }}
                 >
-                    <Box sx={{ px: 2.5, py: 3, display: "inline-flex" }}>
-                        Logo
+                    <Box
+                        sx={{
+                            px: 2.5,
+                            py: 3,
+                            display: "inline-flex",
+                            justifyContent: "center",
+                        }}
+                    >
+                        <SideBarLogoStyle src="static/images/logo-bimatech.png" />
+                    </Box>
+                    <Box sx={{ mb: 5, mx: 2.5 }}>
+                        <Link underline="none" component={NavLink} to="#">
+                            <UserAccountStyle>
+                                <Avatar />
+                                <Box sx={{ ml: 2 }}>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{ color: "text.primary" }}
+                                    >
+                                        {userAccount.displayName}
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ color: "text.secondary" }}
+                                    >
+                                        {userAccount.email}
+                                    </Typography>
+                                </Box>
+                            </UserAccountStyle>
+                        </Link>
                     </Box>
                     <SidebarMenu navConfig={navConfig} />
                 </Drawer>

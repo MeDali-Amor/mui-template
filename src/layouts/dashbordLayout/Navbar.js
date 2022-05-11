@@ -6,19 +6,21 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 const Sidebar_width = 260;
 
 const RootStyle = styled(AppBar)(({ theme }) => ({
-    boxShadow: `1px 0px 20px 1px ${theme.palette.grey[300]}`,
-    backdropFilter: "blur(6px)",
-    opacity: 0.8,
-    WebkitBackdropFilter: "blur(6px)", // Fix on Mobile
-    backgroundColor: alpha(theme.palette.primary.light, 0.1),
-    [theme.breakpoints.up("lg")]: {
+    // boxShadow: `1px 0px 20px 1px ${theme.palette.grey[300]}`,
+    boxShadow: `0px 2px 6px 0px #eeeeee`,
+    backdropFilter: "blur(8px) ",
+    // opacity: 0.9,
+    WebkitBackdropFilter: "blur(20px)", // Fix on Mobile
+    background: alpha(theme.palette.grey[100], 0.125),
+    // background: "rgba(255, 255, 255, 1)",
+    [theme.breakpoints.up("md")]: {
         width: `calc(100% - ${Sidebar_width + 1}px)`,
     },
 }));
 
 const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
     minHeight: 70,
-    [theme.breakpoints.up("lg")]: {
+    [theme.breakpoints.up("md")]: {
         minHeight: 70,
         padding: theme.spacing(0, 5),
     },
@@ -29,7 +31,7 @@ const Navbar = ({ onOpenSidebar }) => {
         <RootStyle>
             <ToolbarStyle>
                 <IconButton
-                    sx={{ display: { lg: "none" }, mr: 1 }}
+                    sx={{ display: { md: "none" }, mr: 1 }}
                     onClick={onOpenSidebar}
                 >
                     <MenuRoundedIcon />

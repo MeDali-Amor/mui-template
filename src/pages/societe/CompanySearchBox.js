@@ -55,7 +55,7 @@ const CompanySearchBox = ({ setCompanyData, scrapeCompanyInfo }) => {
             setCompanies(res.data.companies);
             if (res.data.companies.length === 0) {
                 URL = prepareSearchQuery(
-                    "http://localhost:8000/api//search-urls?q=",
+                    "http://localhost:8000/api/search-urls?q=",
                     searchQuery
                 );
                 res = await axios.get(

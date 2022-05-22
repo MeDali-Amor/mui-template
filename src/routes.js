@@ -4,6 +4,7 @@ import DashboardLayout from "./layouts/dashbordLayout";
 import Dashboard from "./pages/Dashboard";
 import Document from "./pages/Document";
 import Societes from "./pages/societe/Societes";
+import CreationSociete from "./pages/creationSociete/CreationSociete";
 
 function Router() {
     return useRoutes([
@@ -22,6 +23,10 @@ function Router() {
                 {
                     path: "/societes",
                     element: <Societes />,
+                },
+                {
+                    path: "/societes/nouvelle-societe",
+                    element: <CreationSociete />,
                 },
             ],
         },

@@ -154,6 +154,11 @@ const navConfig = [
         path: "/societes",
         icon: getIcon("bxs:business"),
     },
+    {
+        title: "Nouvelle societé",
+        path: "/societes/nouvelle-societe",
+        icon: getIcon("bxs:business"),
+    },
     // {
     //     title: "blog",
     //     path: "/dashboard/blog",

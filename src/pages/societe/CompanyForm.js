@@ -95,7 +95,7 @@ const CompanyForm = ({ companyData }) => {
                 // columnSpacing={6}
                 // container
                 sx={{ py: 2, px: 8 }}
-                xs={12}
+                // xs={12}
             >
                 <Typography variant="h5" color={theme.palette.text.primary}>
                     General

@@ -9,15 +9,21 @@ const FormNavigation = ({ hasPrevious, onBackClick, isLastStep }) => {
                 marginBlock: 40,
                 justifyContent: "space-between",
                 alignItems: "center",
+                columnGap: 16,
             }}
         >
             {hasPrevious && (
-                <Button variant="contained" onClick={onBackClick}>
-                    Back
+                <Button
+                    variant="contained"
+                    onClick={onBackClick}
+                    fullWidth
+                    size="large"
+                >
+                    Retour
                 </Button>
             )}
-            <Button type="submit" variant="contained">
-                {isLastStep ? "Submit" : "Next"}
+            <Button type="submit" variant="contained" fullWidth size="large">
+                {isLastStep ? "Continuer" : "Suivant"}
             </Button>
         </div>
     );

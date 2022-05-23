@@ -1,5 +1,6 @@
 import { styled, TextField } from "@mui/material";
-import { useField } from "formik";
+import { useField, useFormikContext } from "formik";
+import { useEffect } from "react";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
     width: "100%",
@@ -29,15 +30,31 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
     },
 }));
 
-const InputFeild = ({ label, ...props }) => {
+const InputFeild = ({ label, handleChange, customValue, ...props }) => {
+    const { setFieldValue } = useFormikContext();
     const [field, meta] = useField(props);
+    const { name, value, onBlur, onChange } = field;
+    // console.log(name);
+    useEffect(() => {
+        if (!customValue) return;
+        setFieldValue(name, customValue);
+    }, [customValue]);
     return (
         <StyledTextField
             label={label}
-            {...field}
+            onBlur={onBlur}
+            name={name}
+            value={value}
+            // {...field}
             {...props}
             error={meta.touched && Boolean(meta.error)}
             helperText={meta.touched && meta.error}
+            onChange={(e) => {
+                onChange(e);
+                if (handleChange) {
+                    handleChange(e);
+                }
+            }}
         />
     );
 };

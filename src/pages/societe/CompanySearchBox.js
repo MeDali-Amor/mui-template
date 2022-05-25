@@ -65,7 +65,7 @@ const CompanySearchBox = ({ setCompanyData, scrapeCompanyInfo }) => {
                 // setError("");
                 setCompaniesToBeScraped(res.data.companies);
             }
-            console.log(res.data);
+            // console.log(res.data);
         } catch (error) {
             // setError("une erreur s'est produite veuillez réessayer");
 
@@ -105,8 +105,101 @@ const CompanySearchBox = ({ setCompanyData, scrapeCompanyInfo }) => {
                 }
                 getOptionLabel={(option) => option.name || ""}
                 // PopperComponent={CustomPopper}
+                // renderOption={
+                //     companies.length > 0 ? (props, option) => option.deno : null
+                // }
                 renderOption={
-                    companies.length > 0 ? (props, option) => option.deno : null
+                    companies.length > 0
+                        ? (props, option) => (
+                              <Box
+                                  onClick={() => handleSelect(option)}
+                                  key={option.no}
+                                  sx={{
+                                      m: 1,
+                                      display: "flex",
+                                      py: 1,
+                                      px: 2,
+                                      transition: "all 400ms ease-in-out",
+                                      "&:hover": { background: "#eee" },
+                                      borderRadius: "4px",
+                                      cursor: "pointer",
+                                  }}
+                              >
+                                  <Stack
+                                      direction="row"
+                                      divider={
+                                          <Divider
+                                              orientation="vertical"
+                                              flexItem
+                                          />
+                                      }
+                                      spacing={2}
+                                  >
+                                      <Stack direction="row" spacing={1}>
+                                          <Typography variant="subtitle1">
+                                              {option.deno}
+                                          </Typography>
+                                          <Typography variant="subtitle2">
+                                              {option.no}
+                                          </Typography>
+                                      </Stack>
+                                      <Stack direction="row" spacing={1}>
+                                          <Typography variant="subtitle1">
+                                              {option.commune}
+                                          </Typography>
+                                          <Typography variant="subtitle1">
+                                              {option.codepostal}
+                                          </Typography>
+                                      </Stack>
+                                  </Stack>
+                              </Box>
+                          )
+                        : companiesToBeScraped.length > 0
+                        ? (props, option) => (
+                              <Box
+                                  onClick={() => scrapeCompanyInfo(option)}
+                                  key={option.no}
+                                  sx={{
+                                      m: 1,
+                                      display: "flex",
+                                      py: 1,
+                                      px: 2,
+                                      transition: "all 400ms ease-in-out",
+                                      "&:hover": { background: "#eee" },
+                                      borderRadius: "4px",
+                                      cursor: "pointer",
+                                  }}
+                              >
+                                  <Stack
+                                      direction="row"
+                                      divider={
+                                          <Divider
+                                              orientation="vertical"
+                                              flexItem
+                                          />
+                                      }
+                                      spacing={2}
+                                  >
+                                      <Stack direction="row" spacing={1}>
+                                          <Typography variant="subtitle1">
+                                              {option.deno}
+                                          </Typography>
+                                          <Typography variant="subtitle2">
+                                              {option.no}
+                                          </Typography>
+                                      </Stack>
+                                      <Stack direction="row" spacing={1}>
+                                          <Typography variant="subtitle1">
+                                              {option.commune}
+                                          </Typography>
+                                          <Typography variant="subtitle1">
+                                              {option.codepostal}
+                                          </Typography>
+                                      </Stack>
+                                  </Stack>
+                              </Box>
+                          )
+                        : null
                 }
                 renderInput={(params) => (
                     <TextField
@@ -175,40 +268,40 @@ const CompanySearchBox = ({ setCompanyData, scrapeCompanyInfo }) => {
 
 export default CompanySearchBox;
 
-const SearchResult = (el) => {
-    return (
-        <Box
-            sx={{
-                display: "flex",
-            }}
-        >
-            <Stack
-                direction="row"
-                divider={<Divider orientation="vertical" flexItem />}
-                spacing={2}
-            >
-                <Stack direction="row" spacing={1}>
-                    <Typography variant="subtitle1">{el.name}</Typography>
-                    <Typography variant="subtitle1">{el.name}</Typography>
-                </Stack>
-                <Stack direction="row" spacing={1}>
-                    <Typography variant="subtitle1">{el.name}</Typography>
-                    <Typography variant="subtitle1">{el.name}</Typography>
-                </Stack>
-            </Stack>
-        </Box>
-    );
-};
-const CustomPopper = () => {
-    return (
-        <Popper
-            sx={{
-                "& .MuiAutocomplete-listbox": {
-                    "& :hover": {
-                        color: "red",
-                    },
-                },
-            }}
-        />
-    );
-};
+// const SearchResult = (el) => {
+//     return (
+//         <Box
+//             sx={{
+//                 display: "flex",
+//             }}
+//         >
+//             <Stack
+//                 direction="row"
+//                 divider={<Divider orientation="vertical" flexItem />}
+//                 spacing={2}
+//             >
+//                 <Stack direction="row" spacing={1}>
+//                     <Typography variant="subtitle1">{el.name}</Typography>
+//                     <Typography variant="subtitle1">{el.name}</Typography>
+//                 </Stack>
+//                 <Stack direction="row" spacing={1}>
+//                     <Typography variant="subtitle1">{el.name}</Typography>
+//                     <Typography variant="subtitle1">{el.name}</Typography>
+//                 </Stack>
+//             </Stack>
+//         </Box>
+//     );
+// };
+// const CustomPopper = () => {
+//     return (
+//         <Popper
+//             sx={{
+//                 "& .MuiAutocomplete-listbox": {
+//                     "& :hover": {
+//                         color: "red",
+//                     },
+//                 },
+//             }}
+//         />
+//     );
+// };

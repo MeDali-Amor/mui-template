@@ -49,13 +49,15 @@ const CompanyForm = ({ companyData }) => {
     const theme = useTheme();
     // const classes = useStyle();
     const [data, setData] = useState(companyData);
-    const handleAddresseChange = (e) => {
+    const handleDirigChange = (e, index) => {
         const { name, value } = e.target;
-        const address = { ...companyData.address, [name]: value };
-        // console.log(address);
-        const companyAlt = { ...companyData, address };
+        let dirigeant = { ...companyData.dirig[index], [name]: value };
+        const dirigList = companyData.dirig;
+        dirigList[index] = dirigeant;
+        const companyAlt = { ...companyData, dirig: dirigList };
         setData(companyAlt);
-        // console.log(data);
+        console.log(companyAlt);
+        // console.log(index);
     };
     const handleFieldChange = (e) => {
         const { name, value } = e.target;
@@ -67,15 +69,16 @@ const CompanyForm = ({ companyData }) => {
     const handleSaveData = async (e) => {
         e.preventDefault();
         // console.log(data);
-        try {
-            let submittedData = { ...data };
-            const res = await axios.patch(
-                `http://localhost:8000/api/company/update/${submittedData._id}`,
-                submittedData
-            );
-        } catch (error) {
-            console.log(error);
-        }
+        // try {
+        //     let submittedData = { ...data };
+        //     const res = await axios.patch(
+        //         `http://localhost:8000/api/company/update/${submittedData._id}`,
+        //         submittedData
+        //     );
+        // } catch (error) {
+        //     console.log(error);
+        // }
+        console.log(data);
     };
     useEffect(() => {
         // setData(null);
@@ -83,7 +86,7 @@ const CompanyForm = ({ companyData }) => {
         // console.log(companyData);
     }, [companyData, setData]);
     return (
-        <form>
+        <form onSubmit={handleSaveData}>
             {/* <Grid
                 // rowSpacing={5}
                 // columnSpacing={6}
@@ -98,7 +101,7 @@ const CompanyForm = ({ companyData }) => {
                 // xs={12}
             >
                 <Typography variant="h5" color={theme.palette.text.primary}>
-                    General
+                    Identité de l'entreprise
                 </Typography>
             </Grid>
             <Grid
@@ -118,9 +121,9 @@ const CompanyForm = ({ companyData }) => {
                         }
                         variant="outlined"
                         label="Dénomination Sociale"
-                        name="name"
+                        name="deno"
                         // defaultValue={data?.name || ""}
-                        value={data?.name || ""}
+                        value={data?.deno || ""}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -129,38 +132,21 @@ const CompanyForm = ({ companyData }) => {
                         variant="outlined"
                         InputLabelProps={{ shrink: true }}
                         type={"date"}
-                        name="creationDate"
+                        name="dcren"
                         label="Date de création"
-                        value={data?.creationDate || ""}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <StyledTextField
-                        onChange={(e) => handleFieldChange(e)}
-                        variant="outlined"
-                        name="sirenNumber"
-                        label="Siren"
-                        value={data?.sirenNumber || ""}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <StyledTextField
-                        onChange={(e) => handleFieldChange(e)}
-                        variant="outlined"
-                        name="rcsNumber"
-                        label="RCS"
-                        value={data?.rcsNumber || ""}
+                        value={data?.dcren || ""}
                     />
                 </Grid>
             </Grid>
             <Grid
-                rowSpacing={5}
-                columnSpacing={6}
+                // rowSpacing={5}
+                // columnSpacing={6}
                 // container
                 sx={{ py: 2, px: 8 }}
+                // xs={12}
             >
                 <Typography variant="h5" color={theme.palette.text.primary}>
-                    Derigant
+                    Activité
                 </Typography>
             </Grid>
             <Grid
@@ -173,21 +159,186 @@ const CompanyForm = ({ companyData }) => {
                     <StyledTextField
                         onChange={(e) => handleFieldChange(e)}
                         variant="outlined"
-                        name="representativeName"
-                        label="Nom"
-                        value={data?.representativeName || ""}
+                        name="apetexte"
+                        label="Activité"
+                        value={data?.apetexte || ""}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <StyledTextField
                         onChange={(e) => handleFieldChange(e)}
                         variant="outlined"
-                        name="representativeType"
-                        label="Type"
-                        value={data?.representativeType || ""}
+                        name="ape"
+                        label="Code APE"
+                        value={data?.ape || ""}
                     />
                 </Grid>
             </Grid>
+            <Grid
+                // rowSpacing={5}
+                // columnSpacing={6}
+                // container
+                sx={{ py: 2, px: 8 }}
+                // xs={12}
+            >
+                <Typography variant="h5" color={theme.palette.text.primary}>
+                    Renseignements juridiques
+                </Typography>
+            </Grid>
+            <Grid
+                rowSpacing={5}
+                columnSpacing={6}
+                container
+                sx={{ py: 2, px: 8 }}
+            >
+                <Grid item xs={12} sm={12}>
+                    <StyledTextField
+                        onChange={(e) => handleFieldChange(e)}
+                        variant="outlined"
+                        name="formejur"
+                        label="Forme Juridique"
+                        value={data?.formejur || ""}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <StyledTextField
+                        onChange={(e) => handleFieldChange(e)}
+                        variant="outlined"
+                        name="psiret"
+                        label="Numéro SIRET (siège)"
+                        value={data?.psiret || ""}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <StyledTextField
+                        onChange={(e) => handleFieldChange(e)}
+                        variant="outlined"
+                        name="no"
+                        label="Siren"
+                        value={data?.no || ""}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <StyledTextField
+                        onChange={(e) => handleFieldChange(e)}
+                        variant="outlined"
+                        name="greffe"
+                        label="RCS"
+                        value={data?.greffe || ""}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <StyledTextField
+                        onChange={(e) => handleFieldChange(e)}
+                        variant="outlined"
+                        name="tva"
+                        label="Numéro TVA"
+                        value={data?.tva || ""}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <StyledTextField
+                        onChange={(e) => handleFieldChange(e)}
+                        variant="outlined"
+                        name="dateimmat"
+                        label="Date d'immatriculation"
+                        value={data?.dateimmat || ""}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <StyledTextField
+                        onChange={(e) => handleFieldChange(e)}
+                        variant="outlined"
+                        name="daterad"
+                        label="Date d'enregistrement"
+                        value={data?.daterad || ""}
+                    />
+                </Grid>
+            </Grid>
+            <Grid
+                rowSpacing={5}
+                columnSpacing={6}
+                // container
+                sx={{ py: 2, px: 8 }}
+            >
+                <Typography variant="h5" color={theme.palette.text.primary}>
+                    Dirigeants
+                </Typography>
+            </Grid>
+            {data ? (
+                data?.dirig?.map((el, index) => (
+                    <Grid
+                        rowSpacing={5}
+                        columnSpacing={6}
+                        container
+                        sx={{ py: 2, px: 8 }}
+                        key={el._id}
+                    >
+                        <Grid item xs={12} sm={2}>
+                            <StyledTextField
+                                onChange={(e) => handleDirigChange(e, index)}
+                                variant="outlined"
+                                name="detcivdir"
+                                // label="Nom"
+                                value={el.detcivdir || ""}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={5}>
+                            <StyledTextField
+                                onChange={(e) => handleDirigChange(e, index)}
+                                variant="outlined"
+                                name="detnomdir"
+                                label="Nom"
+                                value={el.detnomdir || ""}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={5}>
+                            <StyledTextField
+                                onChange={(e) => handleDirigChange(e, index)}
+                                variant="outlined"
+                                name="titredirig"
+                                label="Type"
+                                value={el.titredirig || ""}
+                            />
+                        </Grid>
+                    </Grid>
+                ))
+            ) : (
+                <Grid
+                    rowSpacing={5}
+                    columnSpacing={6}
+                    container
+                    sx={{ py: 2, px: 8 }}
+                >
+                    <Grid item xs={12} sm={2}>
+                        <StyledTextField
+                            // onChange={(e) => (e) => handleDirigChange(e)}
+                            variant="outlined"
+                            name="detcivdir"
+                            // label="Nom"
+                            // value={el.detcivdir || ""}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={5}>
+                        <StyledTextField
+                            // onChange={(e) => (e) => handleDirigChange(e)}
+                            variant="outlined"
+                            name="detnomdir"
+                            label="Nom"
+                            // value={el.detnomdir || ""}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={5}>
+                        <StyledTextField
+                            // onChange={(e) => (e) => handleDirigChange(e)}
+                            variant="outlined"
+                            name="titredirig"
+                            label="Type"
+                            // value={el.titredirig || ""}
+                        />
+                    </Grid>
+                </Grid>
+            )}
             <Grid
                 rowSpacing={5}
                 columnSpacing={6}
@@ -206,35 +357,35 @@ const CompanyForm = ({ companyData }) => {
             >
                 <Grid item xs={12} sm={4}>
                     <StyledTextField
-                        onChange={(e) => (e) => handleAddresseChange(e)}
+                        onChange={(e) => handleFieldChange(e)}
                         variant="outlined"
                         name="adresse"
                         label="Adresse"
-                        value={data?.address?.adresse || ""}
+                        value={data?.adresse || ""}
                     />
                 </Grid>{" "}
                 <Grid item xs={12} sm={4}>
                     <StyledTextField
-                        onChange={(e) => (e) => handleAddresseChange(e)}
+                        onChange={(e) => handleFieldChange(e)}
                         variant="outlined"
-                        name="city"
+                        name="commune"
                         label="Ville"
-                        value={data?.address?.city || ""}
+                        value={data?.commune || ""}
                     />
                 </Grid>{" "}
                 <Grid item xs={12} sm={4}>
                     <StyledTextField
-                        onChange={(e) => handleAddresseChange(e)}
+                        onChange={(e) => handleFieldChange(e)}
                         variant="outlined"
-                        name="zipcode"
+                        name="codepostal"
                         label="Code Postal"
-                        value={data?.address?.zipcode || ""}
+                        value={data?.codepostal || ""}
                     />
                 </Grid>
             </Grid>
             {/* </Grid> */}
             <ButtonContainerFloatRight>
-                <Button variant="contained" size="large">
+                <Button variant="contained" size="large" type="submit">
                     Sauvegarder
                 </Button>
             </ButtonContainerFloatRight>

@@ -1,3 +1,4 @@
+import { ArrowBack } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import React from "react";
 
@@ -6,18 +7,23 @@ const FormNavigation = ({ hasPrevious, onBackClick, isLastStep }) => {
         <div
             style={{
                 display: "flex",
-                marginBlock: 40,
+                flexDirection: "column-reverse",
+                marginBlock: 24,
                 justifyContent: "space-between",
                 alignItems: "center",
-                columnGap: 16,
+                rowGap: 16,
             }}
         >
             {hasPrevious && (
                 <Button
-                    variant="contained"
+                    variant="text"
                     onClick={onBackClick}
-                    fullWidth
+                    // fullWidth
                     size="large"
+                    sx={{
+                        width: 120,
+                    }}
+                    startIcon={<ArrowBack fontSize="small" />}
                 >
                     Retour
                 </Button>

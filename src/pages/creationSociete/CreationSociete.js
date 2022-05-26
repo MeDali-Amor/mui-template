@@ -1,11 +1,11 @@
-import { FieldArray, Form, Formik } from "formik";
+import { FieldArray } from "formik";
 import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
 import * as yup from "yup";
 import InputFeild from "../../components/InputFeild";
 import MultiStepForm, { FormStep } from "../../components/MultiStepForm";
 import { useState } from "react";
 import axios from "axios";
-import { Adddirig } from "./Adddirig";
+import CustomizedSnackbar from "../../components/Sbackbar";
 
 const validationSchema = yup.object({
     deno: yup.string().required("Ce champ est requis"),
@@ -29,34 +29,11 @@ const dirigSchema = yup.object({
     friends: yup.array().of(dirigeantValidationSchema),
 });
 
-const styles = (theme) => ({
-    formLayout: {
-        width: "auto",
-        height: "100%",
-        backgroundColor: "red",
-
-        marginLeft: theme.spacing.unit * 2,
-        marginRight: theme.spacing.unit * 2,
-        [theme.breakpoints.up(600 + theme.spacing.unit * 2)]: {
-            with: 600,
-            marginLeft: "auto",
-            marginRight: "auto",
-        },
-    },
-    paper: {
-        marginTop: theme.spacing.unit * 3,
-        marginBottom: theme.spacing.unit * 3,
-        padding: theme.spacing.unit * 2,
-        [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
-            marginTop: theme.spacing.unit * 6,
-            marginBottom: theme.spacing.unit * 6,
-            padding: theme.spacing.unit * 3,
-        },
-    },
-});
-
 const CreationSociete = () => {
-    const [friends, setFriends] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [alertType, setAlertType] = useState("info");
+    const [msg, setMsg] = useState("");
     const [cityData, setCityData] = useState({
         nom: "",
         code: "",
@@ -83,12 +60,38 @@ const CreationSociete = () => {
             });
         // console.log(...res.data);
     };
+    const handleSubmit = async (values) => {
+        // console.log(values);
+        try {
+            setLoading(true);
+            const res = await axios.post(
+                "http://localhost:8000/api/company/create",
+                values
+            );
+            console.log(res.data);
+            setMsg(res.data.msg);
+            setAlertType(res.data.alert);
+            setOpen(true);
+            setLoading(false);
+        } catch (error) {
+            setLoading(true);
+
+            console.log(error);
+
+            setMsg("une erreur s'est produite veuillez réessayer");
+            setAlertType("error");
+            setOpen(true);
+            setLoading(false);
+        }
+    };
     return (
         <div>
             <Box
                 sx={{
                     minHeight: "calc(100vh - 170px)",
                     height: "100%",
+                    maxWidth: 900,
+                    margin: "auto",
                     py: 2,
                     px: 16,
                     // display: "flex",
@@ -98,6 +101,7 @@ const CreationSociete = () => {
                 }}
             >
                 <MultiStepForm
+                    loading={loading}
                     initialValues={{
                         deno: "",
                         // commune: cityData?.nom || "",
@@ -117,9 +121,7 @@ const CreationSociete = () => {
                         ape: "",
                         dirig: [],
                     }}
-                    onSubmit={(values) => {
-                        console.log(values);
-                    }}
+                    onSubmit={(values) => handleSubmit(values)}
                 >
                     <FormStep
                         stepName="Person"
@@ -402,9 +404,12 @@ const CreationSociete = () => {
                                         {dirig && dirig.length > 0
                                             ? dirig.map((el, index) => (
                                                   <Grid
+                                                      sx={{
+                                                          my: 3,
+                                                      }}
                                                       container
-                                                      rowSpacing={3}
-                                                      columnSpacing={6}
+                                                      //   rowSpacing={3}
+                                                      columnSpacing={4}
                                                       key={index}
                                                   >
                                                       <Grid item xs={12} sm={2}>
@@ -483,6 +488,12 @@ const CreationSociete = () => {
                     </FormStep>
                 </MultiStepForm>
             </Box>
+            <CustomizedSnackbar
+                open={open}
+                setOpen={setOpen}
+                alertType={alertType}
+                msg={msg}
+            />
         </div>
     );
 };

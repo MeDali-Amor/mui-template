@@ -3,10 +3,16 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CompanyForm from "./CompanyForm";
 import CompanySearchBox from "./CompanySearchBox";
+import FormSkeleton from "./FormSkeleton";
 
 const Societes = () => {
     const [companyData, setCompanyData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const getCompanyInfo = async (el) => {
+        setIsLoading(true);
+        setCompanyData(el);
+        setIsLoading(false);
+    };
     // useEffect(() => {
     //     console.log(companyData);
     // }, [companyData]);
@@ -49,11 +55,16 @@ const Societes = () => {
                 </StyledPaddedSubSection>
                 <CompanySearchBox
                     // companyData={companyData}
+                    getCompanyInfo={getCompanyInfo}
                     setCompanyData={setCompanyData}
                     scrapeCompanyInfo={scrapeCompanyInfo}
                 />
             </StyledGreySection>
-            <CompanyForm companyData={companyData} />
+            {companyData !== null && companyData !== undefined ? (
+                <CompanyForm companyData={companyData} />
+            ) : isLoading ? (
+                <FormSkeleton />
+            ) : null}
         </div>
     );
 };

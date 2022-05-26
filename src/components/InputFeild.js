@@ -7,14 +7,14 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
     // margin: 20,
 
     "& .MuiInputBase-root": {
-        backgroundColor: "#f7f7f9",
+        backgroundColor: "#fdfdfd",
     },
     "& .MuiOutlinedInput-root": {
         "& > fieldset": {
             border: `1px solid ${theme.palette.grey[300]}`,
             // backgroundColor: theme.palette.grey[200],
             // boxShadow: `0px 2px 6px 0px ${theme.palette.grey[300]}`,
-            boxShadow: `0px 2px 6px 0px #eeeeee`,
+            boxShadow: `0px 1px 3px 0px #eeeeee`,
         },
     },
     "& .MuiOutlinedInput-root:hover": {

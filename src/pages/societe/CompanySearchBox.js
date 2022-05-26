@@ -22,11 +22,10 @@ const SearchBarSection = styled(Box)(({ theme }) => ({
     paddingBottom: theme.spacing(10),
 }));
 
-const CompanySearchBox = ({ setCompanyData, scrapeCompanyInfo }) => {
+const CompanySearchBox = ({ getCompanyInfo, scrapeCompanyInfo }) => {
     const [companies, setCompanies] = useState([]);
     const [companiesToBeScraped, setCompaniesToBeScraped] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    // const [companyData, setCompanyData] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
 
     const changeHandler = (e) => {
@@ -74,11 +73,11 @@ const CompanySearchBox = ({ setCompanyData, scrapeCompanyInfo }) => {
         setIsLoading(false);
     };
     useDebounce(searchQuery, 500, handleSearch);
-    const handleSelect = async (el) => {
-        setIsLoading(true);
-        setCompanyData(el);
-        setIsLoading(false);
-    };
+    // const handleSelect = async (el) => {
+    //     setIsLoading(true);
+    //     setCompanyData(el);
+    //     setIsLoading(false);
+    // };
 
     return (
         // <Container>
@@ -112,7 +111,7 @@ const CompanySearchBox = ({ setCompanyData, scrapeCompanyInfo }) => {
                     companies.length > 0
                         ? (props, option) => (
                               <Box
-                                  onClick={() => handleSelect(option)}
+                                  onClick={() => getCompanyInfo(option)}
                                   key={option.no}
                                   sx={{
                                       m: 1,

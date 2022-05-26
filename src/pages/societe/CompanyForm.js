@@ -14,14 +14,14 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
     // margin: 20,
 
     "& .MuiInputBase-root": {
-        backgroundColor: "#f7f7f9",
+        backgroundColor: "#fdfdfd",
     },
     "& .MuiOutlinedInput-root": {
         "& > fieldset": {
             border: `1px solid ${theme.palette.grey[300]}`,
             // backgroundColor: theme.palette.grey[200],
             // boxShadow: `0px 2px 6px 0px ${theme.palette.grey[300]}`,
-            boxShadow: `0px 2px 6px 0px #eeeeee`,
+            boxShadow: `0px 1px 3px 0px #eeeeee`,
         },
     },
     "& .MuiOutlinedInput-root:hover": {
@@ -44,10 +44,7 @@ const ButtonContainerFloatRight = styled("div")(({ theme }) => ({
 }));
 
 const CompanyForm = ({ companyData }) => {
-    // console.log(companyData);
-
     const theme = useTheme();
-    // const classes = useStyle();
     const [data, setData] = useState(companyData);
     const handleDirigChange = (e, index) => {
         const { name, value } = e.target;
@@ -57,12 +54,10 @@ const CompanyForm = ({ companyData }) => {
         const companyAlt = { ...companyData, dirig: dirigList };
         setData(companyAlt);
         console.log(companyAlt);
-        // console.log(index);
     };
     const handleFieldChange = (e) => {
         const { name, value } = e.target;
         const companyAlt = { ...companyData, [name]: value };
-        // console.log(companyAlt);
         setData(companyAlt);
         // console.log(data);
     };
@@ -83,23 +78,10 @@ const CompanyForm = ({ companyData }) => {
     useEffect(() => {
         // setData(null);
         setData(companyData);
-        // console.log(companyData);
     }, [companyData, setData]);
     return (
         <form onSubmit={handleSaveData}>
-            {/* <Grid
-                // rowSpacing={5}
-                // columnSpacing={6}
-                // container
-                // sx={{ py: 2, px: 8 }}
-            > */}
-            <Grid
-                // rowSpacing={5}
-                // columnSpacing={6}
-                // container
-                sx={{ py: 2, px: 8 }}
-                // xs={12}
-            >
+            <Grid sx={{ py: 2, px: 8 }}>
                 <Typography variant="h5" color={theme.palette.text.primary}>
                     Identité de l'entreprise
                 </Typography>
@@ -138,13 +120,7 @@ const CompanyForm = ({ companyData }) => {
                     />
                 </Grid>
             </Grid>
-            <Grid
-                // rowSpacing={5}
-                // columnSpacing={6}
-                // container
-                sx={{ py: 2, px: 8 }}
-                // xs={12}
-            >
+            <Grid sx={{ py: 2, px: 8 }}>
                 <Typography variant="h5" color={theme.palette.text.primary}>
                     Activité
                 </Typography>
@@ -174,13 +150,7 @@ const CompanyForm = ({ companyData }) => {
                     />
                 </Grid>
             </Grid>
-            <Grid
-                // rowSpacing={5}
-                // columnSpacing={6}
-                // container
-                sx={{ py: 2, px: 8 }}
-                // xs={12}
-            >
+            <Grid sx={{ py: 2, px: 8 }}>
                 <Typography variant="h5" color={theme.palette.text.primary}>
                     Renseignements juridiques
                 </Typography>
@@ -255,12 +225,7 @@ const CompanyForm = ({ companyData }) => {
                     />
                 </Grid>
             </Grid>
-            <Grid
-                rowSpacing={5}
-                columnSpacing={6}
-                // container
-                sx={{ py: 2, px: 8 }}
-            >
+            <Grid rowSpacing={5} columnSpacing={6} sx={{ py: 2, px: 8 }}>
                 <Typography variant="h5" color={theme.palette.text.primary}>
                     Dirigeants
                 </Typography>
@@ -311,40 +276,25 @@ const CompanyForm = ({ companyData }) => {
                     sx={{ py: 2, px: 8 }}
                 >
                     <Grid item xs={12} sm={2}>
-                        <StyledTextField
-                            // onChange={(e) => (e) => handleDirigChange(e)}
-                            variant="outlined"
-                            name="detcivdir"
-                            // label="Nom"
-                            // value={el.detcivdir || ""}
-                        />
+                        <StyledTextField variant="outlined" name="detcivdir" />
                     </Grid>
                     <Grid item xs={12} sm={5}>
                         <StyledTextField
-                            // onChange={(e) => (e) => handleDirigChange(e)}
                             variant="outlined"
                             name="detnomdir"
                             label="Nom"
-                            // value={el.detnomdir || ""}
                         />
                     </Grid>
                     <Grid item xs={12} sm={5}>
                         <StyledTextField
-                            // onChange={(e) => (e) => handleDirigChange(e)}
                             variant="outlined"
                             name="titredirig"
                             label="Type"
-                            // value={el.titredirig || ""}
                         />
                     </Grid>
                 </Grid>
             )}
-            <Grid
-                rowSpacing={5}
-                columnSpacing={6}
-                // container
-                sx={{ py: 2, px: 8 }}
-            >
+            <Grid rowSpacing={5} columnSpacing={6} sx={{ py: 2, px: 8 }}>
                 <Typography variant="h5" color={theme.palette.text.primary}>
                     Adresse
                 </Typography>
@@ -383,7 +333,6 @@ const CompanyForm = ({ companyData }) => {
                     />
                 </Grid>
             </Grid>
-            {/* </Grid> */}
             <ButtonContainerFloatRight>
                 <Button variant="contained" size="large" type="submit">
                     Sauvegarder

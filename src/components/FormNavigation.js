@@ -1,8 +1,9 @@
 import { ArrowBack } from "@mui/icons-material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { Button } from "@mui/material";
 import React from "react";
 
-const FormNavigation = ({ hasPrevious, onBackClick, isLastStep }) => {
+const FormNavigation = ({ hasPrevious, onBackClick, isLastStep, loading }) => {
     return (
         <div
             style={{
@@ -19,6 +20,7 @@ const FormNavigation = ({ hasPrevious, onBackClick, isLastStep }) => {
                     variant="text"
                     onClick={onBackClick}
                     // fullWidth
+                    color="info"
                     size="large"
                     sx={{
                         width: 120,
@@ -28,9 +30,26 @@ const FormNavigation = ({ hasPrevious, onBackClick, isLastStep }) => {
                     Retour
                 </Button>
             )}
-            <Button type="submit" variant="contained" fullWidth size="large">
-                {isLastStep ? "Continuer" : "Suivant"}
-            </Button>
+            {isLastStep ? (
+                <LoadingButton
+                    loading={loading}
+                    variant="contained"
+                    type="submit"
+                    fullWidth
+                    size="large"
+                >
+                    Continuer
+                </LoadingButton>
+            ) : (
+                <Button
+                    type="submit"
+                    variant="contained"
+                    fullWidth
+                    size="large"
+                >
+                    Suivant
+                </Button>
+            )}
         </div>
     );
 };

@@ -2,7 +2,7 @@ import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import FormNavigation from "./FormNavigation";
 
-const MultiStepForm = ({ children, initialValues, onSubmit }) => {
+const MultiStepForm = ({ children, initialValues, onSubmit, loading }) => {
     const [stepNumber, setStepNumber] = useState(0);
     const [snapshot, setSnapshot] = useState(initialValues);
     const steps = React.Children.toArray(children);
@@ -39,6 +39,7 @@ const MultiStepForm = ({ children, initialValues, onSubmit }) => {
                     <Form>
                         {step}
                         <FormNavigation
+                            loading={loading}
                             isLastStep={isLastStep}
                             hasPrevious={stepNumber > 0}
                             onBackClick={() => previousStep(formik.values)}

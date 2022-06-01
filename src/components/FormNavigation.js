@@ -8,8 +8,9 @@ const FormNavigation = ({ hasPrevious, onBackClick, isLastStep, loading }) => {
         <div
             style={{
                 display: "flex",
-                flexDirection: "column-reverse",
-                marginBlock: 24,
+                flexDirection: "row",
+                marginBlock: 42,
+                marginInline: hasPrevious ? "10%" : 20,
                 justifyContent: "space-between",
                 alignItems: "center",
                 rowGap: 16,
@@ -23,7 +24,7 @@ const FormNavigation = ({ hasPrevious, onBackClick, isLastStep, loading }) => {
                     color="info"
                     size="large"
                     sx={{
-                        width: 120,
+                        width: 160,
                     }}
                     startIcon={<ArrowBack fontSize="small" />}
                 >
@@ -32,19 +33,25 @@ const FormNavigation = ({ hasPrevious, onBackClick, isLastStep, loading }) => {
             )}
             {isLastStep ? (
                 <LoadingButton
+                    sx={{
+                        width: hasPrevious ? 160 : "100%",
+                    }}
                     loading={loading}
                     variant="contained"
                     type="submit"
-                    fullWidth
+                    // fullWidth
                     size="large"
                 >
                     Continuer
                 </LoadingButton>
             ) : (
                 <Button
+                    sx={{
+                        width: hasPrevious ? 150 : "100%",
+                    }}
                     type="submit"
                     variant="contained"
-                    fullWidth
+                    // fullWidth={hasPrevious ? false : true}
                     size="large"
                 >
                     Suivant

@@ -230,70 +230,52 @@ const CompanyForm = ({ companyData }) => {
                     Dirigeants
                 </Typography>
             </Grid>
-            {data ? (
-                data?.dirig?.map((el, index) => (
-                    <Grid
-                        rowSpacing={5}
-                        columnSpacing={6}
-                        container
-                        sx={{ py: 2, px: 8 }}
-                        key={el._id}
-                    >
-                        <Grid item xs={12} sm={2}>
-                            <StyledTextField
-                                onChange={(e) => handleDirigChange(e, index)}
-                                variant="outlined"
-                                name="detcivdir"
-                                // label="Nom"
-                                value={el.detcivdir || ""}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={5}>
-                            <StyledTextField
-                                onChange={(e) => handleDirigChange(e, index)}
-                                variant="outlined"
-                                name="detnomdir"
-                                label="Nom"
-                                value={el.detnomdir || ""}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={5}>
-                            <StyledTextField
-                                onChange={(e) => handleDirigChange(e, index)}
-                                variant="outlined"
-                                name="titredirig"
-                                label="Type"
-                                value={el.titredirig || ""}
-                            />
-                        </Grid>
-                    </Grid>
-                ))
-            ) : (
+            {data?.dirig?.map((el, index) => (
                 <Grid
                     rowSpacing={5}
                     columnSpacing={6}
                     container
                     sx={{ py: 2, px: 8 }}
+                    key={el._id}
                 >
                     <Grid item xs={12} sm={2}>
-                        <StyledTextField variant="outlined" name="detcivdir" />
-                    </Grid>
-                    <Grid item xs={12} sm={5}>
                         <StyledTextField
+                            onChange={(e) => handleDirigChange(e, index)}
+                            variant="outlined"
+                            name="detcivdir"
+                            // label="Nom"
+                            value={el.detcivdir || ""}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={3}>
+                        <StyledTextField
+                            onChange={(e) => handleDirigChange(e, index)}
                             variant="outlined"
                             name="detnomdir"
                             label="Nom"
+                            value={el.detnomdir || ""}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={5}>
+                    <Grid item xs={12} sm={3}>
                         <StyledTextField
+                            onChange={(e) => handleDirigChange(e, index)}
+                            variant="outlined"
+                            name="detprenomdir"
+                            label="Prénom"
+                            value={el.detprenomdir || ""}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <StyledTextField
+                            onChange={(e) => handleDirigChange(e, index)}
                             variant="outlined"
                             name="titredirig"
                             label="Type"
+                            value={el.titredirig || ""}
                         />
                     </Grid>
                 </Grid>
-            )}
+            ))}
             <Grid rowSpacing={5} columnSpacing={6} sx={{ py: 2, px: 8 }}>
                 <Typography variant="h5" color={theme.palette.text.primary}>
                     Adresse

@@ -1,12 +1,29 @@
 import { FieldArray } from "formik";
-import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
+import {
+    Box,
+    Button,
+    Grid,
+    IconButton,
+    Paper,
+    TextField,
+    Typography,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import * as yup from "yup";
 import InputFeild from "../../components/InputFeild";
 import MultiStepForm, { FormStep } from "../../components/MultiStepForm";
 import { useState } from "react";
 import axios from "axios";
 import CustomizedSnackbar from "../../components/Sbackbar";
+import SelectFeild from "../../components/SelectFeild";
+import AutoCompleteInputField from "../../components/AutoCompleteInputField";
+import FileUploadInputField from "../../components/FileUploadInputField";
 
+const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 const validationSchema = yup.object({
     deno: yup.string().required("Ce champ est requis"),
     codepostal: yup
@@ -20,13 +37,54 @@ const validationSchema = yup.object({
     adresse: yup.string(),
 });
 const dirigeantValidationSchema = yup.object({
-    detcivdir: yup.string().required("Ce champ est requis"),
+    detcivdir: yup.string(),
+    // .required("Ce champ est requis")
     detnomdir: yup.string().required("Ce champ est requis"),
-    titredirig: yup.string().required("Ce champ est requis"),
+    detprenomdir: yup.string().required("Ce champ est requis"),
+    titredirig: yup.string(),
+    // .required("Ce champ est requis")
+    datenaissance: yup.string(),
+    paysnaissance: yup.string(),
+    codepostalnaissance: yup.string(),
+    villenaissance: yup.string(),
+    nationalite: yup.string(),
+    paysresidence: yup.string(),
+    typeidentite: yup.string(),
+    imageidentite: yup
+
+        .mixed()
+        .nullable()
+        .test(
+            "fileSize",
+            "File is too large",
+            (value) => value?.size <= 1000000
+        )
+        .test("fileType", "Format d'image non valide", (value) =>
+            SUPPORTED_FORMATS.includes(value?.type)
+        ),
+    // yup
+    // .mixed()
+    // .nullable()
+    // .test("FILE_SIZE", "uploaded file is too large", (value) => {
+    //     console.log(value?.size);
+    //     return value?.size > 10000000;
+    // })
+    // .test(
+    //     "FILE_FORMAT",
+    //     "uploaded file has unsupported file format",
+    //     (value) => !value || SUPPORTED_FORMATS.includes(value?.type)
+    // ),
+    //     yup.object({
+    //     name: yup.string(),
+    //     lastModified: yup.date(),
+    //     lastModifiedDate: yup().object(),
+    //     size: yup.number(),
+    //     type:yup.string(),
+    // }),
 });
 
 const dirigSchema = yup.object({
-    friends: yup.array().of(dirigeantValidationSchema),
+    dirig: yup.array().of(dirigeantValidationSchema),
 });
 
 const CreationSociete = () => {
@@ -61,14 +119,14 @@ const CreationSociete = () => {
         // console.log(...res.data);
     };
     const handleSubmit = async (values) => {
-        // console.log(values);
+        console.log(values);
         try {
             setLoading(true);
             const res = await axios.post(
                 "http://localhost:8000/api/company/create",
                 values
             );
-            console.log(res.data);
+            // console.log(res.data);
             setMsg(res.data.msg);
             setAlertType(res.data.alert);
             setOpen(true);
@@ -119,7 +177,22 @@ const CreationSociete = () => {
                         dateimmat: "",
                         apetexte: "",
                         ape: "",
-                        dirig: [],
+                        dirig: [
+                            {
+                                detcivdir: "",
+                                detnomdir: "",
+                                detprenomdir: "",
+                                titredirig: "",
+                                datenaissance: "",
+                                paysnaissance: "",
+                                codepostalnaissance: "",
+                                nationalite: "",
+                                paysresidence: "",
+                                typeidentite: "",
+                                villenaissance: "",
+                                imageidentite: null,
+                            },
+                        ],
                     }}
                     onSubmit={(values) => handleSubmit(values)}
                 >
@@ -225,24 +298,20 @@ const CreationSociete = () => {
                         stepName="Juridique"
                         onSubmit={() => console.log("step 2")}
                         validationSchema={yup.object({
-                            no: yup
-                                .string()
-                                .required()
-                                .matches(/^[0-9]+$/, "Chiffres uniquement")
-                                .min(9, "Doit avoir 9 chiffres")
-                                .max(9, "Doit avoir 9 chiffres"),
-                            psiret: yup
-                                .string()
-                                .required()
-                                .matches(/^[0-9]+$/, "Chiffres uniquement")
-                                .min(14, "Doit avoir 14 chiffres")
-                                .max(14, "Doit avoir 14 chiffres"),
-                            formejur: yup
-                                .string()
-                                .required("Ce champ est requis"),
-                            greffe: yup
-                                .string()
-                                .required("Ce champ est requis"),
+                            no: yup.string(),
+                            // .required()
+                            // .matches(/^[0-9]+$/, "Chiffres uniquement")
+                            // .min(9, "Doit avoir 9 chiffres")
+                            // .max(9, "Doit avoir 9 chiffres")
+                            psiret: yup.string(),
+                            // .required()
+                            // .matches(/^[0-9]+$/, "Chiffres uniquement")
+                            // .min(14, "Doit avoir 14 chiffres")
+                            // .max(14, "Doit avoir 14 chiffres")
+                            formejur: yup.string(),
+                            // .required("Ce champ est requis")
+                            greffe: yup.string(),
+                            // .required("Ce champ est requis")
                             tva: yup.string(),
                             dcren: yup.date(),
                             daterad: yup.date(),
@@ -382,11 +451,12 @@ const CreationSociete = () => {
                                 const { values } = form;
                                 const { dirig } = values;
                                 return (
-                                    <Box
-                                        sx={{
-                                            position: "relative",
-                                        }}
-                                    >
+                                    // <Box
+                                    //     sx={{
+                                    //         position: "relative",
+                                    //     }}
+                                    // >
+                                    <>
                                         <Grid
                                             // rowSpacing={3}
                                             // columnSpacing={6}
@@ -401,63 +471,156 @@ const CreationSociete = () => {
                                                 Dirigeants
                                             </Typography>
                                         </Grid>
-                                        {dirig && dirig.length > 0
-                                            ? dirig.map((el, index) => (
-                                                  <Grid
-                                                      sx={{
-                                                          my: 3,
-                                                      }}
-                                                      container
-                                                      //   rowSpacing={3}
-                                                      columnSpacing={4}
-                                                      key={index}
-                                                  >
-                                                      <Grid item xs={12} sm={2}>
-                                                          <InputFeild
-                                                              id="detcivdir"
-                                                              name={`dirig[${index}].detcivdir`}
-                                                              label="civilité"
-                                                              fullWidth
-                                                          />
-                                                      </Grid>
-                                                      <Grid item xs={12} sm={4}>
-                                                          <InputFeild
-                                                              id="detnomdir"
-                                                              name={`dirig[${index}].detnomdir`}
-                                                              label="Nom"
-                                                              fullWidth
-                                                          />
-                                                      </Grid>
-                                                      <Grid item xs={12} sm={4}>
-                                                          <InputFeild
-                                                              id="titredirig"
-                                                              name={`dirig[${index}].titredirig`}
-                                                              label="Type"
-                                                              fullWidth
-                                                          />
-                                                      </Grid>
-                                                      <Grid item xs={12} sm={2}>
-                                                          <Button
-                                                              sx={{
-                                                                  "&.MuiButton-outlinedError":
-                                                                      {
-                                                                          border: "2px solid",
-                                                                      },
-                                                              }}
-                                                              variant="outlined"
+                                        {/* {dirig && dirig.length > 0 */}
+                                        {/* ?  */}
+                                        {/* {dirig.map((el, index) => ( */}
+                                        <Grid
+                                            container
+                                            rowSpacing={3}
+                                            columnSpacing={6}
+                                        >
+                                            <Grid item xs={12} sm={3}>
+                                                <SelectFeild
+                                                    select
+                                                    options={[
+                                                        "M",
+                                                        "Mme",
+                                                        "Mlle",
+                                                    ]}
+                                                    id="detcivdir"
+                                                    name={`dirig[${0}].detcivdir`}
+                                                    label="civilité"
+                                                    fullWidth
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={4.5}>
+                                                <InputFeild
+                                                    id="detnomdir"
+                                                    name={`dirig[${0}].detnomdir`}
+                                                    label="Nom"
+                                                    fullWidth
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={4.5}>
+                                                <InputFeild
+                                                    id="detprenomdir"
+                                                    name={`dirig[${0}].detprenomdir`}
+                                                    label="Prénom"
+                                                    fullWidth
+                                                />
+                                            </Grid>
+
+                                            {/* <Grid item xs={12} sm={1}>
+                                                          <IconButton
                                                               color="error"
+                                                              ria-label="delete"
+                                                              size="small"
                                                               onClick={() =>
                                                                   remove(index)
-                                                              } // remove a friend from the list
+                                                              }
                                                           >
-                                                              -
-                                                          </Button>
-                                                      </Grid>
-                                                  </Grid>
-                                              ))
-                                            : null}
-                                        <Button
-                                            size="small"
+                                                              <DeleteOutlineOutlinedIcon />
+                                                          </IconButton>
+                                                      </Grid> */}
+
+                                            <Grid item xs={12} sm={12}>
+                                                <InputFeild
+                                                    id="titredirig"
+                                                    name={`dirig[${0}].titredirig`}
+                                                    label="Type"
+                                                    fullWidth
+                                                />
+                                            </Grid>
+
+                                            <Grid item xs={12} sm={6}>
+                                                <InputFeild
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+                                                    id="datenaissance"
+                                                    name={`dirig[${0}].datenaissance`}
+                                                    label="Date de naissance"
+                                                    type="date"
+                                                    fullWidth
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <AutoCompleteInputField
+                                                    autoLabel="Pays"
+                                                    id="paysnaissance"
+                                                    name={`dirig[${0}].paysnaissance`}
+                                                    label="Pays de naissance"
+                                                    fullWidth
+                                                />
+                                            </Grid>
+
+                                            <Grid item xs={12} sm={6}>
+                                                <InputFeild
+                                                    id="codepostalnaissance"
+                                                    name={`dirig[${0}].codepostalnaissance`}
+                                                    label="Code postal de naissance"
+                                                    fullWidth
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <InputFeild
+                                                    id="villenaissance"
+                                                    name={`dirig[${0}].villenaissance`}
+                                                    label="Ville de naissance"
+                                                    fullWidth
+                                                />
+                                            </Grid>
+
+                                            <Grid item xs={12} sm={6}>
+                                                <AutoCompleteInputField
+                                                    autoLabel="Pays"
+                                                    id="nationalite"
+                                                    name={`dirig[${0}].nationalite`}
+                                                    label="Nationalité"
+                                                    fullWidth
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <AutoCompleteInputField
+                                                    autoLabel="Pays"
+                                                    id="paysresidence"
+                                                    name={`dirig[${0}].paysresidence`}
+                                                    label="Pays de residence"
+                                                    fullWidth
+                                                />
+                                            </Grid>
+
+                                            <Grid item xs={12} sm={12}>
+                                                <SelectFeild
+                                                    // placeholder="Sélectionner une pièce d'identité (copie en couleur, recto verso)"
+                                                    select
+                                                    options={[
+                                                        "Carte d'identité nationale",
+                                                        "Passport",
+                                                    ]}
+                                                    id="typeidentite"
+                                                    name={`dirig[${0}].typeidentite`}
+                                                    label="Type de piece d'indentité"
+                                                    fullWidth
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={12}>
+                                                <FileUploadInputField
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+                                                    id="imageidentite"
+                                                    name={`dirig[${0}].imageidentite`}
+                                                    label="Copie d'indentité"
+                                                    // type="file"
+                                                    fullWidth
+                                                />
+                                            </Grid>
+                                        </Grid>
+                                        {/* //   ))
+                                            // : null} */}
+                                        {/* <IconButton
+                                            size="large"
                                             sx={{
                                                 position: "absolute",
                                                 marginTop: 3,
@@ -469,19 +632,20 @@ const CreationSociete = () => {
                                                     },
                                             }}
                                             variant="outlined"
-                                            color="secondary"
+                                            color="success"
                                             onClick={() =>
                                                 push({
                                                     detcivdir: "",
                                                     detnomdir: "",
+                                                    detprenomdir: "",
                                                     titredirig: "",
                                                 })
                                             }
                                         >
-                                            {/* show this when user has removed all friends from the list */}
-                                            Ajouter un Dirigeant
-                                        </Button>
-                                    </Box>
+                                            <BorderColorIcon fontSize="medium" />
+                                        </IconButton> */}
+                                        {/* </Box> */}
+                                    </>
                                 );
                             }}
                         </FieldArray>

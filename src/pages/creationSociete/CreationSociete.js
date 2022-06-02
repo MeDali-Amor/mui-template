@@ -36,6 +36,18 @@ const validationSchema = yup.object({
     // nationalite: yup.string().required("Ce champ est requis"),
     adresse: yup.string(),
 });
+const imageSchema = yup.object({
+    image: yup
+        .mixed()
+        .nullable()
+        .notRequired()
+        .test("fileSize", "File is too large", (value) =>
+            value ? value.size <= 10000000 : true
+        )
+        .test("fileType", "Format d'image non valide", (value) =>
+            value ? SUPPORTED_FORMATS.includes(value?.type) : true
+        ),
+});
 const dirigeantValidationSchema = yup.object({
     detcivdir: yup.string(),
     // .required("Ce champ est requis")
@@ -50,18 +62,7 @@ const dirigeantValidationSchema = yup.object({
     nationalite: yup.string(),
     paysresidence: yup.string(),
     typeidentite: yup.string(),
-    imageidentite: yup
 
-        .mixed()
-        .nullable()
-        .test(
-            "fileSize",
-            "File is too large",
-            (value) => value?.size <= 1000000
-        )
-        .test("fileType", "Format d'image non valide", (value) =>
-            SUPPORTED_FORMATS.includes(value?.type)
-        ),
     // yup
     // .mixed()
     // .nullable()
@@ -119,18 +120,29 @@ const CreationSociete = () => {
         // console.log(...res.data);
     };
     const handleSubmit = async (values) => {
-        console.log(values);
+        // console.log(values);
+        const formData = new FormData();
+        // formData.append("image", values.image);
+        // formData.append("json", values);
+        // for (const [key, value] of Object.entries(values)) {
+        //     formData.append(key, JSON.stringify(value));
+        // }
+
+        formData.append("image", values.image);
+        formData.append("body", JSON.stringify(values));
+
         try {
             setLoading(true);
             const res = await axios.post(
                 "http://localhost:8000/api/company/create",
-                values
+                formData
             );
-            // console.log(res.data);
+            console.log(res.data);
             setMsg(res.data.msg);
             setAlertType(res.data.alert);
             setOpen(true);
             setLoading(false);
+            console.log(formData.values);
         } catch (error) {
             setLoading(true);
 
@@ -190,9 +202,9 @@ const CreationSociete = () => {
                                 paysresidence: "",
                                 typeidentite: "",
                                 villenaissance: "",
-                                imageidentite: null,
                             },
                         ],
+                        image: null,
                     }}
                     onSubmit={(values) => handleSubmit(values)}
                 >
@@ -441,7 +453,7 @@ const CreationSociete = () => {
                     <FormStep
                         stepName="Dirigeant"
                         onSubmit={() => console.log("step 4")}
-                        validationSchema={dirigSchema}
+                        validationSchema={(dirigSchema, imageSchema)}
                     >
                         {/* <Adddirig /> */}
                         <FieldArray name="dirig">
@@ -609,8 +621,8 @@ const CreationSociete = () => {
                                                     InputLabelProps={{
                                                         shrink: true,
                                                     }}
-                                                    id="imageidentite"
-                                                    name={`dirig[${0}].imageidentite`}
+                                                    id="image"
+                                                    name={"image"}
                                                     label="Copie d'indentité"
                                                     // type="file"
                                                     fullWidth

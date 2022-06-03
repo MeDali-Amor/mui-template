@@ -2,6 +2,8 @@ import { FieldArray } from "formik";
 import {
     Box,
     Button,
+    Chip,
+    Divider,
     Grid,
     IconButton,
     Paper,
@@ -62,7 +64,16 @@ const dirigeantValidationSchema = yup.object({
     nationalite: yup.string(),
     paysresidence: yup.string(),
     typeidentite: yup.string(),
-
+    image: yup
+        .mixed()
+        .nullable()
+        .notRequired()
+        .test("fileSize", "File is too large", (value) =>
+            value ? value.size <= 10000000 : true
+        )
+        .test("fileType", "Format d'image non valide", (value) =>
+            value ? SUPPORTED_FORMATS.includes(value?.type) : true
+        ),
     // yup
     // .mixed()
     // .nullable()
@@ -120,17 +131,24 @@ const CreationSociete = () => {
         // console.log(...res.data);
     };
     const handleSubmit = async (values) => {
-        // console.log(values);
+        // console.log(values.dirig);
         const formData = new FormData();
+        values.dirig.forEach((el, index) => {
+            if (el.image) {
+                // el.image.name = `${index}-${el.image.name}`;
+                formData.append("image", el.image, `${index}-${el.image.name}`);
+                // console.log(el.image);
+            }
+        });
         // formData.append("image", values.image);
         // formData.append("json", values);
         // for (const [key, value] of Object.entries(values)) {
         //     formData.append(key, JSON.stringify(value));
         // }
 
-        formData.append("image", values.image);
+        // formData.append("image", values.image);
         formData.append("body", JSON.stringify(values));
-
+        // console.log(formData);
         try {
             setLoading(true);
             const res = await axios.post(
@@ -202,14 +220,14 @@ const CreationSociete = () => {
                                 paysresidence: "",
                                 typeidentite: "",
                                 villenaissance: "",
+                                image: null,
                             },
                         ],
-                        image: null,
                     }}
                     onSubmit={(values) => handleSubmit(values)}
                 >
                     <FormStep
-                        stepName="Person"
+                        stepName="Bonjour"
                         onSubmit={() => console.log("step 0")}
                         // validationSchema={validationSchema}
                     >
@@ -453,22 +471,21 @@ const CreationSociete = () => {
                     <FormStep
                         stepName="Dirigeant"
                         onSubmit={() => console.log("step 4")}
-                        validationSchema={(dirigSchema, imageSchema)}
+                        validationSchema={dirigSchema}
                     >
                         {/* <Adddirig /> */}
                         <FieldArray name="dirig">
-                            {(fiedArrayProps) => {
-                                // console.log(fiedArrayProps);
-                                const { push, remove, form } = fiedArrayProps;
+                            {(fieldArrayProps) => {
+                                // console.log(fieldArrayProps);
+                                const { push, remove, form } = fieldArrayProps;
                                 const { values } = form;
                                 const { dirig } = values;
                                 return (
-                                    // <Box
-                                    //     sx={{
-                                    //         position: "relative",
-                                    //     }}
-                                    // >
-                                    <>
+                                    <Box
+                                        sx={{
+                                            position: "relative",
+                                        }}
+                                    >
                                         <Grid
                                             // rowSpacing={3}
                                             // columnSpacing={6}
@@ -485,44 +502,53 @@ const CreationSociete = () => {
                                         </Grid>
                                         {/* {dirig && dirig.length > 0 */}
                                         {/* ?  */}
-                                        {/* {dirig.map((el, index) => ( */}
-                                        <Grid
-                                            container
-                                            rowSpacing={3}
-                                            columnSpacing={6}
-                                        >
-                                            <Grid item xs={12} sm={3}>
-                                                <SelectFeild
-                                                    select
-                                                    options={[
-                                                        "M",
-                                                        "Mme",
-                                                        "Mlle",
-                                                    ]}
-                                                    id="detcivdir"
-                                                    name={`dirig[${0}].detcivdir`}
-                                                    label="civilité"
-                                                    fullWidth
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12} sm={4.5}>
-                                                <InputFeild
-                                                    id="detnomdir"
-                                                    name={`dirig[${0}].detnomdir`}
-                                                    label="Nom"
-                                                    fullWidth
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12} sm={4.5}>
-                                                <InputFeild
-                                                    id="detprenomdir"
-                                                    name={`dirig[${0}].detprenomdir`}
-                                                    label="Prénom"
-                                                    fullWidth
-                                                />
-                                            </Grid>
+                                        {dirig.map((el, index) => (
+                                            <Grid
+                                                container
+                                                rowSpacing={3}
+                                                columnSpacing={6}
+                                                key={index}
+                                                sx={{ pb: 5 }}
+                                            >
+                                                <Grid item xs={12} sm={12}>
+                                                    <Divider>
+                                                        <Chip
+                                                            label={index + 1}
+                                                        />
+                                                    </Divider>
+                                                </Grid>
+                                                <Grid item xs={12} sm={3}>
+                                                    <SelectFeild
+                                                        select
+                                                        options={[
+                                                            "M",
+                                                            "Mme",
+                                                            "Mlle",
+                                                        ]}
+                                                        id="detcivdir"
+                                                        name={`dirig[${index}].detcivdir`}
+                                                        label="civilité"
+                                                        fullWidth
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={4.5}>
+                                                    <InputFeild
+                                                        id="detnomdir"
+                                                        name={`dirig[${index}].detnomdir`}
+                                                        label="Nom"
+                                                        fullWidth
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={4.5}>
+                                                    <InputFeild
+                                                        id="detprenomdir"
+                                                        name={`dirig[${index}].detprenomdir`}
+                                                        label="Prénom"
+                                                        fullWidth
+                                                    />
+                                                </Grid>
 
-                                            {/* <Grid item xs={12} sm={1}>
+                                                {/* <Grid item xs={12} sm={1}>
                                                           <IconButton
                                                               color="error"
                                                               ria-label="delete"
@@ -535,103 +561,102 @@ const CreationSociete = () => {
                                                           </IconButton>
                                                       </Grid> */}
 
-                                            <Grid item xs={12} sm={12}>
-                                                <InputFeild
-                                                    id="titredirig"
-                                                    name={`dirig[${0}].titredirig`}
-                                                    label="Type"
-                                                    fullWidth
-                                                />
-                                            </Grid>
+                                                <Grid item xs={12} sm={12}>
+                                                    <InputFeild
+                                                        id="titredirig"
+                                                        name={`dirig[${index}].titredirig`}
+                                                        label="Type"
+                                                        fullWidth
+                                                    />
+                                                </Grid>
 
-                                            <Grid item xs={12} sm={6}>
-                                                <InputFeild
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
-                                                    id="datenaissance"
-                                                    name={`dirig[${0}].datenaissance`}
-                                                    label="Date de naissance"
-                                                    type="date"
-                                                    fullWidth
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12} sm={6}>
-                                                <AutoCompleteInputField
-                                                    autoLabel="Pays"
-                                                    id="paysnaissance"
-                                                    name={`dirig[${0}].paysnaissance`}
-                                                    label="Pays de naissance"
-                                                    fullWidth
-                                                />
-                                            </Grid>
+                                                <Grid item xs={12} sm={6}>
+                                                    <InputFeild
+                                                        InputLabelProps={{
+                                                            shrink: true,
+                                                        }}
+                                                        id="datenaissance"
+                                                        name={`dirig[${index}].datenaissance`}
+                                                        label="Date de naissance"
+                                                        type="date"
+                                                        fullWidth
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={6}>
+                                                    <AutoCompleteInputField
+                                                        autoLabel="Pays"
+                                                        id="paysnaissance"
+                                                        name={`dirig[${index}].paysnaissance`}
+                                                        label="Pays de naissance"
+                                                        fullWidth
+                                                    />
+                                                </Grid>
 
-                                            <Grid item xs={12} sm={6}>
-                                                <InputFeild
-                                                    id="codepostalnaissance"
-                                                    name={`dirig[${0}].codepostalnaissance`}
-                                                    label="Code postal de naissance"
-                                                    fullWidth
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12} sm={6}>
-                                                <InputFeild
-                                                    id="villenaissance"
-                                                    name={`dirig[${0}].villenaissance`}
-                                                    label="Ville de naissance"
-                                                    fullWidth
-                                                />
-                                            </Grid>
+                                                <Grid item xs={12} sm={6}>
+                                                    <InputFeild
+                                                        id="codepostalnaissance"
+                                                        name={`dirig[${index}].codepostalnaissance`}
+                                                        label="Code postal de naissance"
+                                                        fullWidth
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={6}>
+                                                    <InputFeild
+                                                        id="villenaissance"
+                                                        name={`dirig[${index}].villenaissance`}
+                                                        label="Ville de naissance"
+                                                        fullWidth
+                                                    />
+                                                </Grid>
 
-                                            <Grid item xs={12} sm={6}>
-                                                <AutoCompleteInputField
-                                                    autoLabel="Pays"
-                                                    id="nationalite"
-                                                    name={`dirig[${0}].nationalite`}
-                                                    label="Nationalité"
-                                                    fullWidth
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12} sm={6}>
-                                                <AutoCompleteInputField
-                                                    autoLabel="Pays"
-                                                    id="paysresidence"
-                                                    name={`dirig[${0}].paysresidence`}
-                                                    label="Pays de residence"
-                                                    fullWidth
-                                                />
-                                            </Grid>
+                                                <Grid item xs={12} sm={6}>
+                                                    <AutoCompleteInputField
+                                                        autoLabel="Pays"
+                                                        id="nationalite"
+                                                        name={`dirig[${index}].nationalite`}
+                                                        label="Nationalité"
+                                                        fullWidth
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={6}>
+                                                    <AutoCompleteInputField
+                                                        autoLabel="Pays"
+                                                        id="paysresidence"
+                                                        name={`dirig[${index}].paysresidence`}
+                                                        label="Pays de residence"
+                                                        fullWidth
+                                                    />
+                                                </Grid>
 
-                                            <Grid item xs={12} sm={12}>
-                                                <SelectFeild
-                                                    // placeholder="Sélectionner une pièce d'identité (copie en couleur, recto verso)"
-                                                    select
-                                                    options={[
-                                                        "Carte d'identité nationale",
-                                                        "Passport",
-                                                    ]}
-                                                    id="typeidentite"
-                                                    name={`dirig[${0}].typeidentite`}
-                                                    label="Type de piece d'indentité"
-                                                    fullWidth
-                                                />
+                                                <Grid item xs={12} sm={12}>
+                                                    <SelectFeild
+                                                        // placeholder="Sélectionner une pièce d'identité (copie en couleur, recto verso)"
+                                                        select
+                                                        options={[
+                                                            "Carte d'identité nationale",
+                                                            "Passport",
+                                                        ]}
+                                                        id="typeidentite"
+                                                        name={`dirig[${index}].typeidentite`}
+                                                        label="Type de piece d'indentité"
+                                                        fullWidth
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={12}>
+                                                    <FileUploadInputField
+                                                        InputLabelProps={{
+                                                            shrink: true,
+                                                        }}
+                                                        id="image"
+                                                        name={`dirig[${index}].image`}
+                                                        label="Copie d'indentité"
+                                                        // type="file"
+                                                        fullWidth
+                                                    />
+                                                </Grid>
                                             </Grid>
-                                            <Grid item xs={12} sm={12}>
-                                                <FileUploadInputField
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
-                                                    id="image"
-                                                    name={"image"}
-                                                    label="Copie d'indentité"
-                                                    // type="file"
-                                                    fullWidth
-                                                />
-                                            </Grid>
-                                        </Grid>
-                                        {/* //   ))
-                                            // : null} */}
-                                        {/* <IconButton
+                                        ))}
+                                        <IconButton
                                             size="large"
                                             sx={{
                                                 position: "absolute",
@@ -651,13 +676,20 @@ const CreationSociete = () => {
                                                     detnomdir: "",
                                                     detprenomdir: "",
                                                     titredirig: "",
+                                                    datenaissance: "",
+                                                    paysnaissance: "",
+                                                    codepostalnaissance: "",
+                                                    nationalite: "",
+                                                    paysresidence: "",
+                                                    typeidentite: "",
+                                                    villenaissance: "",
+                                                    image: null,
                                                 })
                                             }
                                         >
                                             <BorderColorIcon fontSize="medium" />
-                                        </IconButton> */}
-                                        {/* </Box> */}
-                                    </>
+                                        </IconButton>
+                                    </Box>
                                 );
                             }}
                         </FieldArray>

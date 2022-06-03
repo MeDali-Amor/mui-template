@@ -1,3 +1,4 @@
+import { Step, StepLabel, Stepper } from "@mui/material";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import FormNavigation from "./FormNavigation";
@@ -37,6 +38,16 @@ const MultiStepForm = ({ children, initialValues, onSubmit, loading }) => {
             >
                 {(formik) => (
                     <Form>
+                        <Stepper activeStep={stepNumber}>
+                            {steps.map((currentStep) => {
+                                const label = currentStep.props.stepName;
+                                return (
+                                    <Step key={label}>
+                                        <StepLabel>{label}</StepLabel>
+                                    </Step>
+                                );
+                            })}
+                        </Stepper>
                         {step}
                         <FormNavigation
                             loading={loading}

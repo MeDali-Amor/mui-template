@@ -1,4 +1,11 @@
-import { Box, styled, TextField, Typography, useTheme } from "@mui/material";
+import {
+    Box,
+    Chip,
+    styled,
+    TextField,
+    Typography,
+    useTheme,
+} from "@mui/material";
 import { useField, useFormikContext } from "formik";
 import { useEffect, useRef, useState } from "react";
 
@@ -9,7 +16,7 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
     "& .MuiInputBase-root": {
         backgroundColor: "#fdfdfd",
         opacity: 0,
-        height: 90,
+        height: 120,
     },
     "& .MuiOutlinedInput-root": {
         "& > fieldset": {
@@ -40,15 +47,27 @@ const FileUploadInputField = ({
 }) => {
     const theme = useTheme();
     const [dragOver, setdragOver] = useState(false);
-    const { setFieldValue } = useFormikContext();
+    const { setFieldValue, resetForm } = useFormikContext();
     const [field, meta] = useField(props);
     const { name, value, onBlur, onChange } = field;
-    // console.log(name);
-    const dragAndDropRef = useRef(null);
+    // console.log(value);
+    const fileInput = useRef();
     useEffect(() => {
         if (!customValue) return;
         setFieldValue(name, customValue);
     }, [customValue]);
+    const handleDelete = () => {
+        // console.log(fileInput.current);
+        const currentDiv = fileInput.current;
+        const input = currentDiv
+            // .getElementsByTagName("div")[0]
+            // .getElementById("image");
+            .getElementsByTagName("input")[0];
+        input.value = "";
+        // console.log(input.value);
+        setFieldValue(name, meta.initialValue);
+        // resetForm(name, "");
+    };
     return (
         <Box
             // onDragEnter={() => setdragOver(true)}
@@ -74,7 +93,7 @@ const FileUploadInputField = ({
                 sx={{
                     color: theme.palette.grey[600],
                     position: "absolute",
-                    top: "50%",
+                    top: "40%",
                     left: 50,
                     transform: "translateY(-50%)",
                 }}
@@ -82,8 +101,26 @@ const FileUploadInputField = ({
                 Cliquer ici pour selectioner votre fichier ou Glisser-les dans
                 cette zone.
             </Typography>
+            {value && (
+                <Chip
+                    sx={{
+                        // color: theme.palette.grey[600],
+                        position: "absolute",
+                        top: "70%",
+                        left: 50,
+                        transform: "translateY(-50%) translateX(25%)",
+                        zIndex: 20,
+                    }}
+                    label={value?.name}
+                    color="primary"
+                    // variant="con"
+                    onDelete={handleDelete}
+                />
+            )}
             <StyledTextField
                 type="file"
+                ref={fileInput}
+                // id="file-input"
                 // label={label}
                 onBlur={onBlur}
                 name={name}
@@ -100,6 +137,9 @@ const FileUploadInputField = ({
                     // ) {
                     //     meta.error = "La format d'image n'est pas valide!";
                     // }
+                    // resetForm(name, meta.initialValue);
+                    // console.log(event.currentTarget.files);
+                    // console.log();
                     setFieldValue(name, event.currentTarget.files[0]);
                 }}
             />

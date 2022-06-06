@@ -1,6 +1,6 @@
 import { Autocomplete, Box, styled, TextField } from "@mui/material";
 import { useField, useFormikContext } from "formik";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
     width: "100%",
@@ -41,6 +41,7 @@ const AutoCompleteInputField = ({
     const [field, meta] = useField(props);
     const { name, value, onBlur, onChange } = field;
     // console.log(name);
+    const [inputValue, setInputValue] = useState(value);
     useEffect(() => {
         if (!customValue) return;
         setFieldValue(name, customValue);
@@ -53,14 +54,26 @@ const AutoCompleteInputField = ({
             options={countries}
             // value={value.label}
             // {...field}
+            inputValue={inputValue ? inputValue : value}
+            onInputChange={(e, input) => {
+                setInputValue(input);
+            }}
             {...props}
             isOptionEqualToValue={(option, value) =>
-                option.label === value.label || ""
+                // option.label === value.label || ""
+                value.label === option.label || ""
             }
             // error={meta.touched && Boolean(meta.error)}
             // helperText={meta.touched && meta.error}
             onChange={(e, value) => {
-                setFieldValue(name, value.label);
+                if (value) {
+                    setFieldValue(name, value.label);
+                    setInputValue(value.label);
+                    // console.log(value);
+                } else {
+                    setFieldValue(name, "");
+                    setInputValue("");
+                }
                 // console.log({value.label});
             }}
             // autoHighlight

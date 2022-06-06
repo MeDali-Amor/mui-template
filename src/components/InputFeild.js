@@ -36,7 +36,7 @@ const InputFeild = ({ label, handleChange, customValue, ...props }) => {
     const { name, value, onBlur, onChange } = field;
     // console.log(name);
     useEffect(() => {
-        if (!customValue) return;
+        if (customValue === null || customValue === undefined) return;
         setFieldValue(name, customValue);
     }, [customValue]);
     return (

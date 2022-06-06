@@ -16,7 +16,7 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
     "& .MuiInputBase-root": {
         backgroundColor: "#fdfdfd",
         opacity: 0,
-        height: 120,
+        height: 40,
     },
     "& .MuiOutlinedInput-root": {
         "& > fieldset": {
@@ -98,8 +98,9 @@ const FileUploadInputField = ({
                     transform: "translateY(-50%)",
                 }}
             >
-                Cliquer ici pour selectioner votre fichier ou Glisser-les dans
-                cette zone.
+                Cliquer ici
+                {/* pour selectioner votre fichier ou Glisser-les dans
+                cette zone. */}
             </Typography>
             {value && (
                 <Chip

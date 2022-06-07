@@ -9,6 +9,7 @@ import {
     Paper,
     Stack,
     TextField,
+    Tooltip,
     Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -27,7 +28,7 @@ import AutoCompleteInputField from "../../components/AutoCompleteInputField";
 import FileUploadInputField from "../../components/FileUploadInputField";
 import { apeCodeList } from "../../constantes/apeCodeData";
 import SelectAutoComplete from "../../components/SelectAutoComplete";
-
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 const validationSchema = yup.object({
     deno: yup.string().required("Ce champ est requis"),
@@ -145,13 +146,20 @@ const CreationSociete = () => {
         // console.log(...res.data);
     };
     const handleSubmit = async (values) => {
-        console.log(values);
+        // console.log(values);
         const formData = new FormData();
         values.dirig.forEach((el, index) => {
             if (el.images.length) {
                 // el.image.name = `${index}-${el.image.name}`;
-                formData.append("image", el.image, `${index}-${el.image.name}`);
-                // console.log(el.image);
+                el.images.forEach((img, idx) => {
+                    if (img.img) {
+                        formData.append(
+                            "image",
+                            img.img,
+                            `${index}-${idx}&${img.img.name}`
+                        );
+                    }
+                });
             }
         });
         // formData.append("image", values.image);
@@ -163,28 +171,28 @@ const CreationSociete = () => {
         // formData.append("image", values.image);
         formData.append("body", JSON.stringify(values));
         // console.log(formData);
-        // try {
-        //     setLoading(true);
-        //     const res = await axios.post(
-        //         "http://localhost:8000/api/company/create",
-        //         formData
-        //     );
-        //     console.log(res.data);
-        //     setMsg(res.data.msg);
-        //     setAlertType(res.data.alert);
-        //     setOpen(true);
-        //     setLoading(false);
-        //     console.log(formData.values);
-        // } catch (error) {
-        //     setLoading(true);
+        try {
+            setLoading(true);
+            const res = await axios.post(
+                "http://localhost:8000/api/company/create",
+                formData
+            );
+            console.log(res.data);
+            setMsg(res.data.msg);
+            setAlertType(res.data.alert);
+            setOpen(true);
+            setLoading(false);
+            // console.log(formData.values);
+        } catch (error) {
+            setLoading(true);
 
-        //     console.log(error);
+            console.log(error);
 
-        //     setMsg("une erreur s'est produite veuillez réessayer");
-        //     setAlertType("error");
-        //     setOpen(true);
-        //     setLoading(false);
-        // }
+            setMsg("une erreur s'est produite veuillez réessayer");
+            setAlertType("error");
+            setOpen(true);
+            setLoading(false);
+        }
     };
     return (
         <div>
@@ -341,16 +349,18 @@ const CreationSociete = () => {
                         stepName="Juridique"
                         onSubmit={() => console.log("step 2")}
                         validationSchema={yup.object({
-                            no: yup.string(),
-                            // .required()
-                            // .matches(/^[0-9]+$/, "Chiffres uniquement")
-                            // .min(9, "Doit avoir 9 chiffres")
-                            // .max(9, "Doit avoir 9 chiffres")
-                            psiret: yup.string(),
-                            // .required()
-                            // .matches(/^[0-9]+$/, "Chiffres uniquement")
-                            // .min(14, "Doit avoir 14 chiffres")
-                            // .max(14, "Doit avoir 14 chiffres")
+                            no: yup
+                                .string()
+                                .required()
+                                .matches(/^[0-9]+$/, "Chiffres uniquement")
+                                .min(9, "Doit avoir 9 chiffres")
+                                .max(9, "Doit avoir 9 chiffres"),
+                            psiret: yup
+                                .string()
+                                .required()
+                                .matches(/^[0-9]+$/, "Chiffres uniquement")
+                                .min(14, "Doit avoir 14 chiffres")
+                                .max(14, "Doit avoir 14 chiffres"),
                             formejur: yup.string(),
                             // .required("Ce champ est requis")
                             greffe: yup.string(),
@@ -412,7 +422,7 @@ const CreationSociete = () => {
                                 <InputFeild
                                     id="greffe"
                                     name="greffe"
-                                    label="Numéro RCS"
+                                    label="RCS"
                                     fullWidth
                                 />
                             </Grid>
@@ -672,7 +682,12 @@ const CreationSociete = () => {
                                                                     dirig,
                                                                 } = values;
                                                                 return (
-                                                                    <Box>
+                                                                    <Box
+                                                                        sx={{
+                                                                            position:
+                                                                                "relative",
+                                                                        }}
+                                                                    >
                                                                         {dirig[
                                                                             index
                                                                         ].images.map(
@@ -680,93 +695,126 @@ const CreationSociete = () => {
                                                                                 el,
                                                                                 idx
                                                                             ) => (
-                                                                                <Grid
-                                                                                    container
-                                                                                    rowSpacing={
-                                                                                        3
-                                                                                    }
-                                                                                    columnSpacing={
-                                                                                        6
-                                                                                    }
-                                                                                    key={
-                                                                                        index
-                                                                                    }
+                                                                                <Box
                                                                                     sx={{
-                                                                                        pb: 3,
+                                                                                        position:
+                                                                                            "relative",
                                                                                     }}
                                                                                 >
                                                                                     <Grid
-                                                                                        item
-                                                                                        xs={
-                                                                                            12
+                                                                                        container
+                                                                                        rowSpacing={
+                                                                                            3
                                                                                         }
-                                                                                        sm={
+                                                                                        columnSpacing={
                                                                                             6
                                                                                         }
+                                                                                        key={
+                                                                                            idx
+                                                                                        }
+                                                                                        sx={{
+                                                                                            pb: 3,
+                                                                                        }}
                                                                                     >
-                                                                                        <SelectFeild
-                                                                                            // placeholder="Sélectionner une pièce d'identité (copie en couleur, recto verso)"
-                                                                                            select
-                                                                                            options={[
-                                                                                                "Carte d'identité nationale",
-                                                                                                "Passport",
-                                                                                            ]}
-                                                                                            id="typeidentite"
-                                                                                            name={`dirig[${index}].images[${idx}].typeidentite`}
-                                                                                            label="Type de piece d'indentité"
-                                                                                            fullWidth
-                                                                                        />
+                                                                                        <Grid
+                                                                                            item
+                                                                                            xs={
+                                                                                                12
+                                                                                            }
+                                                                                            sm={
+                                                                                                6
+                                                                                            }
+                                                                                        >
+                                                                                            <SelectFeild
+                                                                                                // placeholder="Sélectionner une pièce d'identité (copie en couleur, recto verso)"
+                                                                                                select
+                                                                                                options={[
+                                                                                                    "Carte d'identité nationale",
+                                                                                                    "Passport",
+                                                                                                ]}
+                                                                                                id="typeidentite"
+                                                                                                name={`dirig[${index}].images[${idx}].typeidentite`}
+                                                                                                label="Type de piece d'indentité"
+                                                                                                fullWidth
+                                                                                            />
+                                                                                        </Grid>
+                                                                                        <Grid
+                                                                                            item
+                                                                                            xs={
+                                                                                                12
+                                                                                            }
+                                                                                            sm={
+                                                                                                6
+                                                                                            }
+                                                                                        >
+                                                                                            <FileUploadInputField
+                                                                                                InputLabelProps={{
+                                                                                                    shrink: true,
+                                                                                                }}
+                                                                                                id="img"
+                                                                                                name={`dirig[${index}].images[${idx}].img`}
+                                                                                                label="Copie d'indentité"
+                                                                                                // type="file"
+                                                                                                fullWidth
+                                                                                            />
+                                                                                        </Grid>
                                                                                     </Grid>
-                                                                                    <Grid
-                                                                                        item
-                                                                                        xs={
-                                                                                            12
-                                                                                        }
-                                                                                        sm={
-                                                                                            6
-                                                                                        }
-                                                                                    >
-                                                                                        <FileUploadInputField
-                                                                                            InputLabelProps={{
-                                                                                                shrink: true,
+                                                                                    <Tooltip title="Supprimer document">
+                                                                                        <IconButton
+                                                                                            sx={{
+                                                                                                position:
+                                                                                                    "absolute",
+                                                                                                top: "50%",
+                                                                                                right: -40,
+                                                                                                transform:
+                                                                                                    "translateY(-50%)",
                                                                                             }}
-                                                                                            id="img"
-                                                                                            name={`dirig[${index}].images[${idx}].img`}
-                                                                                            label="Copie d'indentité"
-                                                                                            // type="file"
-                                                                                            fullWidth
-                                                                                        />
-                                                                                    </Grid>
-                                                                                </Grid>
+                                                                                            color="error"
+                                                                                            ria-label="delete"
+                                                                                            size="small"
+                                                                                            onClick={() =>
+                                                                                                remove(
+                                                                                                    idx
+                                                                                                )
+                                                                                            }
+                                                                                        >
+                                                                                            <DeleteOutlineOutlinedIcon />
+                                                                                        </IconButton>
+                                                                                    </Tooltip>
+                                                                                </Box>
                                                                             )
                                                                         )}
-                                                                        <IconButton
-                                                                            size="large"
-                                                                            sx={{
-                                                                                // position:
-                                                                                //     "absolute",
-                                                                                // marginTop: 3,
-                                                                                // top: 0,
-                                                                                // right: 0,
-                                                                                "&.MuiButton-outlinedSecondary":
-                                                                                    {
-                                                                                        border: "2px solid",
-                                                                                    },
-                                                                            }}
-                                                                            variant="outlined"
-                                                                            color="success"
-                                                                            onClick={() => {
-                                                                                push(
-                                                                                    {
-                                                                                        typeidentite:
-                                                                                            "",
-                                                                                        img: null,
-                                                                                    }
-                                                                                );
-                                                                            }}
-                                                                        >
-                                                                            <BorderColorIcon fontSize="medium" />
-                                                                        </IconButton>
+                                                                        <Tooltip title="Ajouter un document">
+                                                                            <IconButton
+                                                                                size="small"
+                                                                                sx={{
+                                                                                    position:
+                                                                                        "absolute",
+                                                                                    // marginTop: 3,
+                                                                                    top: "50%",
+                                                                                    right: -75,
+                                                                                    transform:
+                                                                                        "translateY(-50%)",
+                                                                                    "&.MuiButton-outlinedSecondary":
+                                                                                        {
+                                                                                            border: "2px solid",
+                                                                                        },
+                                                                                }}
+                                                                                variant="outlined"
+                                                                                color="success"
+                                                                                onClick={() => {
+                                                                                    push(
+                                                                                        {
+                                                                                            typeidentite:
+                                                                                                "",
+                                                                                            img: null,
+                                                                                        }
+                                                                                    );
+                                                                                }}
+                                                                            >
+                                                                                <UploadFileIcon fontSize="medium" />
+                                                                            </IconButton>
+                                                                        </Tooltip>
                                                                     </Box>
                                                                 );
                                                             }}
@@ -808,12 +856,13 @@ const CreationSociete = () => {
                                                 </Grid>
                                             )
                                         )}
-                                        <IconButton
+
+                                        <Button
                                             size="large"
                                             sx={{
                                                 position: "absolute",
                                                 marginTop: 3,
-                                                top: 0,
+                                                bottom: -10,
                                                 right: 0,
                                                 "&.MuiButton-outlinedSecondary":
                                                     {
@@ -831,7 +880,7 @@ const CreationSociete = () => {
                                                     .titredirig
                                             }
                                             variant="outlined"
-                                            color="success"
+                                            color="secondary"
                                             onClick={() => {
                                                 if (
                                                     dirig[dirig.length - 1]
@@ -861,8 +910,9 @@ const CreationSociete = () => {
                                                 return;
                                             }}
                                         >
-                                            <BorderColorIcon fontSize="medium" />
-                                        </IconButton>
+                                            Ajouter un dirigeant
+                                            {/* <BorderColorIcon fontSize="medium" /> */}
+                                        </Button>
                                     </Box>
                                 );
                             }}

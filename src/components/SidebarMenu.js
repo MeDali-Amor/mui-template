@@ -1,13 +1,18 @@
 // import styled from "@emotion/styled";
+import { PhotoCamera } from "@mui/icons-material";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import {
     alpha,
     Box,
     Collapse,
+    IconButton,
     List,
     ListItemButton,
     ListItemIcon,
     ListItemText,
     styled,
+    Tooltip,
     useTheme,
 } from "@mui/material";
 // import { bgcolor } from "@mui/system";
@@ -18,6 +23,7 @@ import {
     NavLink as RouterLink,
     matchPath,
     useLocation,
+    Link,
 } from "react-router-dom";
 
 const SidebarMenu = ({ navConfig, ...other }) => {
@@ -58,8 +64,8 @@ export default SidebarMenu;
 
 function MenuItem({ item, isActive }) {
     const theme = useTheme();
-    const isActiveRoot = isActive(item.path);
-    const { title, icon, path, info, children } = item;
+    const isActiveRoot = isActive(item.path) || isActive(item.plus);
+    const { title, icon, path, info, children, plus } = item;
     const [open, setOpen] = useState(isActiveRoot);
     const handleOpen = () => {
         setOpen(!open);
@@ -88,8 +94,8 @@ function MenuItem({ item, isActive }) {
             >
                 <ListItemText primary={title}>{info && info}</ListItemText>
             </ListItemStyle>
-            <Collapse in={open} unmountOnExit>
-                {/* <List component="div">
+            {/* <Collapse in={open} unmountOnExit> */}
+            {/* <List component="div">
                     {children.map((item) => {
                         const { title, path } = item;
                         const isActiveSub = isActive(path);
@@ -110,7 +116,7 @@ function MenuItem({ item, isActive }) {
                         );
                     })}
                 </List> */}
-            </Collapse>
+            {/* </Collapse> */}
         </>;
     }
     return (
@@ -123,7 +129,21 @@ function MenuItem({ item, isActive }) {
         >
             <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
             <ListItemText disableTypography primary={title} />
-            {info && info}
+            {plus && (
+                <Link to={plus}>
+                    <Tooltip title="Ajouter une nouvelle société">
+                        <IconButton
+                            sx={{ mr: 1 }}
+                            color="primary"
+                            aria-label="upload picture"
+                            component="span"
+                        >
+                            <AddBoxOutlinedIcon />
+                        </IconButton>
+                    </Tooltip>
+                </Link>
+            )}
+            {/* {info && info} */}
         </ListItemStyle>
     );
 }

@@ -30,7 +30,13 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
     },
 }));
 
-const InputFeild = ({ label, handleChange, customValue, ...props }) => {
+const InputFeild = ({
+    label,
+    handleChange,
+    customValue,
+    setCustomValue,
+    ...props
+}) => {
     const { setFieldValue } = useFormikContext();
     const [field, meta] = useField(props);
     const { name, value, onBlur, onChange } = field;
@@ -38,6 +44,7 @@ const InputFeild = ({ label, handleChange, customValue, ...props }) => {
     useEffect(() => {
         if (customValue === null || customValue === undefined) return;
         setFieldValue(name, customValue);
+        console.log(customValue);
     }, [customValue]);
     return (
         <StyledTextField
@@ -51,6 +58,9 @@ const InputFeild = ({ label, handleChange, customValue, ...props }) => {
             helperText={meta.touched && meta.error}
             onChange={(e) => {
                 onChange(e);
+                setCustomValue &&
+                    customValue &&
+                    setCustomValue(e.currentTarget.value);
                 if (handleChange) {
                     handleChange(e);
                 }

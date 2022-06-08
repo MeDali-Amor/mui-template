@@ -414,6 +414,7 @@ const CreationSociete = () => {
                                     id="psiret"
                                     name="psiret"
                                     customValue={sirenNo}
+                                    setCustomValue={setSirenNo}
                                     label="Numéro SIRET (siège)"
                                     fullWidth
                                 />

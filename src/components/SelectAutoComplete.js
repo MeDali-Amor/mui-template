@@ -1,4 +1,10 @@
-import { Autocomplete, Box, styled, TextField } from "@mui/material";
+import {
+    Autocomplete,
+    Box,
+    styled,
+    TextField,
+    Typography,
+} from "@mui/material";
 import { useField, useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 
@@ -38,7 +44,7 @@ const SelectAutoComplete = ({
     customValue,
     ...props
 }) => {
-    const { setFieldValue, getFieldMeta } = useFormikContext();
+    const { setFieldValue } = useFormikContext();
     const [field, meta] = useField(props);
     const { name, value, onBlur, onChange } = field;
     const [inputValue, setInputValue] = useState(value);
@@ -89,7 +95,14 @@ const SelectAutoComplete = ({
                     sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
                     {...props}
                 >
-                    {option.label}
+                    <Typography variant="subtitle1">{option.label}</Typography>
+                    <Typography variant="body1">
+                        {" "}
+                        &nbsp;&nbsp;-&nbsp;&nbsp;
+                    </Typography>
+                    <Typography variant="body2" noWrap>
+                        {option.code}
+                    </Typography>
                 </Box>
             )}
             renderInput={(params) => (

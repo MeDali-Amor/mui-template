@@ -11,6 +11,7 @@ import {
     TextField,
     Tooltip,
     Typography,
+    useTheme,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddBoxIcon from "@mui/icons-material/AddBox";
@@ -104,45 +105,59 @@ const dirigSchema = yup.object({
 });
 
 const CreationSociete = () => {
+    const theme = useTheme();
+    const [sign, setSign] = useState(window.innerWidth);
+
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [alertType, setAlertType] = useState("info");
     const [msg, setMsg] = useState("");
+    // const [customValues, setcustomValues] = useState({
+    //     city: "",
+    //     siren: "",
+    //     activité:"",
+    // });
+
+    const [city, setCity] = useState("");
+    const [dirigTel, setDirigTel] = useState("");
     const [activité, setActivité] = useState("");
-    const [cityData, setCityData] = useState({
-        nom: "",
-        code: "",
-        codeDepartement: "",
-        codeRegion: "",
-        codesPostaux: [""],
-        population: 0,
-    });
+    const [sirenNo, setSirenNo] = useState("");
+    const [nationality, setNationality] = useState("");
+    // console.log(dirigTel);
+    // const [cityData, setCityData] = useState({
+    //     nom: "",
+    //     code: "",
+    //     codeDepartement: "",
+    //     codeRegion: "",
+    //     codesPostaux: [""],
+    //     population: 0,
+    // });
     const apeList = apeCodeList.map((el) => ({
         code: el.Libellé,
         label: el.Code,
     }));
-    console.log(activité);
-    // console.log(apeCodeList.map((el) => el.Code));
-    const [sirenNo, setSirenNo] = useState("");
     const handleSirenChange = (e) => {
         setSirenNo(e.target.value);
     };
     const handleAdressChange = async (e) => {
         const query = e.target.value;
-        console.log(query);
         const res = await axios.get(
             `https://geo.api.gouv.fr/communes?codePostal=${query}`
         );
-        if (res.data.length) setCityData(...res.data);
-        else
-            setCityData({
-                nom: "",
-                code: "",
-                codeDepartement: "",
-                codeRegion: "",
-                codesPostaux: [""],
-                population: 0,
-            });
+        // if (res.data.length) setCityData(...res.data);
+        const cityName = res.data[0].nom;
+        console.log(cityName);
+        if (res.data.length) setCity(cityName);
+        else setCity("");
+        // setCityData({
+        //     nom: "",
+        //     code: "",
+        //     codeDepartement: "",
+        //     codeRegion: "",
+        //     codesPostaux: [""],
+        //     population: 0,
+        // });
+
         // console.log(...res.data);
     };
     const handleSubmit = async (values) => {
@@ -211,6 +226,7 @@ const CreationSociete = () => {
                 }}
             >
                 <MultiStepForm
+                    setSign={setSign}
                     loading={loading}
                     initialValues={{
                         deno: "",
@@ -242,6 +258,8 @@ const CreationSociete = () => {
                                 paysresidence: "",
                                 typeidentite: "",
                                 villenaissance: "",
+                                dirigTelelphone: "",
+                                dirigAdresse: "",
                                 images: [{ typeidentite: "", img: null }],
                             },
                         ],
@@ -249,6 +267,7 @@ const CreationSociete = () => {
                     onSubmit={(values) => handleSubmit(values)}
                 >
                     <FormStep
+                        sign={sign}
                         stepName="Bonjour"
                         onSubmit={() => console.log("step 0")}
                         // validationSchema={validationSchema}
@@ -277,6 +296,7 @@ const CreationSociete = () => {
                         </Typography>
                     </FormStep>
                     <FormStep
+                        sign={sign}
                         stepName="Identification"
                         onSubmit={() => console.log("step 1")}
                         validationSchema={validationSchema}
@@ -326,9 +346,8 @@ const CreationSociete = () => {
                                     id="commune"
                                     name="commune"
                                     label="Ville"
-                                    customValue={
-                                        cityData?.nom ? cityData?.nom : ""
-                                    }
+                                    customValue={city ? city : ""}
+                                    setCustomValue={setCity}
                                     fullWidth
                                     autoComplete="billing address-level2"
                                 />
@@ -346,6 +365,7 @@ const CreationSociete = () => {
                     </FormStep>
 
                     <FormStep
+                        sign={sign}
                         stepName="Juridique"
                         onSubmit={() => console.log("step 2")}
                         validationSchema={yup.object({
@@ -456,6 +476,7 @@ const CreationSociete = () => {
                         </Grid>
                     </FormStep>
                     <FormStep
+                        sign={sign}
                         stepName="Activité"
                         onSubmit={() => console.log("step 3")}
                         validationSchema={yup.object({
@@ -496,6 +517,7 @@ const CreationSociete = () => {
                                         activité.length ? activité : ""
                                     }
                                     multiline
+                                    setCustomValue={setActivité}
                                     rows={4}
                                     // type="textarea"
                                     id="apetexte"
@@ -507,6 +529,7 @@ const CreationSociete = () => {
                         </Grid>
                     </FormStep>
                     <FormStep
+                        sign={sign}
                         stepName="Dirigeant"
                         onSubmit={() => console.log("step 4")}
                         // validationSchema={dirigSchema}
@@ -532,7 +555,7 @@ const CreationSociete = () => {
                                             // xs={12}
                                         >
                                             <Typography
-                                                variant="h6"
+                                                variant="h4"
                                                 gutterBottom
                                             >
                                                 Dirigeants
@@ -547,7 +570,7 @@ const CreationSociete = () => {
                                                     rowSpacing={3}
                                                     columnSpacing={6}
                                                     key={index}
-                                                    sx={{ pb: 5 }}
+                                                    // sx={{ pb: 5 }}
                                                 >
                                                     {/* <Grid item xs={12} sm={12}>
                                                     <Divider>
@@ -556,6 +579,24 @@ const CreationSociete = () => {
                                                         />
                                                     </Divider>
                                                 </Grid> */}
+                                                    <Grid
+                                                        item
+                                                        xs={12}
+                                                        sm={12}
+                                                        // rowSpacing={3}
+                                                        // columnSpacing={6}
+                                                        // container
+                                                        // sx={{ py: 1 }}
+                                                        // xs={12}
+                                                    >
+                                                        <Typography
+                                                            variant="h6"
+                                                            gutterBottom
+                                                        >
+                                                            Ajouter un nouveau
+                                                            dirigeant
+                                                        </Typography>
+                                                    </Grid>
                                                     <Grid item xs={12} sm={3}>
                                                         <SelectFeild
                                                             select
@@ -628,6 +669,17 @@ const CreationSociete = () => {
                                                             name={`dirig[${index}].paysnaissance`}
                                                             label="Pays de naissance"
                                                             fullWidth
+                                                            handleChange={(
+                                                                value
+                                                            ) =>
+                                                                value
+                                                                    ? setNationality(
+                                                                          value.label
+                                                                      )
+                                                                    : setNationality(
+                                                                          ""
+                                                                      )
+                                                            }
                                                         />
                                                     </Grid>
 
@@ -655,6 +707,9 @@ const CreationSociete = () => {
                                                             name={`dirig[${index}].nationalite`}
                                                             label="Nationalité"
                                                             fullWidth
+                                                            customValue={
+                                                                nationality
+                                                            }
                                                         />
                                                     </Grid>
                                                     <Grid item xs={12} sm={6}>
@@ -663,6 +718,39 @@ const CreationSociete = () => {
                                                             id="paysresidence"
                                                             name={`dirig[${index}].paysresidence`}
                                                             label="Pays de residence"
+                                                            fullWidth
+                                                            handleChange={(
+                                                                value
+                                                            ) =>
+                                                                value
+                                                                    ? setDirigTel(
+                                                                          `+${value.phone}`
+                                                                      )
+                                                                    : setDirigTel(
+                                                                          ""
+                                                                      )
+                                                            }
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <InputFeild
+                                                            id="dirigTelelphone"
+                                                            name={`dirig[${index}].dirigTelelphone`}
+                                                            label="Téléphone"
+                                                            fullWidth
+                                                            customValue={
+                                                                dirigTel
+                                                            }
+                                                            setCustomValue={
+                                                                setDirigTel
+                                                            }
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <InputFeild
+                                                            id="dirigAdresse"
+                                                            name={`dirig[${index}].dirigAdresse`}
+                                                            label="Adresse"
                                                             fullWidth
                                                         />
                                                     </Grid>
@@ -697,6 +785,9 @@ const CreationSociete = () => {
                                                                                 idx
                                                                             ) => (
                                                                                 <Box
+                                                                                    key={
+                                                                                        idx
+                                                                                    }
                                                                                     sx={{
                                                                                         position:
                                                                                             "relative",
@@ -713,9 +804,6 @@ const CreationSociete = () => {
                                                                                         key={
                                                                                             idx
                                                                                         }
-                                                                                        sx={{
-                                                                                            pb: 3,
-                                                                                        }}
                                                                                     >
                                                                                         <Grid
                                                                                             item
@@ -825,34 +913,50 @@ const CreationSociete = () => {
                                             ) : (
                                                 <Grid
                                                     container
-                                                    rowSpacing={3}
-                                                    columnSpacing={6}
+                                                    rowSpacing={1}
+                                                    columnSpacing={2}
                                                     key={index}
-                                                    sx={{ pb: 2, px: 5 }}
+                                                    sx={{
+                                                        mx: 1,
+                                                        my: 2,
+                                                        px: 1,
+                                                        py: 1,
+                                                        pb: 1,
+                                                        backgroundColor: "#fff",
+                                                        boxShadow:
+                                                            theme.shadows[2],
+                                                        borderRadius: 0.5,
+                                                    }}
                                                 >
-                                                    <Grid item xs={12} sm={3}>
-                                                        <Typography variant="h6">
-                                                            {el.titredirig}
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item xs={12} sm={9}>
+                                                    <Grid item xs={12} sm={4}>
                                                         <Stack
                                                             direction="row"
                                                             alignItems="center"
                                                             spacing={2}
                                                         >
-                                                            <Typography variant="body1">
+                                                            <Typography variant="body2">
                                                                 {el.detcivdir}
                                                             </Typography>
-                                                            <Typography variant="body1">
+                                                            <Typography variant="body2">
                                                                 {el.detnomdir}
                                                             </Typography>
-                                                            <Typography variant="body1">
+                                                            <Typography variant="body2">
                                                                 {
                                                                     el.detprenomdir
                                                                 }
                                                             </Typography>
                                                         </Stack>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={4}>
+                                                        <Typography
+                                                            variant="body2"
+                                                            sx={{
+                                                                fontWeight: 500,
+                                                                color: "#364a63",
+                                                            }}
+                                                        >
+                                                            {el.titredirig}
+                                                        </Typography>
                                                     </Grid>
                                                 </Grid>
                                             )
@@ -863,8 +967,10 @@ const CreationSociete = () => {
                                             sx={{
                                                 position: "absolute",
                                                 marginTop: 3,
-                                                bottom: -10,
-                                                right: 0,
+                                                bottom: -42,
+                                                right: "50%",
+                                                transform:
+                                                    "translateX(50%) translateY(100%)",
                                                 "&.MuiButton-outlinedSecondary":
                                                     {
                                                         border: "2px solid",

@@ -66,15 +66,27 @@ const AutoCompleteInputField = ({
             // error={meta.touched && Boolean(meta.error)}
             // helperText={meta.touched && meta.error}
             onChange={(e, value) => {
+                // if (value) {
+                //     setFieldValue(name, value.label);
+                //     setInputValue(value.label);
+                //     // console.log(value);
+                // } else {
+                //     setFieldValue(name, "");
+                //     setInputValue("");
                 if (value) {
                     setFieldValue(name, value.label);
                     setInputValue(value.label);
-                    // console.log(value);
+                    if (handleChange) {
+                        handleChange(value);
+                    }
                 } else {
                     setFieldValue(name, "");
                     setInputValue("");
+                    if (handleChange) {
+                        handleChange(null);
+                    }
                 }
-                // console.log({value.label});
+                // }
             }}
             // autoHighlight
             getOptionLabel={(option) => option.label || ""}

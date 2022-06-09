@@ -4,7 +4,13 @@ import React, { useState } from "react";
 import FormNavigation from "./FormNavigation";
 import { AnimatePresence, motion } from "framer-motion";
 
-const MultiStepForm = ({ children, initialValues, onSubmit, loading }) => {
+const MultiStepForm = ({
+    children,
+    initialValues,
+    onSubmit,
+    loading,
+    setSign,
+}) => {
     const [stepNumber, setStepNumber] = useState(0);
     const [snapshot, setSnapshot] = useState(initialValues);
     const steps = React.Children.toArray(children);
@@ -25,6 +31,7 @@ const MultiStepForm = ({ children, initialValues, onSubmit, loading }) => {
     const handleSubmit = async (values, actions) => {
         if (step.props.onSubmit) {
             await step.props.onSubmit(values);
+            setSign(window.innerWidth);
         }
         if (isLastStep) {
             return onSubmit(values, actions);
@@ -56,9 +63,13 @@ const MultiStepForm = ({ children, initialValues, onSubmit, loading }) => {
                             {step}
                             <FormNavigation
                                 loading={loading}
+                                setSign={setSign}
                                 isLastStep={isLastStep}
                                 hasPrevious={stepNumber > 0}
-                                onBackClick={() => previousStep(formik.values)}
+                                onBackClick={() => {
+                                    previousStep(formik.values);
+                                    setSign(-window.innerWidth);
+                                }}
                             />
                         </Form>
                     )}
@@ -70,12 +81,13 @@ const MultiStepForm = ({ children, initialValues, onSubmit, loading }) => {
 
 export default MultiStepForm;
 
-export const FormStep = ({ stepName = "", children }) => {
+export const FormStep = ({ stepName = "", children, sign }) => {
     return (
         <motion.div
-            initial={{ x: -window.innerWidth }}
+            initial={{ x: -sign }}
             animate={{ x: "0" }}
-            exit={{ x: window.innerWidth }}
+            exit={{ x: sign }}
+            transition={{ duration: 0.5 }}
         >
             {children}
         </motion.div>

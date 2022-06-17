@@ -1,12 +1,18 @@
 import { FieldArray } from "formik";
 import {
+    Autocomplete,
     Box,
     Button,
     Chip,
     Divider,
+    FormControl,
+    FormControlLabel,
+    FormLabel,
     Grid,
     IconButton,
     Paper,
+    Radio,
+    RadioGroup,
     Stack,
     TextField,
     Tooltip,
@@ -107,7 +113,8 @@ const dirigSchema = yup.object({
 const CreationSociete = () => {
     const theme = useTheme();
     const [sign, setSign] = useState(window.innerWidth);
-
+    const [isDirig, setisDirig] = useState(false);
+    const [dirigBeneficiaire, setDirigBeneficiaire] = useState(null);
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [alertType, setAlertType] = useState("info");
@@ -123,6 +130,7 @@ const CreationSociete = () => {
     const [activité, setActivité] = useState("");
     const [sirenNo, setSirenNo] = useState("");
     const [nationality, setNationality] = useState("");
+    const [benefOptions, setBenefOptions] = useState([]);
     // console.log(dirigTel);
     // const [cityData, setCityData] = useState({
     //     nom: "",
@@ -161,53 +169,42 @@ const CreationSociete = () => {
         // console.log(...res.data);
     };
     const handleSubmit = async (values) => {
-        // console.log(values);
-        const formData = new FormData();
-        values.dirig.forEach((el, index) => {
-            if (el.images.length) {
-                // el.image.name = `${index}-${el.image.name}`;
-                el.images.forEach((img, idx) => {
-                    if (img.img) {
-                        formData.append(
-                            "image",
-                            img.img,
-                            `${index}-${idx}&${img.img.name}`
-                        );
-                    }
-                });
-            }
-        });
-        // formData.append("image", values.image);
-        // formData.append("json", values);
-        // for (const [key, value] of Object.entries(values)) {
-        //     formData.append(key, JSON.stringify(value));
+        console.log(values);
+        // const formData = new FormData();
+        // values.dirig.forEach((el, index) => {
+        //     if (el.images.length) {
+        //         el.images.forEach((img, idx) => {
+        //             if (img.img) {
+        //                 formData.append(
+        //                     "image",
+        //                     img.img,
+        //                     `${index}-${idx}&${img.img.name}`
+        //                 );
+        //             }
+        //         });
+        //     }
+        // });
+        // formData.append("body", JSON.stringify(values));
+        // try {
+        //     setLoading(true);
+        //     const res = await axios.post(
+        //         "http://localhost:8000/api/company/create",
+        //         formData
+        //     );
+        //     console.log(res.data);
+        //     setMsg(res.data.msg);
+        //     setAlertType(res.data.alert);
+        //     setOpen(true);
+        //     setLoading(false);
+        //     // console.log(formData.values);
+        // } catch (error) {
+        //     setLoading(true);
+        //     console.log(error);
+        //     setMsg("une erreur s'est produite veuillez réessayer");
+        //     setAlertType("error");
+        //     setOpen(true);
+        //     setLoading(false);
         // }
-
-        // formData.append("image", values.image);
-        formData.append("body", JSON.stringify(values));
-        // console.log(formData);
-        try {
-            setLoading(true);
-            const res = await axios.post(
-                "http://localhost:8000/api/company/create",
-                formData
-            );
-            console.log(res.data);
-            setMsg(res.data.msg);
-            setAlertType(res.data.alert);
-            setOpen(true);
-            setLoading(false);
-            // console.log(formData.values);
-        } catch (error) {
-            setLoading(true);
-
-            console.log(error);
-
-            setMsg("une erreur s'est produite veuillez réessayer");
-            setAlertType("error");
-            setOpen(true);
-            setLoading(false);
-        }
     };
     return (
         <div>
@@ -215,7 +212,7 @@ const CreationSociete = () => {
                 sx={{
                     minHeight: "calc(100vh - 170px)",
                     height: "100%",
-                    maxWidth: 900,
+                    // maxWidth: 900,
                     margin: "auto",
                     py: 2,
                     px: 16,
@@ -261,6 +258,20 @@ const CreationSociete = () => {
                                 dirigTelelphone: "",
                                 dirigAdresse: "",
                                 images: [{ typeidentite: "", img: null }],
+                            },
+                        ],
+                        beneficiaires: [
+                            {
+                                datebeneficiaire: "",
+                                nombenefi: "",
+                                prenombenefi: "",
+                                datenaissancebenefi: "",
+                                paysnaissancebenefi: "",
+                                codepostalnaissancebenefi: "",
+                                villenaissancebenefi: "",
+                                nationalitebenefi: "",
+                                paysresidencebenefi: "",
+                                dirigAdressebenefi: "",
                             },
                         ],
                     }}
@@ -1018,6 +1029,483 @@ const CreationSociete = () => {
                                             }}
                                         >
                                             Ajouter un dirigeant
+                                            {/* <BorderColorIcon fontSize="medium" /> */}
+                                        </Button>
+                                    </Box>
+                                );
+                            }}
+                        </FieldArray>
+                    </FormStep>
+                    <FormStep
+                        sign={sign}
+                        stepName="Bénéficiaires"
+                        onSubmit={() => console.log("step 4")}
+                        // validationSchema={dirigSchema}
+                    >
+                        {/* <Adddirig /> */}
+                        <FieldArray name="beneficiaires">
+                            {(fieldArrayProps) => {
+                                // console.log(fieldArrayProps);
+                                const { push, remove, form } = fieldArrayProps;
+                                const { values } = form;
+                                const { dirig, beneficiaires } = values;
+                                const options = isDirig
+                                    ? dirig.filter((el) => {
+                                          return beneficiaires.some((f) => {
+                                              return (
+                                                  f.prenombenefi !==
+                                                      el.detprenomdir &&
+                                                  f.nombenefi !== el.detnomdir
+                                              );
+                                          });
+                                      })
+                                    : [];
+                                // setBenefOptions(dirig);
+                                return (
+                                    <Box
+                                        sx={{
+                                            position: "relative",
+                                        }}
+                                    >
+                                        <Grid
+                                            // rowSpacing={3}
+                                            // columnSpacing={6}
+                                            // container
+                                            sx={{ py: 3 }}
+                                            // xs={12}
+                                        >
+                                            <Typography
+                                                variant="h4"
+                                                gutterBottom
+                                            >
+                                                Bénéficiaires Effectifs
+                                            </Typography>
+                                        </Grid>
+                                        {/* {dirig && dirig.length > 0 */}
+                                        {/* ?  */}
+                                        {beneficiaires.map((el, index) =>
+                                            index ===
+                                            beneficiaires.length - 1 ? (
+                                                <Grid
+                                                    container
+                                                    rowSpacing={3}
+                                                    columnSpacing={6}
+                                                    key={index}
+                                                    // sx={{ pb: 5 }}
+                                                >
+                                                    <Grid item xs={12} sm={12}>
+                                                        <Typography
+                                                            variant="h6"
+                                                            gutterBottom
+                                                        >
+                                                            Ajouter un
+                                                            bénéficiare effectif
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={12}>
+                                                        <InputFeild
+                                                            InputLabelProps={{
+                                                                shrink: true,
+                                                            }}
+                                                            id="datebeneficiaire"
+                                                            name={`beneficiaires[${index}].datebeneficiaire`}
+                                                            label="Date à la quelle est devenue bénéficiaire effectif"
+                                                            type="date"
+                                                            fullWidth
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <FormControl>
+                                                            {/* <Grid
+                                                                container
+                                                                rowSpacing={3}
+                                                                columnSpacing={
+                                                                    6
+                                                                }
+                                                                key={index}
+                                                                // sx={{ pb: 5 }}
+                                                            >
+                                                                <Grid
+                                                                    item
+                                                                    xs={12}
+                                                                    sm={6}
+                                                                > */}
+                                                            <FormLabel id="demo-controlled-radio-buttons-group">
+                                                                Le bénéficiare
+                                                                effectif est
+                                                            </FormLabel>
+                                                            {/* </Grid>
+                                                                <Grid */}
+                                                            {/* item xs={12}
+                                                            sm={6}> */}
+                                                            <RadioGroup
+                                                                aria-labelledby="demo-controlled-radio-buttons-group"
+                                                                name="controlled-radio-buttons-group"
+                                                                value={isDirig}
+                                                                row
+                                                                onChange={(
+                                                                    e
+                                                                ) => {
+                                                                    setisDirig(
+                                                                        e.target
+                                                                            .value
+                                                                    );
+                                                                    console.log(
+                                                                        e.target
+                                                                            .value
+                                                                    );
+                                                                }}
+                                                            >
+                                                                <FormControlLabel
+                                                                    value={true}
+                                                                    control={
+                                                                        <Radio />
+                                                                    }
+                                                                    label={
+                                                                        <Typography
+                                                                            sx={{
+                                                                                fontSize: 12,
+                                                                                fontWeight: 600,
+                                                                            }}
+                                                                            variant="body2"
+                                                                        >
+                                                                            un
+                                                                            derigeant
+                                                                            actuel
+                                                                        </Typography>
+                                                                    }
+                                                                />
+                                                                <FormControlLabel
+                                                                    value={
+                                                                        false
+                                                                    }
+                                                                    control={
+                                                                        <Radio />
+                                                                    }
+                                                                    label={
+                                                                        <Typography
+                                                                            sx={{
+                                                                                fontSize: 12,
+                                                                                fontWeight: 600,
+                                                                            }}
+                                                                            variant="body2"
+                                                                        >
+                                                                            une
+                                                                            autre
+                                                                            personne
+                                                                        </Typography>
+                                                                    }
+                                                                />
+                                                            </RadioGroup>
+                                                            {/* </Grid> */}
+                                                            {/* </Grid> */}
+                                                        </FormControl>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <FormControl
+                                                            disabled={!isDirig}
+                                                        >
+                                                            <Autocomplete
+                                                                // sx={{
+                                                                //     width: "100%",
+                                                                // }}
+                                                                fullWidth
+                                                                // disabled={
+                                                                //     !isDirig
+                                                                // }
+                                                                id="dirig-select"
+                                                                options={
+                                                                    options
+                                                                }
+                                                                autoHighlight
+                                                                getOptionLabel={(
+                                                                    option
+                                                                ) =>
+                                                                    option.detnomdir
+                                                                }
+                                                                onChange={(
+                                                                    e,
+                                                                    value
+                                                                ) => {
+                                                                    setDirigBeneficiaire(
+                                                                        value
+                                                                    );
+                                                                    console.log(
+                                                                        e.target
+                                                                    );
+                                                                }}
+                                                                renderOption={(
+                                                                    props,
+                                                                    option
+                                                                ) => (
+                                                                    <Box
+                                                                        component="li"
+                                                                        {...props}
+                                                                    >
+                                                                        {
+                                                                            option.detprenomdir
+                                                                        }{" "}
+                                                                        {
+                                                                            option.detnomdir
+                                                                        }
+                                                                    </Box>
+                                                                )}
+                                                                renderInput={(
+                                                                    params
+                                                                ) => (
+                                                                    <TextField
+                                                                        {...params}
+                                                                        label=""
+                                                                        inputProps={{
+                                                                            ...params.inputProps,
+                                                                        }}
+                                                                    />
+                                                                )}
+                                                            />
+                                                        </FormControl>
+                                                    </Grid>{" "}
+                                                    <Grid item xs={12} sm={12}>
+                                                        <InputFeild
+                                                            id="nombeneficiaire"
+                                                            name={`beneficiaires[${index}].nombenefi`}
+                                                            label="Nom"
+                                                            fullWidth
+                                                            customValue={
+                                                                dirigBeneficiaire &&
+                                                                dirigBeneficiaire.detnomdir
+                                                            }
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <InputFeild
+                                                            id="prenombeneficiaire"
+                                                            name={`beneficiaires[${index}].prenombenefi`}
+                                                            label="Prénom"
+                                                            fullWidth
+                                                            customValue={
+                                                                dirigBeneficiaire &&
+                                                                dirigBeneficiaire.detprenomdir
+                                                            }
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <InputFeild
+                                                            InputLabelProps={{
+                                                                shrink: true,
+                                                            }}
+                                                            id="datenaissancebeneficiaire"
+                                                            name={`beneficiaires[${index}].datenaissancebenefi`}
+                                                            label="Date de naissance"
+                                                            type="date"
+                                                            fullWidth
+                                                            customValue={
+                                                                dirigBeneficiaire &&
+                                                                dirigBeneficiaire.datenaissance
+                                                            }
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <AutoCompleteInputField
+                                                            autoLabel="Pays"
+                                                            id="paysnaissancebeneficiaire"
+                                                            name={`beneficiaires[${index}].paysnaissancebenefi`}
+                                                            label="Pays de naissance"
+                                                            fullWidth
+                                                            // handleChange={(
+                                                            //     value
+                                                            // ) =>
+                                                            //     value
+                                                            //         ? setNationality(
+                                                            //               value.label
+                                                            //           )
+                                                            //         : setNationality(
+                                                            //               ""
+                                                            //           )
+                                                            // }
+                                                            customValue={
+                                                                dirigBeneficiaire &&
+                                                                dirigBeneficiaire.paysnaissance
+                                                            }
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <InputFeild
+                                                            id="codepostalnaissancebeneficiaire"
+                                                            name={`beneficiaires[${index}].codepostalnaissancebenefi`}
+                                                            label="Code postal de naissance"
+                                                            fullWidth
+                                                            customValue={
+                                                                dirigBeneficiaire &&
+                                                                dirigBeneficiaire.codepostalnaissance
+                                                            }
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <InputFeild
+                                                            id="villenaissancebeneficiaire"
+                                                            name={`beneficiaires[${index}].villenaissancebenefi`}
+                                                            label="Ville de naissance"
+                                                            fullWidth
+                                                            customValue={
+                                                                dirigBeneficiaire &&
+                                                                dirigBeneficiaire.villenaissance
+                                                            }
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <AutoCompleteInputField
+                                                            autoLabel="Pays"
+                                                            id="nationalitebeneficiaire"
+                                                            name={`beneficiaires[${index}].nationalitebenefi`}
+                                                            label="Nationalité"
+                                                            fullWidth
+                                                            customValue={
+                                                                dirigBeneficiaire &&
+                                                                dirigBeneficiaire.nationalite
+                                                            }
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <AutoCompleteInputField
+                                                            autoLabel="Pays"
+                                                            id="paysresidencebeneficiaire"
+                                                            name={`beneficiaires[${index}].paysresidencebenefi`}
+                                                            label="Pays de residence"
+                                                            fullWidth
+                                                            customValue={
+                                                                dirigBeneficiaire &&
+                                                                dirigBeneficiaire.paysresidence
+                                                            }
+                                                            // handleChange={(
+                                                            //     value
+                                                            // ) =>
+                                                            //     value
+                                                            //         ? setDirigTel(
+                                                            //               `+${value.phone}`
+                                                            //           )
+                                                            //         : setDirigTel(
+                                                            //               ""
+                                                            //           )
+                                                            // }
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <InputFeild
+                                                            id="adressebeneficiaire"
+                                                            name={`beneficiaires[${index}].dirigAdressebenefi`}
+                                                            label="Adresse"
+                                                            fullWidth
+                                                            customValue={
+                                                                dirigBeneficiaire &&
+                                                                dirigBeneficiaire.dirigAdresse
+                                                            }
+                                                        />
+                                                    </Grid>
+                                                </Grid>
+                                            ) : (
+                                                <Grid
+                                                    container
+                                                    rowSpacing={1}
+                                                    columnSpacing={2}
+                                                    key={index}
+                                                    sx={{
+                                                        mx: 1,
+                                                        my: 2,
+                                                        px: 1,
+                                                        py: 1,
+                                                        pb: 1,
+                                                        backgroundColor: "#fff",
+                                                        boxShadow:
+                                                            theme.shadows[2],
+                                                        borderRadius: 0.5,
+                                                    }}
+                                                >
+                                                    <Grid item xs={12} sm={4}>
+                                                        <Stack
+                                                            direction="row"
+                                                            alignItems="center"
+                                                            spacing={2}
+                                                        >
+                                                            <Typography variant="body2">
+                                                                {
+                                                                    el.prenombenefi
+                                                                }
+                                                            </Typography>
+                                                            <Typography variant="body2">
+                                                                {el.nombenefi}
+                                                            </Typography>
+                                                        </Stack>
+                                                    </Grid>
+                                                </Grid>
+                                            )
+                                        )}
+
+                                        <Button
+                                            size="large"
+                                            sx={{
+                                                position: "absolute",
+                                                marginTop: 3,
+                                                bottom: -42,
+                                                right: "50%",
+                                                transform:
+                                                    "translateX(50%) translateY(100%)",
+                                                "&.MuiButton-outlinedSecondary":
+                                                    {
+                                                        border: "2px solid",
+                                                    },
+                                            }}
+                                            disabled={
+                                                !beneficiaires[
+                                                    beneficiaires.length - 1
+                                                ].nombenefi ||
+                                                !beneficiaires[
+                                                    beneficiaires.length - 1
+                                                ].prenombenefi
+                                            }
+                                            variant="outlined"
+                                            color="secondary"
+                                            onClick={() => {
+                                                if (
+                                                    beneficiaires[
+                                                        beneficiaires.length - 1
+                                                    ].nombenefi &&
+                                                    beneficiaires[
+                                                        beneficiaires.length - 1
+                                                    ].prenombenefi
+                                                ) {
+                                                    if (dirigBeneficiaire) {
+                                                        const current =
+                                                            benefOptions.filter(
+                                                                (el) =>
+                                                                    el !==
+                                                                    dirigBeneficiaire
+                                                            );
+                                                        setBenefOptions(
+                                                            current
+                                                        );
+                                                    }
+                                                    console.log(beneficiaires);
+                                                    setisDirig(false);
+                                                    setDirigBeneficiaire(null);
+                                                    push({
+                                                        datebeneficiaire: "",
+                                                        nombenefi: "",
+                                                        prenombenefi: "",
+                                                        datenaissancebenefi: "",
+                                                        paysnaissancebenefi: "",
+                                                        codepostalnaissancebenefi:
+                                                            "",
+                                                        villenaissancebenefi:
+                                                            "",
+                                                        nationalitebenefi: "",
+                                                        paysresidencebenefi: "",
+                                                        dirigAdressebenefi: "",
+                                                    });
+                                                }
+                                                return;
+                                            }}
+                                        >
+                                            Ajouter un bénéficiaire
                                             {/* <BorderColorIcon fontSize="medium" /> */}
                                         </Button>
                                     </Box>

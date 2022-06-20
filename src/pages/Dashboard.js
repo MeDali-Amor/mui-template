@@ -1,143 +1,153 @@
-import { Button, Grid, Paper, styled } from "@mui/material";
+import {
+    Autocomplete,
+    Box,
+    Button,
+    FormControl,
+    FormControlLabel,
+    FormLabel,
+    Grid,
+    Paper,
+    Radio,
+    RadioGroup,
+    styled,
+    TextField,
+    Typography,
+} from "@mui/material";
+import { useState } from "react";
 
-const Item = styled("div")(({ theme }) => ({
-    // backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    // ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    // color: theme.palette.text.secondary,
-}));
+// const Item = styled("div")(({ theme }) => ({
+//     // backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+//     // ...theme.typography.body2,
+//     padding: theme.spacing(1),
+//     textAlign: "center",
+//     // color: theme.palette.text.secondary,
+// }));
 
 const Dashboard = () => {
+    const [isDirig, setIsDirig] = useState("yes");
+    const options = ["1", "2", "3", "4", "5"];
     return (
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-            <Grid item xs={4}>
-                <Item>
-                    <Button variant="contained">primary</Button>
-                </Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item>
-                    <Button variant="outlined">primary</Button>
-                </Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item>
-                    {" "}
-                    <Button variant="text">primary</Button>
-                </Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item>
-                    <Button variant="contained" color="secondary">
-                        secondary
-                    </Button>
-                </Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item>
-                    <Button variant="outlined" color="secondary">
-                        secondary
-                    </Button>
-                </Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item>
-                    {" "}
-                    <Button variant="text" color="secondary">
-                        secondary
-                    </Button>
-                </Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item>
-                    <Button variant="contained" color="info">
-                        info
-                    </Button>
-                </Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item>
-                    <Button variant="outlined" color="info">
-                        info
-                    </Button>
-                </Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item>
-                    {" "}
-                    <Button variant="text" color="info">
-                        info
-                    </Button>
-                </Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item>
-                    <Button variant="contained" color="success">
-                        success
-                    </Button>
-                </Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item>
-                    <Button variant="outlined" color="success">
-                        success
-                    </Button>
-                </Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item>
-                    {" "}
-                    <Button variant="text" color="success">
-                        success
-                    </Button>
-                </Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item>
-                    <Button variant="contained" color="warning">
-                        warning
-                    </Button>
-                </Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item>
-                    <Button variant="outlined" color="warning">
-                        warning
-                    </Button>
-                </Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item>
-                    {" "}
-                    <Button variant="text" color="warning">
-                        warning
-                    </Button>
-                </Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item>
-                    <Button variant="contained" color="error">
-                        error
-                    </Button>
-                </Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item>
-                    <Button variant="outlined" color="error">
-                        error
-                    </Button>
-                </Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item>
-                    {" "}
-                    <Button variant="text" color="error">
-                        error
-                    </Button>
-                </Item>
-            </Grid>
-        </Grid>
+        <>
+            {/* <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}> */}
+            {/* <Grid item xs={12} sm={6}> */}
+            <FormControl>
+                {/* <Grid
+                                                                container
+                                                                rowSpacing={3}
+                                                                columnSpacing={
+                                                                    6
+                                                                }
+                                                                key={index}
+                                                                // sx={{ pb: 5 }}
+                                                            >
+                                                                <Grid
+                                                                    item
+                                                                    xs={12}
+                                                                    sm={6}
+                                                                > */}
+                <FormLabel id="demo-controlled-radio-buttons-group">
+                    Le bénéficiare effectif est
+                </FormLabel>
+                {/* </Grid>
+                                                                <Grid */}
+                {/* item xs={12}
+                                                            sm={6}> */}
+                <RadioGroup
+                    aria-labelledby="demo-controlled-radio-buttons-group"
+                    name="controlled-radio-buttons-group"
+                    value={isDirig}
+                    row
+                    onChange={(e) => {
+                        setIsDirig(e.target.value);
+                    }}
+                >
+                    <FormControlLabel
+                        value={"yes"}
+                        control={<Radio />}
+                        label={
+                            <Typography
+                                sx={{
+                                    fontSize: 12,
+                                    fontWeight: 600,
+                                }}
+                                variant="body2"
+                            >
+                                un derigeant actuel
+                            </Typography>
+                        }
+                    />
+                    <FormControlLabel
+                        value={"no"}
+                        control={<Radio />}
+                        label={
+                            <Typography
+                                sx={{
+                                    fontSize: 12,
+                                    fontWeight: 600,
+                                }}
+                                variant="body2"
+                            >
+                                une autre personne
+                            </Typography>
+                        }
+                    />
+                </RadioGroup>
+                {/* </Grid> */}
+                {/* </Grid> */}
+            </FormControl>
+            {isDirig}
+            {/* </Grid> */}
+            {/* <Grid item xs={12} sm={6}> */}
+            {isDirig === "yes" ? (
+                <Autocomplete
+                    fullWidth
+                    // disabled={!isDirig}
+                    id="dirig-select"
+                    options={options}
+                    autoHighlight
+                    getOptionLabel={(option) => option}
+                    renderOption={(props, option) => (
+                        <Box component="li" {...props}>
+                            {option}
+                        </Box>
+                    )}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label=""
+                            inputProps={{
+                                ...params.inputProps,
+                            }}
+                        />
+                    )}
+                />
+            ) : (
+                <Autocomplete
+                    fullWidth
+                    disabled={true}
+                    id="dirig-select"
+                    options={options}
+                    autoHighlight
+                    getOptionLabel={(option) => option}
+                    renderOption={(props, option) => (
+                        <Box component="li" {...props}>
+                            {option}
+                        </Box>
+                    )}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label=""
+                            inputProps={{
+                                ...params.inputProps,
+                            }}
+                        />
+                    )}
+                />
+            )}
+            {/* </Grid> */}
+            {/* </Grid> */}
+        </>
     );
 };
 

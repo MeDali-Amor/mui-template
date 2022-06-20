@@ -27,7 +27,7 @@ import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import * as yup from "yup";
 import InputFeild from "../../components/InputFeild";
 import MultiStepForm, { FormStep } from "../../components/MultiStepForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import CustomizedSnackbar from "../../components/Sbackbar";
 import SelectFeild from "../../components/SelectFeild";
@@ -36,6 +36,7 @@ import FileUploadInputField from "../../components/FileUploadInputField";
 import { apeCodeList } from "../../constantes/apeCodeData";
 import SelectAutoComplete from "../../components/SelectAutoComplete";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import CheckBoxField from "../../components/CheckBoxField";
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 const validationSchema = yup.object({
     deno: yup.string().required("Ce champ est requis"),
@@ -112,8 +113,14 @@ const dirigSchema = yup.object({
 
 const CreationSociete = () => {
     const theme = useTheme();
+    const [capitalPlus25, setCapitalPlus25] = useState(false);
+    const [detentionCapDirect, setDetentionCapDirect] = useState(false);
+    const [directePleinePropriete, setDirectePleinePropriete] = useState("");
+    const [directeNuePropriete, setDirecteNuePropriete] = useState("");
+    // console.log(directePleinePropriete, directeNuePropriete);
+
     const [sign, setSign] = useState(window.innerWidth);
-    const [isDirig, setisDirig] = useState(false);
+    const [isDirig, setisDirig] = useState("no");
     const [dirigBeneficiaire, setDirigBeneficiaire] = useState(null);
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -206,6 +213,15 @@ const CreationSociete = () => {
         //     setLoading(false);
         // }
     };
+    useEffect(() => {
+        if (capitalPlus25 === false) setDetentionCapDirect(false);
+    }, [capitalPlus25]);
+    useEffect(() => {
+        if (detentionCapDirect === false) {
+            setDirecteNuePropriete("");
+            setDirectePleinePropriete("");
+        }
+    }, [detentionCapDirect]);
     return (
         <div>
             <Box
@@ -272,6 +288,19 @@ const CreationSociete = () => {
                                 nationalitebenefi: "",
                                 paysresidencebenefi: "",
                                 dirigAdressebenefi: "",
+                                detentionCapital: {
+                                    detentionplus25Capital: false,
+                                    detentionCapitalDirect: {
+                                        detentionCapitalDirectBoolean: false,
+                                        directepleinepropriete: "",
+                                        directenuepropriete: "",
+                                    },
+                                    detentionCapitalIndirect: {
+                                        detentionCapitalIndirectBoolean: false,
+                                        indirectepleinepropriete: "",
+                                        indirectenuepropriete: "",
+                                    },
+                                },
                             },
                         ],
                     }}
@@ -1049,17 +1078,17 @@ const CreationSociete = () => {
                                 const { push, remove, form } = fieldArrayProps;
                                 const { values } = form;
                                 const { dirig, beneficiaires } = values;
-                                const options = isDirig
-                                    ? dirig.filter((el) => {
-                                          return beneficiaires.some((f) => {
-                                              return (
-                                                  f.prenombenefi !==
-                                                      el.detprenomdir &&
-                                                  f.nombenefi !== el.detnomdir
-                                              );
-                                          });
-                                      })
-                                    : [];
+                                // const options = isDirig
+                                //     ? dirig.filter((el) => {
+                                //           return beneficiaires.some((f) => {
+                                //               return (
+                                //                   f.prenombenefi !==
+                                //                       el.detprenomdir &&
+                                //                   f.nombenefi !== el.detnomdir
+                                //               );
+                                //           });
+                                //       })
+                                //     : [];
                                 // setBenefOptions(dirig);
                                 return (
                                     <Box
@@ -1150,14 +1179,12 @@ const CreationSociete = () => {
                                                                         e.target
                                                                             .value
                                                                     );
-                                                                    console.log(
-                                                                        e.target
-                                                                            .value
-                                                                    );
                                                                 }}
                                                             >
                                                                 <FormControlLabel
-                                                                    value={true}
+                                                                    value={
+                                                                        "yes"
+                                                                    }
                                                                     control={
                                                                         <Radio />
                                                                     }
@@ -1176,9 +1203,7 @@ const CreationSociete = () => {
                                                                     }
                                                                 />
                                                                 <FormControlLabel
-                                                                    value={
-                                                                        false
-                                                                    }
+                                                                    value={"no"}
                                                                     control={
                                                                         <Radio />
                                                                     }
@@ -1202,54 +1227,71 @@ const CreationSociete = () => {
                                                         </FormControl>
                                                     </Grid>
                                                     <Grid item xs={12} sm={6}>
-                                                        <FormControl
-                                                            disabled={!isDirig}
-                                                        >
+                                                        {/* {isDirig == ? ( */}
+                                                        <Autocomplete
+                                                            // sx={{
+                                                            //     width: "100%",
+                                                            // }}
+                                                            fullWidth
+                                                            disabled={
+                                                                isDirig === "no"
+                                                            }
+                                                            id="dirig-select"
+                                                            options={dirig}
+                                                            autoHighlight
+                                                            getOptionLabel={(
+                                                                option
+                                                            ) =>
+                                                                option.detnomdir
+                                                            }
+                                                            onChange={(
+                                                                e,
+                                                                value
+                                                            ) => {
+                                                                setDirigBeneficiaire(
+                                                                    value
+                                                                );
+                                                                // console.log(
+                                                                //     e.target
+                                                                // );
+                                                            }}
+                                                            renderOption={(
+                                                                props,
+                                                                option
+                                                            ) => (
+                                                                <Box
+                                                                    component="li"
+                                                                    {...props}
+                                                                >
+                                                                    {
+                                                                        option.detprenomdir
+                                                                    }{" "}
+                                                                    {
+                                                                        option.detnomdir
+                                                                    }
+                                                                </Box>
+                                                            )}
+                                                            renderInput={(
+                                                                params
+                                                            ) => (
+                                                                <TextField
+                                                                    {...params}
+                                                                    label=""
+                                                                    inputProps={{
+                                                                        ...params.inputProps,
+                                                                    }}
+                                                                />
+                                                            )}
+                                                        />
+                                                        {/* ) : (
                                                             <Autocomplete
-                                                                // sx={{
-                                                                //     width: "100%",
-                                                                // }}
                                                                 fullWidth
-                                                                // disabled={
-                                                                //     !isDirig
-                                                                // }
-                                                                id="dirig-select"
-                                                                options={
-                                                                    options
-                                                                }
+                                                                disabled
+                                                                options={[]}
                                                                 autoHighlight
                                                                 getOptionLabel={(
                                                                     option
-                                                                ) =>
-                                                                    option.detnomdir
-                                                                }
-                                                                onChange={(
-                                                                    e,
-                                                                    value
-                                                                ) => {
-                                                                    setDirigBeneficiaire(
-                                                                        value
-                                                                    );
-                                                                    console.log(
-                                                                        e.target
-                                                                    );
-                                                                }}
-                                                                renderOption={(
-                                                                    props,
-                                                                    option
-                                                                ) => (
-                                                                    <Box
-                                                                        component="li"
-                                                                        {...props}
-                                                                    >
-                                                                        {
-                                                                            option.detprenomdir
-                                                                        }{" "}
-                                                                        {
-                                                                            option.detnomdir
-                                                                        }
-                                                                    </Box>
-                                                                )}
+                                                                ) => option}
                                                                 renderInput={(
                                                                     params
                                                                 ) => (
@@ -1262,8 +1304,8 @@ const CreationSociete = () => {
                                                                     />
                                                                 )}
                                                             />
-                                                        </FormControl>
-                                                    </Grid>{" "}
+                                                        )} */}
+                                                    </Grid>
                                                     <Grid item xs={12} sm={12}>
                                                         <InputFeild
                                                             id="nombeneficiaire"
@@ -1401,6 +1443,130 @@ const CreationSociete = () => {
                                                             }
                                                         />
                                                     </Grid>
+                                                    {/* <Grid item xs={12} sm={12}>
+                                                        <CheckBoxField
+                                                            // id="initi"
+                                                            name={`beneficiaires[${index}].detentionCapital.detentionplus25Capital`}
+                                                            label="Detention de plus de 25% du capital"
+                                                            // fullWidth
+                                                            callbackSetter={
+                                                                setCapitalPlus25
+                                                            }
+                                                        />
+                                                    </Grid> */}
+                                                    {/* {capitalPlus25 && (
+                                                        <Box mx={10} p>
+                                                            <Grid
+                                                                item
+                                                                xs={12}
+                                                                sm={12}
+                                                            >
+                                                                <CheckBoxField
+                                                                    // id="initi"
+                                                                    name={`beneficiaires[${index}].detentionCapital.detentionCapitalDirect.detentionCapitalDirectBoolean`}
+                                                                    label="Detention directe (pourcentage)"
+                                                                    // fullWidth
+                                                                    callbackSetter={
+                                                                        setDetentionCapDirect
+                                                                    }
+                                                                    customValue={
+                                                                        detentionCapDirect
+                                                                    }
+                                                                    setCustomValue={
+                                                                        setDetentionCapDirect
+                                                                    }
+                                                                />
+                                                            </Grid>
+                                                            {detentionCapDirect && (
+                                                                <Grid
+                                                                    container
+                                                                    rowSpacing={
+                                                                        1
+                                                                    }
+                                                                    columnSpacing={
+                                                                        5
+                                                                    }
+                                                                    m={1}
+                                                                    // xs={12}
+                                                                >
+                                                                    <Grid
+                                                                        item
+                                                                        xs={12}
+                                                                        sm={2}
+                                                                        sx={{
+                                                                            display:
+                                                                                "flex",
+                                                                            alignItems:
+                                                                                "center",
+                                                                        }}
+                                                                    >
+                                                                        <Typography>
+                                                                            dont
+                                                                            :
+                                                                        </Typography>
+                                                                    </Grid>
+                                                                    <Grid
+                                                                        item
+                                                                        xs={12}
+                                                                        sm={5}
+                                                                    >
+                                                                        <Stack
+                                                                            direction="row"
+                                                                            alignItems="center"
+                                                                            spacing={
+                                                                                1
+                                                                            }
+                                                                        >
+                                                                            <InputFeild
+                                                                                // id="adressebeneficiaire"
+                                                                                name={`beneficiaires[${index}].detentionCapital.detentionCapitalDirect.directepleinepropriete`}
+                                                                                label="Pleine propriete"
+                                                                                fullWidth
+                                                                                customValue={
+                                                                                    directePleinePropriete
+                                                                                }
+                                                                                setCustomValue={
+                                                                                    setDirectePleinePropriete
+                                                                                }
+                                                                            />
+                                                                            <Typography>
+                                                                                %
+                                                                            </Typography>
+                                                                        </Stack>
+                                                                    </Grid>
+                                                                    <Grid
+                                                                        item
+                                                                        xs={12}
+                                                                        sm={5}
+                                                                    >
+                                                                        <Stack
+                                                                            direction="row"
+                                                                            alignItems="center"
+                                                                            spacing={
+                                                                                1
+                                                                            }
+                                                                        >
+                                                                            <InputFeild
+                                                                                // id="adressebeneficiaire"
+                                                                                name={`beneficiaires[${index}].detentionCapital.detentionCapitalDirect.directenuepropriete`}
+                                                                                label="Nue-propriete"
+                                                                                fullWidth
+                                                                                customValue={
+                                                                                    directeNuePropriete
+                                                                                }
+                                                                                setCustomValue={
+                                                                                    setDirecteNuePropriete
+                                                                                }
+                                                                            />
+                                                                            <Typography>
+                                                                                %
+                                                                            </Typography>
+                                                                        </Stack>
+                                                                    </Grid>
+                                                                </Grid>
+                                                            )}
+                                                        </Box>
+                                                    )} */}
                                                 </Grid>
                                             ) : (
                                                 <Grid
@@ -1485,7 +1651,7 @@ const CreationSociete = () => {
                                                         );
                                                     }
                                                     console.log(beneficiaires);
-                                                    setisDirig(false);
+                                                    setisDirig("no");
                                                     setDirigBeneficiaire(null);
                                                     push({
                                                         datebeneficiaire: "",

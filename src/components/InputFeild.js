@@ -59,7 +59,8 @@ const InputFeild = ({
             onChange={(e) => {
                 onChange(e);
                 setCustomValue &&
-                    customValue &&
+                    customValue !== null &&
+                    customValue !== undefined &&
                     setCustomValue(e.currentTarget.value);
                 if (handleChange) {
                     handleChange(e);

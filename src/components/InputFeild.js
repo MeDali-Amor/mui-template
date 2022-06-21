@@ -35,6 +35,7 @@ const InputFeild = ({
     handleChange,
     customValue,
     setCustomValue,
+    getCurrentValue,
     ...props
 }) => {
     const { setFieldValue } = useFormikContext();
@@ -44,8 +45,9 @@ const InputFeild = ({
     useEffect(() => {
         if (customValue === null || customValue === undefined) return;
         setFieldValue(name, customValue);
-        console.log(customValue);
+        // console.log(customValue);
     }, [customValue]);
+
     return (
         <StyledTextField
             label={label}

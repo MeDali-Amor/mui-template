@@ -21,6 +21,10 @@ const RadioButtonGroup = ({
     const { setFieldValue } = useFormikContext();
     const [field, meta] = useField(props);
     const { name, value, onBlur, onChange } = field;
+    useEffect(() => {
+        setFieldValue(condition);
+        // console.log(value);
+    }, []);
     return (
         <FormControl>
             {/* <Grid
@@ -48,11 +52,14 @@ const RadioButtonGroup = ({
                 row
                 onChange={(e) => {
                     onChange(e);
+                    // setFieldValue(e.currentTarget.value);
                     setCondition(e.target.value);
+                    // console.log(value);
                 }}
+                // onChange={onChange}
             >
                 <FormControlLabel
-                    value={"yes"}
+                    value="yes"
                     control={<Radio />}
                     label={
                         <Typography
@@ -67,7 +74,7 @@ const RadioButtonGroup = ({
                     }
                 />
                 <FormControlLabel
-                    value={"no"}
+                    value="no"
                     control={<Radio />}
                     label={
                         <Typography

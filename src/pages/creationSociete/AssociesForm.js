@@ -5,10 +5,12 @@ import {
     FormControlLabel,
     FormLabel,
     Grid,
+    IconButton,
     Radio,
     RadioGroup,
     Stack,
     TextField,
+    Tooltip,
     Typography,
     useTheme,
 } from "@mui/material";
@@ -18,6 +20,7 @@ import React, { useEffect, useState } from "react";
 import AutoCompleteInputField from "../../components/AutoCompleteInputField";
 import InputFeild from "../../components/InputFeild";
 import RadioButtonGroup from "../../components/RadioButtonGroup";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
 const AssociesForm = ({
     isDirig,
@@ -104,7 +107,7 @@ const AssociesForm = ({
                                     customValue={montantCap}
                                     setCustomValue={setMontantCap}
                                 />
-                                <InputFeild
+                                {/* <InputFeild
                                     // type="hidden"
                                     id="cappercent"
                                     name="restcapital"
@@ -114,7 +117,7 @@ const AssociesForm = ({
                                     fullWidth
                                     customValue={pourcentageCapital}
                                     // setCustomValue={setMontantCap}
-                                />
+                                /> */}
                             </Grid>
                         </Grid>
                         {/* {dirig && dirig.length > 0 */}
@@ -135,7 +138,7 @@ const AssociesForm = ({
                                     </Grid>
                                     <Grid item xs={12} sm={12}>
                                         <RadioButtonGroup
-                                            name={`beneficiaires[${index}].isPerson`}
+                                            name={`beneficiaires[${index}].person`}
                                             label=" L'associé est"
                                             label1="une personne physique"
                                             label2="une personne morale"
@@ -536,28 +539,65 @@ const AssociesForm = ({
                                     key={index}
                                     sx={{
                                         mx: 1,
-                                        my: 2,
+                                        my: 0.1,
                                         px: 1,
                                         py: 1,
                                         pb: 1,
                                         backgroundColor: "#fff",
                                         boxShadow: theme.shadows[2],
-                                        borderRadius: 0.5,
+                                        borderRadius: 0.3,
                                     }}
                                 >
-                                    <Grid item xs={12} sm={4}>
-                                        <Stack
-                                            direction="row"
-                                            alignItems="center"
-                                            spacing={2}
-                                        >
-                                            <Typography variant="body2">
-                                                {el.prenombenefi}
-                                            </Typography>
-                                            <Typography variant="body2">
-                                                {el.nombenefi}
-                                            </Typography>
-                                        </Stack>
+                                    <Grid item xs={12} sm={2}>
+                                        <Typography variant="body2">
+                                            {el.person === "yes"
+                                                ? el.prenombenefi
+                                                : el.raisonsociale}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={12} sm={2}>
+                                        <Typography variant="body2">
+                                            {el.person === "yes"
+                                                ? el.nombenefi
+                                                : el.siren}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={12} sm={2}>
+                                        <Typography variant="body2">
+                                            {el.person === "yes"
+                                                ? "Personne Physique"
+                                                : "Personne Morale"}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={12} sm={2}>
+                                        <Typography variant="body2">
+                                            {`${el.detentioncapital}% du capital`}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={12} sm={2}>
+                                        <Typography variant="body2">
+                                            {`${el.detentionvote}% du droit de vote`}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={12} sm={1}>
+                                        <Tooltip title="Supprimer dirigeant">
+                                            <IconButton
+                                                // sx={{
+                                                //     position:
+                                                //         "absolute",
+                                                //     top: "25%",
+                                                //     right: -40,
+                                                //     transform:
+                                                //         "translateY(-50%)",
+                                                // }}
+                                                color="error"
+                                                ria-label="delete"
+                                                size="small"
+                                                onClick={() => remove(index)}
+                                            >
+                                                <DeleteOutlineOutlinedIcon />
+                                            </IconButton>
+                                        </Tooltip>
                                     </Grid>
                                 </Grid>
                             )
@@ -581,6 +621,25 @@ const AssociesForm = ({
                                           .nombenefi ||
                                       !beneficiaires[beneficiaires.length - 1]
                                           .prenombenefi ||
+                                      !beneficiaires[beneficiaires.length - 1]
+                                          .detentioncapital ||
+                                      !beneficiaires[beneficiaires.length - 1]
+                                          .detentionvote ||
+                                      Number(
+                                          beneficiaires[
+                                              beneficiaires.length - 1
+                                          ].detentioncapital
+                                      ) < 0 ||
+                                      Number(
+                                          beneficiaires[
+                                              beneficiaires.length - 1
+                                          ].detentioncapital
+                                      ) > pourcentageCapital
+                                    : isPerson === "no"
+                                    ? !beneficiaires[beneficiaires.length - 1]
+                                          .raisonsociale ||
+                                      !beneficiaires[beneficiaires.length - 1]
+                                          .siren ||
                                       Number(
                                           beneficiaires[
                                               beneficiaires.length - 1
@@ -595,30 +654,7 @@ const AssociesForm = ({
                                               beneficiaires.length - 1
                                           ].detentioncapital
                                       ) > pourcentageCapital
-                                    : !beneficiaires[beneficiaires.length - 1]
-                                          .raisonsociale ||
-                                      !beneficiaires[beneficiaires.length - 1]
-                                          .siren ||
-                                      Number(
-                                          beneficiaires[
-                                              beneficiaires.length - 1
-                                          ].detentioncapital
-                                      ) < 0 ||
-                                      Number(
-                                          beneficiaires[
-                                              beneficiaires.length - 1
-                                          ].detentioncapital
-                                      ) > pourcentageCapital ||
-                                      Number(
-                                          beneficiaires[
-                                              beneficiaires.length - 1
-                                          ].detentionvote
-                                      ) < 0 ||
-                                      Number(
-                                          beneficiaires[
-                                              beneficiaires.length - 1
-                                          ].detentionvote
-                                      ) > pourcentageVote
+                                    : false
                             }
                             variant="outlined"
                             color="secondary"
@@ -657,22 +693,27 @@ const AssociesForm = ({
                                         //     setBenefOptions(current);
                                         // }
                                         const currentVote =
-                                            pourcentageVote -
-                                            beneficiaires[
-                                                beneficiaires.length - 1
-                                            ].detentionvote;
+                                            Number(pourcentageVote) -
+                                            Number(
+                                                beneficiaires[
+                                                    beneficiaires.length - 1
+                                                ].detentionvote
+                                            );
                                         const currentCap =
-                                            pourcentageCapital -
-                                            beneficiaires[
-                                                beneficiaires.length - 1
-                                            ].detentioncapital;
+                                            Number(pourcentageCapital) -
+                                            Number(
+                                                beneficiaires[
+                                                    beneficiaires.length - 1
+                                                ].detentioncapital
+                                            );
                                         setpourcentageCapital(currentCap);
                                         setpourcentageVote(currentVote);
-
-                                        // console.log(beneficiaires);
+                                        // setIsPerson("yes");
                                         setisDirig("no");
+                                        // console.log(beneficiaires);
                                         setDirigBeneficiaire(null);
                                         push({
+                                            person: "yes",
                                             datebeneficiaire: "",
                                             nombenefi: "",
                                             prenombenefi: "",
@@ -683,17 +724,29 @@ const AssociesForm = ({
                                             nationalitebenefi: "",
                                             paysresidencebenefi: "",
                                             dirigAdressebenefi: "",
-                                            detentioncapital: "",
-                                            detentionvote: "",
-                                            // raisonsociale: "",
-                                            // siren: "",
-                                            // adresse: "",
-                                            // pays: "",
-                                            // datecreation: "",
+                                            detentioncapital:
+                                                pourcentageCapital -
+                                                Number(
+                                                    beneficiaires[
+                                                        beneficiaires.length - 1
+                                                    ].detentioncapital
+                                                ),
+                                            detentionvote:
+                                                pourcentageVote -
+                                                Number(
+                                                    beneficiaires[
+                                                        beneficiaires.length - 1
+                                                    ].detentionvote
+                                                ),
+                                            raisonsociale: "",
+                                            siren: "",
+                                            adresse: "",
+                                            pays: "",
+                                            datecreation: "",
                                         });
                                     }
-                                    return;
-                                } else {
+                                    // else console.log("error");
+                                } else if (isPerson === "no") {
                                     if (
                                         beneficiaires[beneficiaires.length - 1]
                                             .raisonsociale &&
@@ -708,7 +761,7 @@ const AssociesForm = ({
                                             beneficiaires[
                                                 beneficiaires.length - 1
                                             ].detentioncapital
-                                        ) > pourcentageCapital &&
+                                        ) < pourcentageCapital &&
                                         Number(
                                             beneficiaires[
                                                 beneficiaires.length - 1
@@ -720,42 +773,49 @@ const AssociesForm = ({
                                             ].detentionvote
                                         ) < pourcentageVote
                                     ) {
+                                        setIsPerson("yes");
                                         setisDirig("no");
                                         setDirigBeneficiaire(null);
 
                                         const currentVote =
-                                            pourcentageVote -
-                                            beneficiaires[
-                                                beneficiaires.length - 1
-                                            ].detentionvote;
+                                            Number(pourcentageVote) -
+                                            Number(
+                                                beneficiaires[
+                                                    beneficiaires.length - 1
+                                                ].detentionvote
+                                            );
                                         const currentCap =
-                                            pourcentageCapital -
-                                            beneficiaires[
-                                                beneficiaires.length - 1
-                                            ].detentioncapital;
+                                            Number(pourcentageCapital) -
+                                            Number(
+                                                beneficiaires[
+                                                    beneficiaires.length - 1
+                                                ].detentioncapital
+                                            );
                                         setpourcentageCapital(currentCap);
                                         setpourcentageVote(currentVote);
                                         push({
+                                            person: "yes",
                                             datebeneficiaire: "",
-                                            // nombenefi: "",
-                                            // prenombenefi: "",
-                                            // datenaissancebenefi: "",
-                                            // paysnaissancebenefi: "",
-                                            // codepostalnaissancebenefi: "",
-                                            // villenaissancebenefi: "",
-                                            // nationalitebenefi: "",
-                                            // paysresidencebenefi: "",
-                                            // dirigAdressebenefi: "",
+                                            nombenefi: "",
+                                            prenombenefi: "",
+                                            datenaissancebenefi: "",
+                                            paysnaissancebenefi: "",
+                                            codepostalnaissancebenefi: "",
+                                            villenaissancebenefi: "",
+                                            nationalitebenefi: "",
+                                            paysresidencebenefi: "",
+                                            dirigAdressebenefi: "",
+                                            detentioncapital: "",
+                                            detentionvote: "",
                                             raisonsociale: "",
                                             siren: "",
                                             adresse: "",
                                             pays: "",
                                             datecreation: "",
-                                            detentioncapital: "",
-                                            detentionvote: "",
                                         });
                                     }
-                                }
+                                    // else console.log("error");
+                                } else return;
                             }}
                         >
                             Ajouter un Associé

@@ -106,6 +106,7 @@ const CreationSociete = () => {
     const [loading, setLoading] = useState(false);
     const [alertType, setAlertType] = useState("info");
     const [msg, setMsg] = useState("");
+    const [errorForm, setErrorForm] = useState("");
 
     const [isDirig, setisDirig] = useState("no");
     const [isPerson, setIsPerson] = useState("yes");
@@ -162,34 +163,54 @@ const CreationSociete = () => {
         // console.log(...res.data);
     };
     const handleSubmit = async (values) => {
-        const associes = values.beneficiaires?.map((el) => {
-            if (el.isPerson === "yes")
-                return {
-                    type: "personne physique",
-                    datebeneficiaire: el.datebeneficiaire,
-                    nombenefi: el.nombenefi || "",
-                    prenombenefi: el.prenombenefi || "",
-                    datenaissancebenefi: el.datenaissancebenefi || "",
-                    paysnaissancebenefi: el.paysnaissancebenefi || "",
-                    codepostalnaissancebenefi:
-                        el.codepostalnaissancebenefi || "",
-                    villenaissancebenefi: el.villenaissancebenefi || "",
-                    nationalitebenefi: el.nationalitebenefi || "",
-                    paysresidencebenefi: el.paysresidencebenefi || "",
-                    dirigAdressebenefi: el.dirigAdressebenefi || "",
-                };
-            else
-                return {
-                    type: "personne morale",
-                    raisonsociale: el.raisonsociale || "",
-                    siren: el.siren || "",
-                    adresse: el.adresse || "",
-                    pays: el.pays || "",
-                    datebeneficiaire: el.datebeneficiaire || "",
-                    datecreation: el.datecreation || "",
-                };
-        });
-        values.beneficiaires = associes;
+        // console.log(values);
+        // setErrorForm("");
+        // let capArray = values.beneficiaires.map((el) =>
+        //     Number(el.detentioncapital)
+        // );
+        // let capitalTotal = capArray.reduce(
+        //     (previousValue, currentValue) => previousValue + currentValue
+        // );
+        // if (Number(capitalTotal) !== 100) {
+        //     setErrorForm(
+        //         "La repartition de capital doit etre egale à 100% entre touts les associés!"
+        //     );
+        //     console.log(capitalTotal, capArray);
+        // } else {
+        // setErrorForm("");
+        // let associes = values.beneficiaires?.map((el) => {
+        //     if (el.person === "yes")
+        //         return {
+        //             type: "personne physique",
+        //             datebeneficiaire: el.datebeneficiaire,
+        //             nombenefi: el.nombenefi || "",
+        //             prenombenefi: el.prenombenefi || "",
+        //             datenaissancebenefi: el.datenaissancebenefi || "",
+        //             paysnaissancebenefi: el.paysnaissancebenefi || "",
+        //             codepostalnaissancebenefi:
+        //                 el.codepostalnaissancebenefi || "",
+        //             villenaissancebenefi: el.villenaissancebenefi || "",
+        //             nationalitebenefi: el.nationalitebenefi || "",
+        //             paysresidencebenefi: el.paysresidencebenefi || "",
+        //             dirigAdressebenefi: el.dirigAdressebenefi || "",
+        //             detentioncapital: el.detentioncapital || "",
+        //             detentionvote: el.detentionvote || "",
+        //         };
+        //     else if (el.person === "no")
+        //         return {
+        //             type: "personne morale",
+        //             raisonsociale: el.raisonsociale || "",
+        //             siren: el.siren || "",
+        //             adresse: el.adresse || "",
+        //             pays: el.pays || "",
+        //             datebeneficiaire: el.datebeneficiaire || "",
+        //             datecreation: el.datecreation || "",
+        //             detentioncapital: el.detentioncapital || "",
+        //             detentionvote: el.detentionvote || "",
+        //         };
+        //     else return { ...el, person: el.person };
+        // });
+        // values.beneficiaires = associes;
         console.log(values.beneficiaires);
         // const formData = new FormData();
         // values.dirig.forEach((el, index) => {
@@ -226,6 +247,7 @@ const CreationSociete = () => {
         //     setOpen(true);
         //     setLoading(false);
         // }
+        // }
     };
 
     return (
@@ -249,7 +271,7 @@ const CreationSociete = () => {
                     loading={loading}
                     initialValues={{
                         capital: "",
-                        restcapital: 100,
+                        // restcapital: 100,
                         deno: "",
                         // commune: cityData?.nom || "",
                         commune: "",
@@ -285,33 +307,26 @@ const CreationSociete = () => {
                             },
                         ],
                         beneficiaires: [
-                            isPerson === "yes"
-                                ? {
-                                      isPerson: "yes",
-                                      datebeneficiaire: "",
-                                      nombenefi: "",
-                                      prenombenefi: "",
-                                      datenaissancebenefi: "",
-                                      paysnaissancebenefi: "",
-                                      codepostalnaissancebenefi: "",
-                                      villenaissancebenefi: "",
-                                      nationalitebenefi: "",
-                                      paysresidencebenefi: "",
-                                      dirigAdressebenefi: "",
-                                      detentioncapital: "",
-                                      detentionvote: "",
-                                  }
-                                : {
-                                      isPerson: "no",
-                                      raisonsociale: "",
-                                      siren: "",
-                                      adresse: "",
-                                      pays: "",
-                                      datebeneficiaire: "",
-                                      datecreation: "",
-                                      detentioncapital: "",
-                                      detentionvote: "",
-                                  },
+                            {
+                                person: "yes",
+                                datebeneficiaire: "",
+                                nombenefi: "",
+                                prenombenefi: "",
+                                datenaissancebenefi: "",
+                                paysnaissancebenefi: "",
+                                codepostalnaissancebenefi: "",
+                                villenaissancebenefi: "",
+                                nationalitebenefi: "",
+                                paysresidencebenefi: "",
+                                dirigAdressebenefi: "",
+                                detentioncapital: pourcentageCapital,
+                                detentionvote: pourcentageVote,
+                                raisonsociale: "",
+                                siren: "",
+                                adresse: "",
+                                pays: "",
+                                datecreation: "",
+                            },
                         ],
                     }}
                     onSubmit={(values) => handleSubmit(values)}
@@ -620,7 +635,10 @@ const CreationSociete = () => {
                                                     rowSpacing={3}
                                                     columnSpacing={6}
                                                     key={index}
-                                                    // sx={{ pb: 5 }}
+                                                    sx={{
+                                                        position: "relative",
+                                                        // backgroundColor: "red",
+                                                    }}
                                                 >
                                                     {/* <Grid item xs={12} sm={12}>
                                                     <Divider>
@@ -629,6 +647,26 @@ const CreationSociete = () => {
                                                         />
                                                     </Divider>
                                                 </Grid> */}
+                                                    <Tooltip title="Supprimer dirigeant">
+                                                        <IconButton
+                                                            sx={{
+                                                                position:
+                                                                    "absolute",
+                                                                top: "25%",
+                                                                right: -40,
+                                                                transform:
+                                                                    "translateY(-50%)",
+                                                            }}
+                                                            color="error"
+                                                            ria-label="delete"
+                                                            size="small"
+                                                            onClick={() =>
+                                                                remove(index)
+                                                            }
+                                                        >
+                                                            <DeleteOutlineOutlinedIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
                                                     <Grid
                                                         item
                                                         xs={12}
@@ -636,7 +674,7 @@ const CreationSociete = () => {
                                                         // rowSpacing={3}
                                                         // columnSpacing={6}
                                                         // container
-                                                        // sx={{ py: 1 }}
+                                                        sx={{ my: 2 }}
                                                         // xs={12}
                                                     >
                                                         <Typography
@@ -968,14 +1006,14 @@ const CreationSociete = () => {
                                                     key={index}
                                                     sx={{
                                                         mx: 1,
-                                                        my: 2,
+                                                        my: 0.1,
                                                         px: 1,
                                                         py: 1,
                                                         pb: 1,
                                                         backgroundColor: "#fff",
                                                         boxShadow:
                                                             theme.shadows[2],
-                                                        borderRadius: 0.5,
+                                                        borderRadius: 0.3,
                                                     }}
                                                 >
                                                     <Grid item xs={12} sm={4}>
@@ -997,7 +1035,7 @@ const CreationSociete = () => {
                                                             </Typography>
                                                         </Stack>
                                                     </Grid>
-                                                    <Grid item xs={12} sm={4}>
+                                                    <Grid item xs={12} sm={7}>
                                                         <Typography
                                                             variant="body2"
                                                             sx={{
@@ -1007,6 +1045,30 @@ const CreationSociete = () => {
                                                         >
                                                             {el.titredirig}
                                                         </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={1}>
+                                                        <Tooltip title="Supprimer dirigeant">
+                                                            <IconButton
+                                                                // sx={{
+                                                                //     position:
+                                                                //         "absolute",
+                                                                //     top: "25%",
+                                                                //     right: -40,
+                                                                //     transform:
+                                                                //         "translateY(-50%)",
+                                                                // }}
+                                                                color="error"
+                                                                ria-label="delete"
+                                                                size="small"
+                                                                onClick={() =>
+                                                                    remove(
+                                                                        index
+                                                                    )
+                                                                }
+                                                            >
+                                                                <DeleteOutlineOutlinedIcon />
+                                                            </IconButton>
+                                                        </Tooltip>
                                                     </Grid>
                                                 </Grid>
                                             )
@@ -1079,7 +1141,8 @@ const CreationSociete = () => {
                     <FormStep
                         sign={sign}
                         stepName="Bénéficiaires"
-                        onSubmit={() => console.log()}
+                        o
+                        onSubmit={() => console.log("step 6")}
                         // validationSchema={yup.object({{
                         //     capital: yup
                         //         .string()
@@ -1089,74 +1152,104 @@ const CreationSociete = () => {
                         // }})}
                         validationSchema={yup.object({
                             beneficiaires: yup.array().of(
-                                isPerson === "yes"
-                                    ? yup.object({
-                                          isPerson: yup.string(),
-                                          datebeneficiaire: yup.string(),
-                                          nombenefi: yup.string(),
-                                          prenombenefi: yup.string(),
-                                          datenaissancebenefi: yup.string(),
-                                          paysnaissancebenefi: yup.string(),
-                                          codepostalnaissancebenefi:
-                                              yup.string(),
-                                          villenaissancebenefi: yup.string(),
-                                          nationalitebenefi: yup.string(),
-                                          paysresidencebenefi: yup.string(),
-                                          dirigAdressebenefi: yup.string(),
-                                          detentioncapital: yup
-                                              .number()
-                                              .required()
-                                              .lessThan(
-                                                  pourcentageCapital + 0.001,
-                                                  `ne doit pas depasser ${pourcentageCapital}%`
-                                              )
-                                              .moreThan(
-                                                  0,
-                                                  "doit etre superieur à 0"
-                                              ),
-                                          detentionvote: yup
-                                              .number()
-                                              .required()
-                                              .lessThan(
-                                                  pourcentageVote + 0.001,
-                                                  `ne doit pas depasser ${pourcentageVote}%`
-                                              )
-                                              .moreThan(
-                                                  0,
-                                                  "doit etre superieur à 0"
-                                              ),
-                                      })
-                                    : yup.object({
-                                          isPerson: yup.string(),
-                                          raisonsociale: yup.string(),
-                                          siren: yup.string(),
-                                          adresse: yup.string(),
-                                          pays: yup.string(),
-                                          datebeneficiaire: yup.string(),
-                                          datecreation: yup.string(),
-                                          detentioncapital: yup
-                                              .number()
-                                              .required()
-                                              .lessThan(
-                                                  pourcentageCapital + 0.001,
-                                                  `ne doit pas depasser ${pourcentageCapital}%`
-                                              )
-                                              .moreThan(
-                                                  0,
-                                                  "doit etre superieur à 0"
-                                              ),
-                                          detentionvote: yup
-                                              .number()
-                                              .required()
-                                              .lessThan(
-                                                  pourcentageVote + 0.001,
-                                                  `ne doit pas depasser ${pourcentageVote}%`
-                                              )
-                                              .moreThan(
-                                                  0,
-                                                  "doit etre superieur à 0"
-                                              ),
-                                      })
+                                // isPerson === "yes"
+                                // ?
+                                yup.object({
+                                    person: yup.string(),
+                                    datebeneficiaire: yup.string(),
+                                    nombenefi: yup.string(),
+                                    prenombenefi: yup.string(),
+                                    datenaissancebenefi: yup.string(),
+                                    paysnaissancebenefi: yup.string(),
+                                    codepostalnaissancebenefi: yup.string(),
+                                    villenaissancebenefi: yup.string(),
+                                    nationalitebenefi: yup.string(),
+                                    paysresidencebenefi: yup.string(),
+                                    dirigAdressebenefi: yup.string(),
+                                    raisonsociale: yup.string(),
+                                    siren: yup.string(),
+                                    adresse: yup.string(),
+                                    pays: yup.string(),
+                                    datecreation: yup.string(),
+                                    detentioncapital: yup
+                                        // .number()
+                                        .string()
+                                        .required()
+                                        .matches(
+                                            /[+-]?([0-9]*[.])?[0-9]+/,
+                                            "Doit etre un  nombre"
+                                        )
+                                        // .max(
+                                        //     pourcentageCapital,
+                                        //     `ne doit pas depasser ${pourcentageCapital}%`
+                                        // ),
+
+                                        .test(
+                                            "test",
+                                            `ne doit pas depasser ${pourcentageCapital}%`,
+                                            function checkEnd(value) {
+                                                const rest =
+                                                    Number(pourcentageCapital) -
+                                                    Number(value);
+                                                console.log(
+                                                    rest,
+                                                    value,
+                                                    pourcentageCapital
+                                                );
+                                                if (rest < 0) {
+                                                    return false;
+                                                }
+                                                return true;
+                                            }
+                                        ),
+                                    //     .lessThan(
+                                    //         Number(pourcentageCapital) + 20.01,
+                                    //         // 100,
+                                    //         `ne doit pas depasser ${pourcentageCapital}%`
+                                    //     ),
+                                    // // .moreThan(0, "doit etre superieur à 0")
+                                    detentionvote: yup
+                                        .number()
+                                        .required()
+                                        .max(100, "max 100"),
+                                    // .lessThan(
+                                    //     // Number(pourcentageVote) + 0.0001,
+                                    //     100,
+                                    //     `ne doit pas depasser ${pourcentageVote}%`
+                                    // ),
+                                    // .moreThan(0, "doit etre superieur à 0")
+                                })
+                                // : yup.object({
+                                //       isPerson: yup.string(),
+                                //       raisonsociale: yup.string(),
+                                //       siren: yup.string(),
+                                //       adresse: yup.string(),
+                                //       pays: yup.string(),
+                                //       datebeneficiaire: yup.string(),
+                                //       datecreation: yup.string(),
+                                //       detentioncapital: yup
+                                //           .number()
+                                //           .required()
+                                //           .lessThan(
+                                //               pourcentageCapital + 0.001,
+                                //               `ne doit pas depasser ${pourcentageCapital}%`
+                                //           )
+                                //           .moreThan(
+                                //               0,
+                                //               "doit etre superieur à 0"
+                                //           ),
+                                //       detentionvote: yup
+                                //           .number()
+                                //           .required()
+                                //           .lessThan(
+                                //               pourcentageVote + 0.001,
+                                //               `ne doit pas depasser ${pourcentageVote}%`
+                                //           )
+                                //           .moreThan(
+                                //               0,
+                                //               "doit etre superieur à 0"
+                                //           ),
+                                //   })
                             ),
                             capital: yup
                                 .number()
@@ -1165,7 +1258,7 @@ const CreationSociete = () => {
                                     0,
                                     "le montant doit etre superieur à 0"
                                 ),
-                            restcapital: yup.number().required(),
+                            // restcapital: yup.number().required(),
                         })}
                     >
                         <AssociesForm
@@ -1181,7 +1274,12 @@ const CreationSociete = () => {
                             setpourcentageVote={setpourcentageVote}
                         />
                     </FormStep>
-                </MultiStepForm>
+                </MultiStepForm>{" "}
+                {errorForm && (
+                    <Typography variant="subtitle1" color="red">
+                        {errorForm}
+                    </Typography>
+                )}
             </Box>
             <CustomizedSnackbar
                 open={open}

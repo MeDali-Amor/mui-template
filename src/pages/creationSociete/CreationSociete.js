@@ -164,54 +164,55 @@ const CreationSociete = () => {
     };
     const handleSubmit = async (values) => {
         // console.log(values);
-        // setErrorForm("");
-        // let capArray = values.beneficiaires.map((el) =>
-        //     Number(el.detentioncapital)
-        // );
-        // let capitalTotal = capArray.reduce(
-        //     (previousValue, currentValue) => previousValue + currentValue
-        // );
-        // if (Number(capitalTotal) !== 100) {
-        //     setErrorForm(
-        //         "La repartition de capital doit etre egale à 100% entre touts les associés!"
-        //     );
-        //     console.log(capitalTotal, capArray);
-        // } else {
-        // setErrorForm("");
-        // let associes = values.beneficiaires?.map((el) => {
-        //     if (el.person === "yes")
-        //         return {
-        //             type: "personne physique",
-        //             datebeneficiaire: el.datebeneficiaire,
-        //             nombenefi: el.nombenefi || "",
-        //             prenombenefi: el.prenombenefi || "",
-        //             datenaissancebenefi: el.datenaissancebenefi || "",
-        //             paysnaissancebenefi: el.paysnaissancebenefi || "",
-        //             codepostalnaissancebenefi:
-        //                 el.codepostalnaissancebenefi || "",
-        //             villenaissancebenefi: el.villenaissancebenefi || "",
-        //             nationalitebenefi: el.nationalitebenefi || "",
-        //             paysresidencebenefi: el.paysresidencebenefi || "",
-        //             dirigAdressebenefi: el.dirigAdressebenefi || "",
-        //             detentioncapital: el.detentioncapital || "",
-        //             detentionvote: el.detentionvote || "",
-        //         };
-        //     else if (el.person === "no")
-        //         return {
-        //             type: "personne morale",
-        //             raisonsociale: el.raisonsociale || "",
-        //             siren: el.siren || "",
-        //             adresse: el.adresse || "",
-        //             pays: el.pays || "",
-        //             datebeneficiaire: el.datebeneficiaire || "",
-        //             datecreation: el.datecreation || "",
-        //             detentioncapital: el.detentioncapital || "",
-        //             detentionvote: el.detentionvote || "",
-        //         };
-        //     else return { ...el, person: el.person };
-        // });
-        // values.beneficiaires = associes;
-        console.log(values.beneficiaires);
+        setErrorForm("");
+        let capArray = values.beneficiaires.map((el) =>
+            Number(el.detentioncapital)
+        );
+        let capitalTotal = capArray.reduce(
+            (previousValue, currentValue) => previousValue + currentValue
+        );
+        if (Number(capitalTotal) !== 100) {
+            setErrorForm(
+                "La repartition de capital doit etre egale à 100% entre touts les associés!"
+            );
+            // console.log(capitalTotal, capArray);
+        } else if (Number(capitalTotal) === 100) {
+            setErrorForm("");
+            let associes = values.beneficiaires?.map((el) => {
+                if (el.person === "yes")
+                    return {
+                        type: "personne physique",
+                        datebeneficiaire: el.datebeneficiaire,
+                        nombenefi: el.nombenefi || "",
+                        prenombenefi: el.prenombenefi || "",
+                        datenaissancebenefi: el.datenaissancebenefi || "",
+                        paysnaissancebenefi: el.paysnaissancebenefi || "",
+                        codepostalnaissancebenefi:
+                            el.codepostalnaissancebenefi || "",
+                        villenaissancebenefi: el.villenaissancebenefi || "",
+                        nationalitebenefi: el.nationalitebenefi || "",
+                        paysresidencebenefi: el.paysresidencebenefi || "",
+                        dirigAdressebenefi: el.dirigAdressebenefi || "",
+                        detentioncapital: el.detentioncapital || "",
+                        detentionvote: el.detentionvote || "",
+                    };
+                else if (el.person === "no")
+                    return {
+                        type: "personne morale",
+                        raisonsociale: el.raisonsociale || "",
+                        siren: el.siren || "",
+                        adresse: el.adresse || "",
+                        pays: el.pays || "",
+                        datebeneficiaire: el.datebeneficiaire || "",
+                        datecreation: el.datecreation || "",
+                        detentioncapital: el.detentioncapital || "",
+                        detentionvote: el.detentionvote || "",
+                    };
+                else return { ...el, person: el.person };
+            });
+            values.beneficiaires = associes;
+            console.log(values.beneficiaires);
+        } else setErrorForm("une erreur s'est produite veuillez réessayer");
         // const formData = new FormData();
         // values.dirig.forEach((el, index) => {
         //     if (el.images.length) {
@@ -1171,85 +1172,9 @@ const CreationSociete = () => {
                                     adresse: yup.string(),
                                     pays: yup.string(),
                                     datecreation: yup.string(),
-                                    // detentioncapital: yup
-                                    //     // .number()
-                                    //     .string()
-                                    //     .required()
-                                    //     .matches(
-                                    //         /[+-]?([0-9]*[.])?[0-9]+/,
-                                    //         "Doit etre un  nombre"
-                                    //     )
-                                    //     // .max(
-                                    //     //     pourcentageCapital,
-                                    //     //     `ne doit pas depasser ${pourcentageCapital}%`
-                                    //     // ),
-
-                                    //     .test(
-                                    //         "test",
-                                    //         `ne doit pas depasser ${pourcentageCapital}%`,
-                                    //         function checkEnd(value) {
-                                    //             const rest =
-                                    //                 Number(pourcentageCapital) -
-                                    //                 Number(value);
-                                    //             console.log(
-                                    //                 rest,
-                                    //                 value,
-                                    //                 pourcentageCapital
-                                    //             );
-                                    //             if (rest < 0) {
-                                    //                 return false;
-                                    //             }
-                                    //             return true;
-                                    //         }
-                                    //     ),
-                                    //     .lessThan(
-                                    //         Number(pourcentageCapital) + 20.01,
-                                    //         // 100,
-                                    //         `ne doit pas depasser ${pourcentageCapital}%`
-                                    //     ),
-                                    // // .moreThan(0, "doit etre superieur à 0")
-                                    detentionvote: yup
-                                        .number()
-                                        .required()
-                                        .max(100, "max 100"),
-                                    // .lessThan(
-                                    //     // Number(pourcentageVote) + 0.0001,
-                                    //     100,
-                                    //     `ne doit pas depasser ${pourcentageVote}%`
-                                    // ),
-                                    // .moreThan(0, "doit etre superieur à 0")
+                                    detentioncapital: yup.number().required(),
+                                    detentionvote: yup.number().required(),
                                 })
-                                // : yup.object({
-                                //       isPerson: yup.string(),
-                                //       raisonsociale: yup.string(),
-                                //       siren: yup.string(),
-                                //       adresse: yup.string(),
-                                //       pays: yup.string(),
-                                //       datebeneficiaire: yup.string(),
-                                //       datecreation: yup.string(),
-                                //       detentioncapital: yup
-                                //           .number()
-                                //           .required()
-                                //           .lessThan(
-                                //               pourcentageCapital + 0.001,
-                                //               `ne doit pas depasser ${pourcentageCapital}%`
-                                //           )
-                                //           .moreThan(
-                                //               0,
-                                //               "doit etre superieur à 0"
-                                //           ),
-                                //       detentionvote: yup
-                                //           .number()
-                                //           .required()
-                                //           .lessThan(
-                                //               pourcentageVote + 0.001,
-                                //               `ne doit pas depasser ${pourcentageVote}%`
-                                //           )
-                                //           .moreThan(
-                                //               0,
-                                //               "doit etre superieur à 0"
-                                //           ),
-                                //   })
                             ),
                             capital: yup
                                 .number()

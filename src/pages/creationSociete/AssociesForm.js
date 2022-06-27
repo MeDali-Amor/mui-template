@@ -1,4 +1,7 @@
 import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
     Autocomplete,
     Button,
     FormControl,
@@ -15,12 +18,13 @@ import {
     useTheme,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { FieldArray } from "formik";
+import { Field, FieldArray } from "formik";
 import React, { useEffect, useState } from "react";
 import AutoCompleteInputField from "../../components/AutoCompleteInputField";
 import InputFeild from "../../components/InputFeild";
 import RadioButtonGroup from "../../components/RadioButtonGroup";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const AssociesForm = ({
     isDirig,
@@ -61,7 +65,7 @@ const AssociesForm = ({
             {(fieldArrayProps) => {
                 // console.log(fieldArrayProps);
                 const { push, remove, form } = fieldArrayProps;
-                const { values } = form;
+                const { values, errors, touched } = form;
                 const { dirig, beneficiaires } = values;
                 // const options = isDirig
                 //     ? dirig.filter((el) => {
@@ -502,7 +506,7 @@ const AssociesForm = ({
                                             spacing={1}
                                             alignItems="center"
                                         >
-                                            <InputFeild
+                                            {/* <InputFeild
                                                 id="adresseassocie"
                                                 name={`beneficiaires[${index}].detentioncapital`}
                                                 label="Détention du capital"
@@ -511,7 +515,46 @@ const AssociesForm = ({
                                                 //     dirigBeneficiaire &&
                                                 //     dirigBeneficiaire.dirigAdresse
                                                 // }
+                                            /> */}
+                                            <Field
+                                                as={InputFeild}
+                                                name={`beneficiaires[${index}].detentioncapital`}
+                                                validate={(value) => {
+                                                    let error;
+                                                    const rest =
+                                                        Number(
+                                                            pourcentageCapital
+                                                        ) - Number(value);
+                                                    console.log(
+                                                        rest,
+                                                        value,
+                                                        pourcentageCapital
+                                                    );
+                                                    if (rest < 0) {
+                                                        error = `ne doit pas depasser ${pourcentageCapital}%`;
+                                                    }
+                                                    return error;
+                                                }}
+                                                error={
+                                                    touched[
+                                                        `beneficiaires[${index}].detentioncapital`
+                                                    ] &&
+                                                    Boolean(
+                                                        errors[
+                                                            `beneficiaires[${index}].detentioncapital`
+                                                        ]
+                                                    )
+                                                }
+                                                helperText={
+                                                    touched[
+                                                        `beneficiaires[${index}].detentioncapital`
+                                                    ] &&
+                                                    errors[
+                                                        `beneficiaires[${index}].detentioncapital`
+                                                    ]
+                                                }
                                             />
+
                                             <Typography>%</Typography>
                                         </Stack>
                                     </Grid>
@@ -532,74 +575,151 @@ const AssociesForm = ({
                                     </Grid>
                                 </Grid>
                             ) : (
-                                <Grid
-                                    container
-                                    rowSpacing={1}
-                                    columnSpacing={2}
-                                    key={index}
+                                // <Grid
+                                //     container
+                                //     rowSpacing={1}
+                                //     columnSpacing={2}
+                                //     key={index}
+                                //     sx={{
+                                //         mx: 1,
+                                //         my: 0.1,
+                                //         px: 1,
+                                //         py: 1,
+                                //         pb: 1,
+                                //         backgroundColor: "#fff",
+                                //         boxShadow: theme.shadows[2],
+                                //         borderRadius: 0.3,
+                                //     }}
+                                // >
+                                //     <Grid item xs={12} sm={2}>
+                                //         <Typography variant="body2">
+                                //             {el.person === "yes"
+                                //                 ? el.prenombenefi
+                                //                 : el.raisonsociale}
+                                //         </Typography>
+                                //     </Grid>
+                                //     <Grid item xs={12} sm={2}>
+                                //         <Typography variant="body2">
+                                //             {el.person === "yes"
+                                //                 ? el.nombenefi
+                                //                 : el.siren}
+                                //         </Typography>
+                                //     </Grid>
+                                //     <Grid item xs={12} sm={2}>
+                                //         <Typography variant="body2">
+                                //             {el.person === "yes"
+                                //                 ? "Personne Physique"
+                                //                 : "Personne Morale"}
+                                //         </Typography>
+                                //     </Grid>
+                                //     <Grid item xs={12} sm={2}>
+                                //         <Typography variant="body2">
+                                //             {`${el.detentioncapital}% du capital`}
+                                //         </Typography>
+                                //     </Grid>
+                                //     <Grid item xs={12} sm={2}>
+                                //         <Typography variant="body2">
+                                //             {`${el.detentionvote}% du droit de vote`}
+                                //         </Typography>
+                                //     </Grid>
+                                //     <Grid item xs={12} sm={1}>
+                                //         <Tooltip title="Supprimer dirigeant">
+                                //             <IconButton
+                                //                 // sx={{
+                                //                 //     position:
+                                //                 //         "absolute",
+                                //                 //     top: "25%",
+                                //                 //     right: -40,
+                                //                 //     transform:
+                                //                 //         "translateY(-50%)",
+                                //                 // }}
+                                //                 color="error"
+                                //                 ria-label="delete"
+                                //                 size="small"
+                                //                 onClick={() => remove(index)}
+                                //             >
+                                //                 <DeleteOutlineOutlinedIcon />
+                                //             </IconButton>
+                                //         </Tooltip>
+                                //     </Grid>
+                                // </Grid>
+                                <Accordion
+                                    // expanded={expanded === "panel1"}
+                                    // onChange={handle("panel1")}
                                     sx={{
-                                        mx: 1,
-                                        my: 0.1,
-                                        px: 1,
-                                        py: 1,
-                                        pb: 1,
-                                        backgroundColor: "#fff",
-                                        boxShadow: theme.shadows[2],
-                                        borderRadius: 0.3,
+                                        borderRadius: 0.5,
                                     }}
                                 >
-                                    <Grid item xs={12} sm={2}>
-                                        <Typography variant="body2">
-                                            {el.person === "yes"
-                                                ? el.prenombenefi
-                                                : el.raisonsociale}
+                                    <AccordionSummary
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls="panel1bh-content"
+                                        id="panel1bh-header"
+                                        sx={{
+                                            width: "100%",
+                                        }}
+                                    >
+                                        <Grid
+                                            container
+                                            rowSpacing={1}
+                                            columnSpacing={2}
+                                            key={index}
+                                            sx={{
+                                                pt: 1,
+                                            }}
+                                        >
+                                            <Grid item xs={12} sm={6}>
+                                                <Typography variant="body2">
+                                                    {el.person === "yes"
+                                                        ? el.prenombenefi + " "
+                                                        : el.raisonsociale +
+                                                          " "}
+                                                </Typography>
+                                                <Typography variant="body2">
+                                                    {el.person === "yes"
+                                                        ? el.nombenefi + " "
+                                                        : el.siren + " "}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item xs={12} sm={5}>
+                                                <Typography variant="body2">
+                                                    {el.person === "yes"
+                                                        ? "Personne Physique"
+                                                        : "Personne Morale"}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item xs={12} sm={1}>
+                                                <Tooltip title="Supprimer dirigeant">
+                                                    <IconButton
+                                                        // sx={{
+                                                        //     position:
+                                                        //         "absolute",
+                                                        //     top: "25%",
+                                                        //     right: -40,
+                                                        //     transform:
+                                                        //         "translateY(-50%)",
+                                                        // }}
+                                                        color="error"
+                                                        ria-label="delete"
+                                                        size="small"
+                                                        onClick={() =>
+                                                            remove(index)
+                                                        }
+                                                    >
+                                                        <DeleteOutlineOutlinedIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </Grid>
+                                        </Grid>
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        <Typography>
+                                            Nulla facilisi. Phasellus
+                                            sollicitudin nulla et quam mattis
+                                            feugiat. Aliquam eget maximus est,
+                                            id dignissim quam.
                                         </Typography>
-                                    </Grid>
-                                    <Grid item xs={12} sm={2}>
-                                        <Typography variant="body2">
-                                            {el.person === "yes"
-                                                ? el.nombenefi
-                                                : el.siren}
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs={12} sm={2}>
-                                        <Typography variant="body2">
-                                            {el.person === "yes"
-                                                ? "Personne Physique"
-                                                : "Personne Morale"}
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs={12} sm={2}>
-                                        <Typography variant="body2">
-                                            {`${el.detentioncapital}% du capital`}
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs={12} sm={2}>
-                                        <Typography variant="body2">
-                                            {`${el.detentionvote}% du droit de vote`}
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs={12} sm={1}>
-                                        <Tooltip title="Supprimer dirigeant">
-                                            <IconButton
-                                                // sx={{
-                                                //     position:
-                                                //         "absolute",
-                                                //     top: "25%",
-                                                //     right: -40,
-                                                //     transform:
-                                                //         "translateY(-50%)",
-                                                // }}
-                                                color="error"
-                                                ria-label="delete"
-                                                size="small"
-                                                onClick={() => remove(index)}
-                                            >
-                                                <DeleteOutlineOutlinedIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                    </Grid>
-                                </Grid>
+                                    </AccordionDetails>
+                                </Accordion>
                             )
                         )}
 

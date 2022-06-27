@@ -1171,37 +1171,37 @@ const CreationSociete = () => {
                                     adresse: yup.string(),
                                     pays: yup.string(),
                                     datecreation: yup.string(),
-                                    detentioncapital: yup
-                                        // .number()
-                                        .string()
-                                        .required()
-                                        .matches(
-                                            /[+-]?([0-9]*[.])?[0-9]+/,
-                                            "Doit etre un  nombre"
-                                        )
-                                        // .max(
-                                        //     pourcentageCapital,
-                                        //     `ne doit pas depasser ${pourcentageCapital}%`
-                                        // ),
+                                    // detentioncapital: yup
+                                    //     // .number()
+                                    //     .string()
+                                    //     .required()
+                                    //     .matches(
+                                    //         /[+-]?([0-9]*[.])?[0-9]+/,
+                                    //         "Doit etre un  nombre"
+                                    //     )
+                                    //     // .max(
+                                    //     //     pourcentageCapital,
+                                    //     //     `ne doit pas depasser ${pourcentageCapital}%`
+                                    //     // ),
 
-                                        .test(
-                                            "test",
-                                            `ne doit pas depasser ${pourcentageCapital}%`,
-                                            function checkEnd(value) {
-                                                const rest =
-                                                    Number(pourcentageCapital) -
-                                                    Number(value);
-                                                console.log(
-                                                    rest,
-                                                    value,
-                                                    pourcentageCapital
-                                                );
-                                                if (rest < 0) {
-                                                    return false;
-                                                }
-                                                return true;
-                                            }
-                                        ),
+                                    //     .test(
+                                    //         "test",
+                                    //         `ne doit pas depasser ${pourcentageCapital}%`,
+                                    //         function checkEnd(value) {
+                                    //             const rest =
+                                    //                 Number(pourcentageCapital) -
+                                    //                 Number(value);
+                                    //             console.log(
+                                    //                 rest,
+                                    //                 value,
+                                    //                 pourcentageCapital
+                                    //             );
+                                    //             if (rest < 0) {
+                                    //                 return false;
+                                    //             }
+                                    //             return true;
+                                    //         }
+                                    //     ),
                                     //     .lessThan(
                                     //         Number(pourcentageCapital) + 20.01,
                                     //         // 100,

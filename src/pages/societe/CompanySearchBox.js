@@ -102,7 +102,7 @@ const CompanySearchBox = ({ getCompanyInfo, scrapeCompanyInfo }) => {
                         ? companiesToBeScraped
                         : []
                 }
-                getOptionLabel={(option) => option.name || ""}
+                getOptionLabel={(option) => option.name || option.no || ""}
                 // PopperComponent={CustomPopper}
                 // renderOption={
                 //     companies.length > 0 ? (props, option) => option.deno : null

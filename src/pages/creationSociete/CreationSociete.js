@@ -181,6 +181,7 @@ const CreationSociete = () => {
             let associes = values.beneficiaires?.map((el) => {
                 if (el.person === "yes")
                     return {
+                        person: el.person,
                         type: "personne physique",
                         datebeneficiaire: el.datebeneficiaire,
                         nombenefi: el.nombenefi || "",
@@ -198,6 +199,7 @@ const CreationSociete = () => {
                     };
                 else if (el.person === "no")
                     return {
+                        person: el.person,
                         type: "personne morale",
                         raisonsociale: el.raisonsociale || "",
                         siren: el.siren || "",
@@ -208,7 +210,10 @@ const CreationSociete = () => {
                         detentioncapital: el.detentioncapital || "",
                         detentionvote: el.detentionvote || "",
                     };
-                else return { ...el, person: el.person };
+                else {
+                    console.log("ok");
+                    return el;
+                }
             });
             values.beneficiaires = associes;
             console.log(values.beneficiaires);

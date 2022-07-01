@@ -213,6 +213,8 @@ const CompanyForm = ({ companyData }) => {
                         name="dateimmat"
                         label="Date d'immatriculation"
                         value={data?.dateimmat || ""}
+                        InputLabelProps={{ shrink: true }}
+                        type={"date"}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -222,6 +224,8 @@ const CompanyForm = ({ companyData }) => {
                         name="daterad"
                         label="Date d'enregistrement"
                         value={data?.daterad || ""}
+                        InputLabelProps={{ shrink: true }}
+                        type={"date"}
                     />
                 </Grid>
             </Grid>

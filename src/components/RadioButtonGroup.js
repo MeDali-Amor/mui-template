@@ -27,20 +27,6 @@ const RadioButtonGroup = ({
     }, []);
     return (
         <FormControl>
-            {/* <Grid
-                                                                container
-                                                                rowSpacing={3}
-                                                                columnSpacing={
-                                                                    6
-                                                                }
-                                                                key={index}
-                                                                // sx={{ pb: 5 }}
-                                                            >
-                                                                <Grid
-                                                                    item
-                                                                    xs={12}
-                                                                    sm={6}
-                                                                > */}
             <FormLabel id="demo-controlled-radio-buttons-group">
                 {label}
             </FormLabel>

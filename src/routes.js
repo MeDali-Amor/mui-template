@@ -7,6 +7,7 @@ import Societes from "./pages/societe/Societes";
 import CreationSociete from "./pages/creationSociete/CreationSociete";
 import { Adddirig } from "./pages/creationSociete/Adddirig";
 import AttestationHebergement from "./pages/cerfas/AttestationHebergement";
+import PrevisionnelForm from "./pages/previsionnel/PrevisionnelForm";
 
 function Router() {
     return useRoutes([
@@ -37,6 +38,10 @@ function Router() {
                 {
                     path: "/cerfa",
                     element: <AttestationHebergement />,
+                },
+                {
+                    path: "/previsionnel",
+                    element: <PrevisionnelForm />,
                 },
             ],
         },

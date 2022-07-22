@@ -13,33 +13,97 @@ import InputFeild from "../../components/InputFeild";
 import MultiStepForm, { FormStep } from "../../components/MultiStepForm";
 import CustomizedSnackbar from "../../components/Sbackbar";
 import * as yup from "yup";
-import SelectFeild from "../../components/SelectFeild";
+import InlineSelectField from "../../components/InlineSelectField";
 import InlineTextField from "../../components/InlineTextFeild";
-
+import { useFormikContext } from "formik";
 const besoinDemarageDataArray = [
-    { name: "frais_etablissement", label: "Frais d’établissement" },
-    { name: "frais_compteurs", label: "Frais d’ouverture de compteurs" },
-    { name: "frais_logiciels", label: "Logiciels, formations" },
-    { name: "frais_marque", label: "Dépôt marque, brevet, modèle" },
-    { name: "frais_droit_entree", label: "Droits d’entrée" },
+    {
+        name: "frais_etablissement",
+        label: "Frais d’établissement",
+        comment: "Ce sont les frais de création de l’entreprise (formalités)",
+    },
+    {
+        name: "frais_compteurs",
+        comment: "Compteurs d'eau, électricité, gaz…",
+        label: "Frais d’ouverture de compteurs",
+    },
+    {
+        name: "frais_logiciels",
+        comment: "",
+        label: "Logiciels, formations",
+    },
+    {
+        name: "frais_marque",
+        comment: "Frais de dépôt ou d’enregistrement",
+        label: "Dépôt marque, brevet, modèle",
+    },
+    {
+        name: "frais_droit_entree",
+        comment: "Par exemple pour intégrer un réseau de franchise",
+        label: "Droits d’entrée",
+    },
     {
         name: "achat_fonds_de_commerce",
+        comment: "Dans le cas d'une reprise",
         label: "Achat fonds de commerce ou parts",
     },
-    { name: "droit_au_bail", label: "Droit au bail" },
-    { name: "depot_garantie", label: "Caution ou dépôt de garantie" },
-    { name: "frais_dossier", label: "Frais de dossier" },
-    { name: "frais_avocat", label: "Frais de notaire ou d’avocat" },
+    {
+        name: "droit_au_bail",
+        comment: "",
+        label: "Droit au bail",
+    },
+    {
+        name: "depot_garantie",
+        comment: "",
+        label: "Caution ou dépôt de garantie",
+    },
+    {
+        name: "frais_dossier",
+        comment: "Pour la signature de contrats de prêt",
+        label: "Frais de dossier",
+    },
+    {
+        name: "frais_avocat",
+        comment: "Pour la signature des contrats et baux commerciaux",
+        label: "Frais de notaire ou d’avocat",
+    },
     {
         name: "frais_communication",
+        comment:
+            "Cartes de visite, brochures, logo, site internet, éléments graphiques",
         label: "Enseigne et éléments de communication",
     },
-    { name: "achat_immobilier", label: "Achat immobilier" },
-    { name: "frais_travaux", label: "Travaux et aménagements" },
-    { name: "frais_materiel", label: "Matériel" },
-    { name: "frais_materiel_bureau", label: "Matériel de bureau" },
-    { name: "frais_stock", label: "Stock de matières et produits" },
-    { name: "tresorie_de_depart", label: "Trésorerie de départ" },
+    {
+        name: "achat_immobilier",
+        comment: "Acquisition d'immeuble",
+        label: "Achat immobilier",
+    },
+    {
+        name: "frais_travaux",
+        comment: "Pour l'aménagement du local",
+        label: "Travaux et aménagements",
+    },
+    {
+        name: "frais_materiel",
+        comment: "Matériel, outillage, machines, véhicules…",
+        label: "Matériel",
+    },
+    {
+        name: "frais_materiel_bureau",
+        comment: "Fournitures, ordinateur, imprimante",
+        label: "Matériel de bureau",
+    },
+    {
+        name: "frais_stock",
+        comment: "Matières premières, produits finis ou semi-finis",
+        label: "Stock de matières et produits",
+    },
+    {
+        name: "tresorie_de_depart",
+        comment:
+            "Somme d’argent gardée en prévision du démarrage de l’activité pour financer le cycle d'exploitation",
+        label: "Trésorerie de départ",
+    },
 ];
 let patternTwoDigisAfterComma = /^\d+(\.\d{0,2})?$/;
 const commonStringValidator = yup
@@ -95,12 +159,20 @@ const besoinDemarageValidation = yup.object({
 });
 
 const PrevisionnelForm = () => {
+    // const { values } = useFormikContext();
     const [sign, setSign] = useState(window.innerWidth);
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [alertType, setAlertType] = useState("info");
     const [msg, setMsg] = useState("");
+    const [total, setTotal] = useState(0);
     const [errorForm, setErrorForm] = useState("");
+
+    const sumValues = (value) => {
+        let sum = total;
+        if (Number(value)) sum += Number(value);
+        setTotal(sum);
+    };
     const handleSubmit = async (values) => {
         console.log(values);
     };
@@ -148,6 +220,7 @@ const PrevisionnelForm = () => {
                             frais_materiel_bureau: "",
                             frais_stock: "",
                             tresorie_de_depart: "",
+                            total: 0,
                         },
                     }}
                     onSubmit={(values) => handleSubmit(values)}
@@ -198,17 +271,16 @@ const PrevisionnelForm = () => {
                                 Identification
                             </Typography>
                         </Grid>
-                        <Grid container rowSpacing={3} columnSpacing={6}>
-                            <Grid item xs={12} sm={6}>
-                                <InputFeild
+                        <Grid container rowSpacing={2} columnSpacing={0}>
+                            <Grid item xs={12} sm={8}>
+                                <InlineTextField
                                     id="prenom"
                                     name="prenom"
                                     label="Prenom"
                                     fullWidth
-                                    autoComplete="billing address-line1"
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12} sm={8}>
                                 <InlineTextField
                                     id="nom"
                                     name="nom"
@@ -216,7 +288,7 @@ const PrevisionnelForm = () => {
                                     fullWidth
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12} sm={8}>
                                 <InlineTextField
                                     id="nom_projet"
                                     name="nom_projet"
@@ -224,9 +296,19 @@ const PrevisionnelForm = () => {
                                     fullWidth
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <SelectFeild
-                                    select
+                            <Grid item xs={12} sm={4}>
+                                <Typography
+                                    variant="body2"
+                                    align="left"
+                                    sx={{ marginTop: "10px" }}
+                                >
+                                    (Nom de votre projet ou description de votre
+                                    activité )
+                                </Typography>
+                            </Grid>
+                            {/* */}
+                            <Grid item xs={12} sm={8}>
+                                <InlineSelectField
                                     options={[
                                         "Micro-entreprise",
                                         "Entreprise individuelle au réel (IR)",
@@ -241,7 +323,7 @@ const PrevisionnelForm = () => {
                                     fullWidth
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12} sm={8}>
                                 <InlineTextField
                                     id="email"
                                     name="email"
@@ -251,7 +333,7 @@ const PrevisionnelForm = () => {
                                     //   setCustomValue={setDirigTel}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12} sm={8}>
                                 <InlineTextField
                                     id="num_telephone"
                                     name="num_telephone"
@@ -261,8 +343,7 @@ const PrevisionnelForm = () => {
                                     //   setCustomValue={setDirigTel}
                                 />
                             </Grid>
-
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12} sm={8}>
                                 <InlineTextField
                                     id="code_postal"
                                     name="code_postal"
@@ -272,7 +353,7 @@ const PrevisionnelForm = () => {
                                     //   handleChange={handleAdressChange}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12} sm={8}>
                                 <InlineTextField
                                     id="commune"
                                     name="commune"
@@ -283,9 +364,8 @@ const PrevisionnelForm = () => {
                                     autoComplete="billing address-level2"
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={12}>
-                                <SelectFeild
-                                    select
+                            <Grid item xs={12} sm={8}>
+                                <InlineSelectField
                                     options={[
                                         "Marchandises (y compris hébergement et restauration)",
                                         "Services",
@@ -337,59 +417,70 @@ const PrevisionnelForm = () => {
                                 pas soumis à la TVA)
                             </Typography>
                         </Grid>
-                        <Grid container rowSpacing={3} columnSpacing={6}>
-                            <Grid item xs={12} sm={12}>
-                                <Stack
-                                    direction="row"
-                                    spacing={2}
-                                    justifyContent="space-evenly"
-                                    alignItems="center"
-                                >
-                                    <InputFeild
-                                        id="duree_amortissement"
-                                        name="duree_amortissement"
-                                        label={
-                                            "Durée d'amortissement des investissements *"
-                                        }
-                                    />
-
-                                    <Typography
-                                        variant="body2"
-                                        align="left"
-                                        sx={{
-                                            width: "50%",
-                                        }}
-                                    >
-                                        (durée de vie des acquisitions de
-                                        départ, en années)
-                                    </Typography>
-                                </Stack>
-                            </Grid>
+                        <Grid container rowSpacing={2} columnSpacing={0}>
                             {besoinDemarageDataArray.map((item) => (
                                 <Grid
-                                    item
-                                    xs={12}
-                                    sm={6}
-                                    md={4}
+                                    container
+                                    rowSpacing={2}
+                                    columnSpacing={0}
                                     key={item.name}
                                 >
-                                    <InputFeild
-                                        id={item.name}
-                                        name={`besoin_demarage.${item.name}`}
-                                        label={item.label}
-                                        fullWidth
-                                    />
+                                    <Grid item xs={12} sm={8}>
+                                        <InlineTextField
+                                            id={item.name}
+                                            name={`besoin_demarage.${item.name}`}
+                                            label={item.label}
+                                            fullWidth
+                                            handleChange={(e) =>
+                                                sumValues(e.target.value)
+                                            }
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={4}>
+                                        <Typography
+                                            variant="body2"
+                                            align="left"
+                                            sx={{ marginTop: "10px" }}
+                                        >
+                                            {item.comment &&
+                                                `(${item.comment})`}
+                                        </Typography>
+                                    </Grid>
                                 </Grid>
                                 //   Durée d'amortissement des investissements :
                             ))}
+                            <Grid item xs={12} sm={8}>
+                                <InlineTextField
+                                    id="total"
+                                    name={"besoin_demarage.total"}
+                                    label={"Total"}
+                                    customValue={total}
+                                    readOnly
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={8}>
+                                <InlineTextField
+                                    id="duree_amortissement"
+                                    name="duree_amortissement"
+                                    label={
+                                        "Durée d'amortissement des investissements *"
+                                    }
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                                <Typography
+                                    variant="body2"
+                                    align="left"
+                                    sx={{ marginTop: "10px" }}
+                                >
+                                    (durée de vie des acquisitions de départ, en
+                                    années)
+                                </Typography>
+                            </Grid>
                         </Grid>
                     </FormStep>
-                </MultiStepForm>{" "}
-                {/* {errorForm && (
-                  <Typography variant="subtitle1" color="red">
-                      {errorForm}
-                  </Typography>
-              )} */}
+                </MultiStepForm>
             </Box>
             <CustomizedSnackbar
                 open={open}

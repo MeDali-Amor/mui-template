@@ -8,6 +8,7 @@ import CreationSociete from "./pages/creationSociete/CreationSociete";
 import { Adddirig } from "./pages/creationSociete/Adddirig";
 import AttestationHebergement from "./pages/cerfas/AttestationHebergement";
 import PrevisionnelForm from "./pages/previsionnel/PrevisionnelForm";
+import Demo from "./pages/previsionnel/Demo";
 
 function Router() {
     return useRoutes([
@@ -41,7 +42,7 @@ function Router() {
                 },
                 {
                     path: "/previsionnel",
-                    element: <PrevisionnelForm />,
+                    element: <Demo />,
                 },
             ],
         },

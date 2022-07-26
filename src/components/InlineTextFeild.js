@@ -2,6 +2,7 @@ import {
     alpha,
     FormControl,
     FormHelperText,
+    Grid,
     InputBase,
     InputLabel,
     styled,
@@ -129,16 +130,33 @@ const InlineTextField = ({
                     // backgroundColor: "red",
                 }}
             >
+                {/* <Grid
+                container
+                rowSpacing={3}
+                columnSpacing={0}
+                alignItems={"center"}
+                // sx={{ pb: 5 }}
+                sx={{
+                    // display: "flex",
+                    // flexDirection: "row",
+                    // alignItems: "center",
+                    width: "100%",
+                    // backgroundColor: "red",
+                }}
+            > */}
+                {/* <Grid item xs={5}> */}
                 <InputLabel
-                    shrink
+                    // shrink
                     htmlFor="bootstrap-input"
                     sx={{
                         // padding: "0 20px 0 0",
+                        marginRight: 1,
+                        paddingRight: labelAlign && 1,
                         textAlign: labelAlign && labelAlign,
                         fontFamily: "inherit",
-                        fontSize: 20,
+                        fontSize: 16,
                         fontWeight: "500",
-                        width: "25%",
+                        width: "40%",
                         lineHeight: "unset",
                         transformOrigin: "unset",
                         textOverflow: "unset",
@@ -148,9 +166,12 @@ const InlineTextField = ({
                 >
                     {label}
                 </InputLabel>
+                {/* </Grid> */}
+                {/* <Grid item xs={width ? 2 : 4}> */}
                 <BootstrapInput
                     align={textAlign}
-                    sx={{ width: width ? `${width}%` : "40%" }}
+                    sx={{ width: width ? `${width}%` : "35%" }}
+                    // sx={{ width: "35%" }}
                     // label={label}
                     onBlur={onBlur}
                     name={name}
@@ -169,7 +190,8 @@ const InlineTextField = ({
                         }
                     }}
                 />
-                {/* <Grid item xs={12} sm={4}> */}
+                {/* </Grid> */}
+                {/* <Grid item xs={3}> */}
                 <Typography
                     variant="body2"
                     align="left"
@@ -177,11 +199,13 @@ const InlineTextField = ({
                         fontStyle: "italic",
                         fontSize: "13px",
                         marginLeft: "10px",
-                        width: "35%",
+                        width: width ? `${60 - Number(width)}%` : "25%",
+                        // width: "45%",
                     }}
                 >
                     {comment && `(${comment})`}
                 </Typography>
+                {/* </Grid> */}
                 {/* </Grid> */}
             </Box>
             <ErrorMsgDisplayer>

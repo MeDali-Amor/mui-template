@@ -2,6 +2,7 @@ import {
     alpha,
     FormControl,
     FormHelperText,
+    Grid,
     InputBase,
     InputLabel,
     MenuItem,
@@ -83,15 +84,35 @@ const InlineSelectField = ({
                     // backgroundColor: "red",
                 }}
             >
+                {/* <Grid
+                container
+                rowSpacing={3}
+                columnSpacing={0}
+                alignItems={"center"}
+                // sx={{ pb: 5 }}
+                sx={{
+                    // display: "flex",
+                    // flexDirection: "row",
+                    // alignItems: "center",
+                    width: "100%",
+                    // backgroundColor: "red",
+                }}
+            >
+                <Grid
+                    item
+                    xs={5}
+                    sx={{ backgroundColor: "yellow", margin: 0, padding: 0 }}
+                > */}
                 <InputLabel
-                    shrink
+                    // shrink
                     htmlFor="bootstrap-input"
                     sx={{
-                        // padding: "0 20px 0 0",
+                        marginRight: 1,
                         fontFamily: "inherit",
-                        fontSize: 20,
+                        fontSize: 16,
                         fontWeight: "500",
-                        // width: "100%",
+                        // backgroundColor: "red",
+                        width: "40%",
                         lineHeight: "unset",
                         transformOrigin: "unset",
                         textOverflow: "unset",
@@ -101,13 +122,20 @@ const InlineSelectField = ({
                 >
                     {label}
                 </InputLabel>
+                {/* </Grid> */}
+                {/* <Grid item xs={4}> */}
                 <NativeSelect
-                    // onBlur={onBlur}
+                    onBlur={onBlur}
                     name={name}
                     value={value}
-                    // sx={{ width: "60%" }}
+                    // sx={{ width: "100%", backgroundColor: "blue" }}
                     align={textAlign}
-                    sx={{ width: width ? `${width}%` : "40%" }}
+                    sx={{
+                        width: width ? `${width}%` : "35%",
+                        overflowX: "hidden",
+                        textOverflow: "elipsis",
+                        // backgroundColor: "red",
+                    }}
                     // {...field}
                     {...props}
                     // error={meta.touched && Boolean(meta.error)}
@@ -121,11 +149,22 @@ const InlineSelectField = ({
                 >
                     {/* <option aria-label="None" value="" /> */}
                     {options?.map((opt) => (
-                        <option value={opt} key={opt}>
+                        <option
+                            value={opt}
+                            key={opt}
+                            style={{
+                                textOverflow: "elipsis",
+                                // overflowX: "scroll",
+                                // backgroundColor: "red",
+                                // width: "50%",
+                            }}
+                        >
                             {opt}
                         </option>
                     ))}
                 </NativeSelect>
+                {/* </Grid> */}
+                {/* <Grid item xs={3}> */}
                 <Typography
                     variant="body2"
                     align="left"
@@ -133,11 +172,13 @@ const InlineSelectField = ({
                         fontStyle: "italic",
                         fontSize: "13px",
                         marginLeft: "10px",
-                        width: "35%",
+                        width: "25%",
                     }}
                 >
                     {comment && `(${comment})`}
                 </Typography>
+                {/* </Grid> */}
+                {/* </Grid> */}
             </Box>
             <ErrorMsgDisplayer>
                 {meta.touched && Boolean(meta.error) && meta.error}

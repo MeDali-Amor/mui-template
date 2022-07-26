@@ -1,9 +1,18 @@
-import { Box, Button, Grid, styled, Typography } from "@mui/material";
-import { Form, Formik } from "formik";
+import {
+    Box,
+    Button,
+    Grid,
+    styled,
+    Typography,
+    useTheme,
+    alpha,
+} from "@mui/material";
+import { FieldArray, Form, Formik } from "formik";
 import React from "react";
 import InlineSelectField from "../../components/InlineSelectField";
 import InlineTextField from "../../components/InlineTextFeild";
 import * as yup from "yup";
+import InputFeild from "../../components/InputFeild";
 
 let patternTwoDigisAfterComma = /^\d+(\.\d{0,2})?$/;
 
@@ -40,6 +49,7 @@ const ButtonContainerFloatRight = styled("div")(({ theme }) => ({
 }));
 
 const Demo = () => {
+    const theme = useTheme();
     const handleSubmit = async (values) => {
         console.log(values);
     };
@@ -76,23 +86,29 @@ const Demo = () => {
                     frais_stock: "",
                     tresorie_de_depart: "",
                     total: 0,
+                    autres_frais: [],
                 },
             }}
             validationSchema={besoinDemarageValidation}
             onSubmit={(values) => handleSubmit(values)}
         >
             {(formik) => {
-                const { total, ...values } = formik.values.besoin_demarage;
-                const valuesToBeSummed = Object.values(values).filter(
-                    (v) => typeof Number(v) === "number"
-                );
+                const { total, autres_frais, ...values } =
+                    formik.values.besoin_demarage;
+                let otherValues = autres_frais
+                    ?.map((el) => Number(el.montant))
+                    .filter((v) => typeof Number(v) == "number");
+                const valuesToBeSummed = Object.values(values)
+                    .filter((v) => typeof Number(v) == "number" && v !== NaN)
+                    .concat(otherValues);
+                console.log(otherValues);
 
                 const sumTotal = valuesToBeSummed.reduce(
                     (previousValue, currentValue) =>
                         Number(previousValue) + Number(currentValue),
                     0
                 );
-                console.log(sumTotal);
+                // console.log(sumTotal);
 
                 return (
                     <Box sx={{ padding: 4 }}>
@@ -131,7 +147,14 @@ const Demo = () => {
                                 </Typography>
                             </Grid>
                             <Grid container rowSpacing={1} columnSpacing={0}>
-                                <Grid item xs={12} sm={9}>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    // sm={9}
+
+                                    //
+                                    // sx={{ backgroundColor: "red" }}
+                                >
                                     <InlineTextField
                                         id="prenom"
                                         name="prenom"
@@ -139,7 +162,11 @@ const Demo = () => {
                                         // fullWidth
                                     />
                                 </Grid>
-                                <Grid item xs={12} sm={9}>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    // sm={9}
+                                >
                                     <InlineTextField
                                         id="nom"
                                         name="nom"
@@ -147,7 +174,11 @@ const Demo = () => {
                                         // fullWidth
                                     />
                                 </Grid>
-                                <Grid item xs={12} sm={9}>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    // sm={9}
+                                >
                                     <InlineTextField
                                         id="nom_projet"
                                         name="nom_projet"
@@ -159,7 +190,11 @@ const Demo = () => {
                                     />
                                 </Grid>
 
-                                <Grid item xs={12} sm={9}>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    // sm={9}
+                                >
                                     <InlineSelectField
                                         options={[
                                             "SARL (IS)",
@@ -175,7 +210,11 @@ const Demo = () => {
                                         // fullWidth
                                     />
                                 </Grid>
-                                <Grid item xs={12} sm={9}>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    // sm={9}
+                                >
                                     <InlineTextField
                                         id="email"
                                         name="email"
@@ -183,7 +222,11 @@ const Demo = () => {
                                         // fullWidt
                                     />
                                 </Grid>
-                                <Grid item xs={12} sm={9}>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    // sm={9}
+                                >
                                     <InlineTextField
                                         id="num_telephone"
                                         name="num_telephone"
@@ -191,7 +234,11 @@ const Demo = () => {
                                         // fullWidth
                                     />
                                 </Grid>
-                                <Grid item xs={12} sm={9}>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    // sm={9}
+                                >
                                     <InlineTextField
                                         id="code_postal"
                                         name="code_postal"
@@ -200,7 +247,11 @@ const Demo = () => {
                                         autoComplete="billing postal-code"
                                     />
                                 </Grid>
-                                <Grid item xs={12} sm={9}>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    // sm={9}
+                                >
                                     <InlineTextField
                                         id="commune"
                                         name="commune"
@@ -209,7 +260,11 @@ const Demo = () => {
                                         autoComplete="billing address-level2"
                                     />
                                 </Grid>
-                                <Grid item xs={12} sm={9}>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    // sm={9}
+                                >
                                     <InlineSelectField
                                         options={[
                                             "Marchandises (y compris hébergement et restauration)",
@@ -238,7 +293,8 @@ const Demo = () => {
                                     align="center"
                                     sx={{
                                         marginInline: 6,
-                                        marginBottom: 6,
+                                        marginTop: 2,
+                                        // marginBottom: 6,
                                     }}
                                 >
                                     Listez toutes les dépenses ou
@@ -247,12 +303,30 @@ const Demo = () => {
                                     (ou TTC si vous n'êtes pas soumis à la TVA)
                                 </Typography>
                             </Grid>
-                            <Grid container rowSpacing={2} columnSpacing={0}>
-                                <Grid item xs={12} sm={2.8}></Grid>
-                                <Grid item xs={12} sm={9}>
-                                    <Typography variant="subtitle1">
-                                        Montant
-                                    </Typography>
+                            <Grid container>
+                                <Grid
+                                    container
+                                    sx={{
+                                        padding: 2,
+                                        marginBlock: 2,
+                                        marginInline: -1,
+                                        borderRadius: 0.5,
+                                        background: alpha(
+                                            theme.palette.primary.light,
+                                            0.3
+                                        ),
+                                    }}
+                                >
+                                    <Grid item xs={5.2}></Grid>
+                                    <Grid
+                                        item
+                                        // xs={}
+                                        // sm={9}
+                                    >
+                                        <Typography variant="subtitle1">
+                                            Montant
+                                        </Typography>
+                                    </Grid>
                                 </Grid>
                                 {besoinDemarageDataArray.map((item) => (
                                     <Grid
@@ -261,13 +335,17 @@ const Demo = () => {
                                         columnSpacing={0}
                                         key={item.name}
                                     >
-                                        <Grid item xs={12} sm={9}>
+                                        <Grid
+                                            item
+                                            xs={12}
+                                            // sm={9}
+                                        >
                                             <InlineTextField
                                                 textAlign="right"
                                                 id={item.name}
                                                 name={`besoin_demarage.${item.name}`}
                                                 label={item.label}
-                                                width={"20"}
+                                                width={"15"}
                                                 comment={item.comment}
                                                 // fullWidth
                                                 // handleChange={(e) =>
@@ -278,7 +356,111 @@ const Demo = () => {
                                     </Grid>
                                     //   Durée d'amortissement des investissements :
                                 ))}
-                                <Grid item xs={12} sm={9}>
+                                <FieldArray name="besoin_demarage.autres_frais">
+                                    {(fieldArrayProps) => {
+                                        // console.log(fieldArrayProps);
+                                        const { push, remove, form } =
+                                            fieldArrayProps;
+                                        const { values } = form;
+                                        const autres_frais =
+                                            values.besoin_demarage.autres_frais;
+                                        console.log(autres_frais);
+                                        return (
+                                            <Box
+                                                // rowSpacing={3}
+                                                // columnSpacing={6}
+                                                // container
+                                                sx={{ py: 3, width: "100%" }}
+                                                // xs={12}
+                                            >
+                                                {autres_frais && (
+                                                    <Grid
+                                                        container
+                                                        columnGap={2}
+                                                        sx={{
+                                                            marginBottom: 2,
+                                                        }}
+                                                    >
+                                                        <Grid
+                                                            item
+                                                            xs={4.65}
+                                                            // sm={9}
+                                                        >
+                                                            <Typography>
+                                                                Libelé
+                                                            </Typography>
+                                                        </Grid>
+                                                        <Grid
+                                                            item
+                                                            xs={1.8}
+                                                            // sm={9}
+                                                        >
+                                                            <Typography>
+                                                                Montant
+                                                            </Typography>
+                                                        </Grid>
+                                                    </Grid>
+                                                )}
+                                                {autres_frais?.map(
+                                                    (el, index) => (
+                                                        <Grid
+                                                            container
+                                                            columnGap={2}
+                                                            sx={{
+                                                                marginBottom: 2,
+                                                            }}
+                                                            key={index}
+                                                        >
+                                                            <Grid
+                                                                item
+                                                                xs={4.65}
+                                                                // sm={9}
+                                                            >
+                                                                <InlineTextField
+                                                                    name={`besoin_demarage.autres_frais[${index}].label`}
+                                                                    // label="civilité"
+                                                                    // width={"15"}
+                                                                    fullWidth
+                                                                />
+                                                            </Grid>
+                                                            <Grid
+                                                                item
+                                                                xs={1.8}
+                                                                // sm={9}
+                                                            >
+                                                                <InlineTextField
+                                                                    name={`besoin_demarage.autres_frais[${index}].montant`}
+                                                                    // label="civilité"
+                                                                    // width={"15"}
+                                                                    fullWidth
+                                                                />
+                                                            </Grid>
+                                                        </Grid>
+                                                    )
+                                                )}
+                                                <ButtonContainerFloatRight>
+                                                    <Button
+                                                        variant="contained"
+                                                        size="large"
+                                                        onClick={() => {
+                                                            push({
+                                                                label: "",
+                                                                montant: "",
+                                                            });
+                                                        }}
+                                                    >
+                                                        Ajouter
+                                                    </Button>
+                                                </ButtonContainerFloatRight>
+                                            </Box>
+                                        );
+                                    }}
+                                </FieldArray>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    // sm={9}
+                                >
                                     <InlineTextField
                                         labelAlign="right"
                                         textAlign="right"
@@ -286,15 +468,20 @@ const Demo = () => {
                                         name={"besoin_demarage.total"}
                                         label={"Total"}
                                         customValue={sumTotal}
-                                        width={"20"}
+                                        width={"15"}
                                         readOnly
                                         fullWidth
                                     />
                                 </Grid>
-                                <Grid item xs={12} sm={9}>
+
+                                <Grid
+                                    item
+                                    xs={12}
+                                    // sm={9}
+                                >
                                     <InlineTextField
                                         textAlign="right"
-                                        width={"20"}
+                                        width={"15"}
                                         id="duree_amortissement"
                                         name="duree_amortissement"
                                         label={

@@ -9,6 +9,7 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
+import { red } from "@mui/material/colors";
 import { Box } from "@mui/system";
 import { useField, useFormikContext } from "formik";
 import { useEffect } from "react";
@@ -150,13 +151,14 @@ const InlineTextField = ({
                     htmlFor="bootstrap-input"
                     sx={{
                         // padding: "0 20px 0 0",
+                        // backgroundColor: "red",
                         marginRight: 1,
                         paddingRight: labelAlign && 1,
                         textAlign: labelAlign && labelAlign,
                         fontFamily: "inherit",
                         fontSize: 16,
                         fontWeight: "500",
-                        width: "40%",
+                        width: "30%",
                         lineHeight: "unset",
                         transformOrigin: "unset",
                         textOverflow: "unset",
@@ -170,7 +172,7 @@ const InlineTextField = ({
                 {/* <Grid item xs={width ? 2 : 4}> */}
                 <BootstrapInput
                     align={textAlign}
-                    sx={{ width: width ? `${width}%` : "35%" }}
+                    sx={{ width: width ? `${width}%` : "40%" }}
                     // sx={{ width: "35%" }}
                     // label={label}
                     onBlur={onBlur}
@@ -199,7 +201,7 @@ const InlineTextField = ({
                         fontStyle: "italic",
                         fontSize: "13px",
                         marginLeft: "10px",
-                        width: width ? `${60 - Number(width)}%` : "25%",
+                        width: width ? `${60 - Number(width)}%` : "30%",
                         // width: "45%",
                     }}
                 >

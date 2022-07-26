@@ -112,7 +112,7 @@ const InlineSelectField = ({
                         fontSize: 16,
                         fontWeight: "500",
                         // backgroundColor: "red",
-                        width: "40%",
+                        width: "30%",
                         lineHeight: "unset",
                         transformOrigin: "unset",
                         textOverflow: "unset",
@@ -131,7 +131,7 @@ const InlineSelectField = ({
                     // sx={{ width: "100%", backgroundColor: "blue" }}
                     align={textAlign}
                     sx={{
-                        width: width ? `${width}%` : "35%",
+                        width: width ? `${width}%` : "40%",
                         overflowX: "hidden",
                         textOverflow: "elipsis",
                         // backgroundColor: "red",
@@ -172,7 +172,7 @@ const InlineSelectField = ({
                         fontStyle: "italic",
                         fontSize: "13px",
                         marginLeft: "10px",
-                        width: "25%",
+                        width: "30%",
                     }}
                 >
                     {comment && `(${comment})`}

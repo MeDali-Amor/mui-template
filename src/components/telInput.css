@@ -1,0 +1,41 @@
+.intl-tel-input.allow-dropdown {
+    width: 143%;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    margin-left: 6px;
+}
+
+.intl-tel-input.allow-dropdown input,
+.intl-tel-input.allow-dropdown input[type="text"],
+.intl-tel-input.allow-dropdown input[type="tel"] {
+    /* position: relative; */
+    height: 3rem;
+    background-color: #fcfcfb;
+    border: none;
+    font-size: 16;
+    width: 80%;
+    padding: 10px 12px;
+    outline: none;
+    /* border: 1px solid #ced4da; */
+
+    /* margin-left: 100px; */
+    /* display: flex; */
+    align-items: center;
+}
+.intl-tel-input.allow-dropdown input:focus,
+.intl-tel-input.allow-dropdown input[type="text"]:focus,
+.intl-tel-input.allow-dropdown input[type="tel"] :focus {
+    border: none;
+    background-color: #fcfcfb;
+    outline: none;
+}
+/* .intl-tel-input.allow-dropdown input,
+.intl-tel-input.allow-dropdown input[type="text"],
+.intl-tel-input.allow-dropdown input[type="tel"] {
+    width: 100%;
+} */
+
+.intl-tel-input.allow-dropdown:focus-within {
+    /* box-shadow:; */
+    border: 1px solid #1890ff;
+}

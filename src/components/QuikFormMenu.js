@@ -54,10 +54,13 @@ const QuikFormMenu = () => {
                     </li>
 
                     <li>
-                        <a href="#besoin_demarage">
+                        <a href="#financement_besoin_demarage">
                             {" "}
-                            Financement des besoins de démarrage :
+                            Financement des besoins de démarrage
                         </a>
+                    </li>
+                    <li>
+                        <a href="#charges_fixes">Charges fixes</a>
                     </li>
                 </ul>
             </Box>

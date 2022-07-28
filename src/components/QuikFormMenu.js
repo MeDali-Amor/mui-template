@@ -62,6 +62,11 @@ const QuikFormMenu = () => {
                     <li>
                         <a href="#charges_fixes">Charges fixes</a>
                     </li>
+                    <li>
+                        <a href="#chiffre_affaire_an1">
+                            Chiffre d'affraires 1ere année
+                        </a>
+                    </li>
                 </ul>
             </Box>
         </div>

@@ -11,38 +11,51 @@ import { Box } from "@mui/system";
 import { useField, useFormikContext } from "formik";
 import { useEffect } from "react";
 
-const BootstrapInput = styled(InputBase)(({ theme, align, error }) => ({
-    "label + &": {
-        // marginTop: theme.spacing(3),
-    },
+const BootstrapInput = styled(InputBase)(
+    ({ theme, align, error, readOnly }) => ({
+        "label + &": {
+            // marginTop: theme.spacing(3),
+        },
 
-    "& .MuiInputBase-input": {
-        textAlign: align ? align : "left",
-        borderRadius: 4,
-        position: "relative",
-        backgroundColor: theme.palette.mode === "light" ? "#fcfcfb" : "#2b2b2b",
-        border: "1px solid #ced4da",
-        fontSize: 16,
-        // width: "60%",
-        padding: "10px 12px",
-        borderColor: error ? theme.palette.error.main : theme.palette.grey[300],
-        boxShadow:
-            error && `${alpha(theme.palette.error.main, 0.25)} 0 0 0 0.2rem`,
-        transition: theme.transitions.create([
-            "border-color",
-            "background-color",
-            "box-shadow",
-        ]),
-        "&:focus": {
-            boxShadow: error
-                ? `${alpha(theme.palette.error.main, 0.25)} 0 0 0 0.2rem`
-                : `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
+        "& .MuiInputBase-input": {
+            textAlign: align ? align : "left",
+            borderRadius: 4,
+            position: "relative",
+
+            backgroundColor: !readOnly
+                ? "#fcfcfb"
+                : `${alpha(theme.palette.primary.light, 0.15)}`,
+            border: "1px solid #ced4da",
+            fontSize: 16,
+            // width: "60%",
+            padding: "10px 12px",
             borderColor: error
                 ? theme.palette.error.main
-                : theme.palette.primary.main,
+                : theme.palette.grey[300],
+            boxShadow:
+                error &&
+                `${alpha(theme.palette.error.main, 0.25)} 0 0 0 0.2rem`,
+            transition: theme.transitions.create([
+                "border-color",
+                "background-color",
+                "box-shadow",
+            ]),
+
+            "&:focus": {
+                boxShadow: error
+                    ? `${alpha(theme.palette.error.main, 0.25)} 0 0 0 0.2rem`
+                    : readOnly
+                    ? "none"
+                    : `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
+                borderColor: error
+                    ? theme.palette.error.main
+                    : readOnly
+                    ? "none"
+                    : theme.palette.primary.main,
+            },
         },
-    },
-}));
+    })
+);
 const ErrorMsgDisplayer = styled(FormHelperText)(({ theme }) => ({
     marginLeft: "35%",
     padding: "4px 8px",
@@ -59,6 +72,7 @@ const BaseTextInput = ({
     width,
     comment,
     labelAlign,
+    readOnly,
     ...props
 }) => {
     const { setFieldValue } = useFormikContext();
@@ -88,6 +102,7 @@ const BaseTextInput = ({
                     // sx={{ width: width ? `${width}%` : "40%" }}
                     // sx={{ width: "35%" }}
                     // label={label}
+                    readOnly={readOnly}
                     onBlur={onBlur}
                     name={name}
                     value={value}

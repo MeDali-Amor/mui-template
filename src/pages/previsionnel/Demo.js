@@ -22,6 +22,7 @@ import QuikFormMenu from "../../components/QuikFormMenu";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Link } from "react-router-dom";
 import BaseTextInput from "../../components/BaseTextInput";
+import TextLikeInput from "../../components/TextLikeInput";
 
 let patternTwoDigisAfterComma = /^\d+(\.\d{0,2})?$/;
 
@@ -95,19 +96,74 @@ const Demo = () => {
                     frais_stock: "",
                     tresorie_de_depart: "",
                     total: 0,
-                    autres_frais: [],
+                    autres_frais: [
+                        {
+                            label: "",
+                            montant: "",
+                        },
+                        {
+                            label: "",
+                            montant: "",
+                        },
+                        {
+                            label: "",
+                            montant: "",
+                        },
+                    ],
                 },
                 financement_demarage: {
                     apport_personnel: "",
                     apports_en_nature: "",
-                    pret_1: { montant: "", taux: "", duree_en_mois: "" },
-                    pret_2: { montant: "", taux: "", duree_en_mois: "" },
-                    pret_3: { montant: "", taux: "", duree_en_mois: "" },
+                    pret_1: {
+                        nom_banque: "",
+                        montant: "",
+                        taux: "",
+                        duree_en_mois: "",
+                    },
+                    pret_2: {
+                        nom_banque: "",
+                        montant: "",
+                        taux: "",
+                        duree_en_mois: "",
+                    },
+                    pret_3: {
+                        nom_banque: "",
+                        montant: "",
+                        taux: "",
+                        duree_en_mois: "",
+                    },
                     subvention_1: "",
                     subvention_2: "",
+                    autre_financement: { label: "", montant: "" },
                     financement_total: 0,
                 },
                 charges_fixes: {
+                    autres_charge: [
+                        {
+                            name: "",
+                            autres_an1: "",
+                            autres_an2: "",
+                            autres_an3: "",
+                            autres_an4: "",
+                            autres_an5: "",
+                        },
+                        {
+                            name: "",
+                            autres_an1: "",
+                            autres_an2: "",
+                            autres_an3: "",
+                            autres_an4: "",
+                            autres_an5: "",
+                        },
+                        {
+                            name: "",
+                            autres_an1: "",
+                            autres_an2: "",
+                            autres_an3: "",
+                            autres_an4: "",
+                            autres_an5: "",
+                        },
+                    ],
                     annee1: {
                         assurances: "",
                         telephone_internet: "",
@@ -193,43 +249,239 @@ const Demo = () => {
                         impôt_taxes: "",
                         total_charges_fixes: 0,
                     },
-                    total_charges_fixes: 0,
+                },
+                chiffre_affaire_an1: {
+                    total_vente: 0,
+                    total_service: 0,
+                    augmentation_vente1: "",
+                    augmentation_services1: "",
+                    vente: [
+                        {
+                            name: "Mois 1",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 2",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 3",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 4",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 5",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 6",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 7",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 8",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 9",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 10",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 11",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 12",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                    ],
+                    services: [
+                        {
+                            name: "Mois 1",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 2",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 3",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 4",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 5",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 6",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 7",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 8",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 9",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 10",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 11",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                        {
+                            name: "Mois 12",
+                            nb_jours: 25,
+                            chiffre_affaires: "",
+                            total_chiffre_affaires: 0,
+                        },
+                    ],
                 },
             }}
             validationSchema={besoinDemarageValidation}
             onSubmit={(values) => handleSubmit(values)}
         >
             {(formik) => {
+                const charges_fixes = formik.values.charges_fixes;
                 const { total, autres_frais, ...values } =
                     formik.values.besoin_demarage;
                 const { financement_total, ...other } =
                     formik.values.financement_demarage;
                 let otherValues = autres_frais
                     ?.map((el) => Number(el.montant))
-                    .filter((v) => typeof Number(v) == "number");
+                    .filter((v) => typeof Number(v) == "number" && !isNaN(v));
                 const valuesToBeSummed = Object.values(values)
-                    .filter((v) => typeof Number(v) == "number" && v !== NaN)
+                    .filter((v) => typeof Number(v) == "number" && !isNaN(v))
                     .concat(otherValues);
+                const chiffre_vente_Totals =
+                    formik.values.chiffre_affaire_an1.vente.map((el) => {
+                        if (
+                            !isNaN(Number(el.chiffre_affaires)) &&
+                            !isNaN(Number(el.nb_jours))
+                        )
+                            return (
+                                Number(el.chiffre_affaires) *
+                                Number(el.nb_jours)
+                            );
+                        return 0;
+                    });
+                const chiffre_services_Totals =
+                    formik.values.chiffre_affaire_an1.services.map((el) => {
+                        if (
+                            !isNaN(Number(el.chiffre_affaires)) &&
+                            !isNaN(Number(el.nb_jours))
+                        )
+                            return (
+                                Number(el.chiffre_affaires) *
+                                Number(el.nb_jours)
+                            );
+                        return 0;
+                    });
                 // console.log(otherValues);
+                function sumFunction(array) {
+                    return array.reduce(
+                        (previousValue, currentValue) =>
+                            Number(previousValue) + Number(currentValue),
+                        0
+                    );
+                }
 
-                const sumTotal = valuesToBeSummed.reduce(
-                    (previousValue, currentValue) =>
-                        Number(previousValue) + Number(currentValue),
-                    0
-                );
+                const sumTotal = sumFunction(valuesToBeSummed);
+
                 const finance_values = Object.values(other).map((v) => {
                     if (typeof v === "object") return v.montant;
                     return v;
                 });
-                console.log(finance_values, valuesToBeSummed);
+
                 // .filter((v) => typeof Number(v) == "number" && v !== "NaN");
 
-                const financement_sum = finance_values.reduce(
-                    (previousValue, currentValue) =>
-                        Number(previousValue) + Number(currentValue),
-                    0
-                );
-                console.log(other);
+                const financement_sum = sumFunction(finance_values);
+
+                const yearlyCharges = [
+                    charges_fixes.annee1,
+                    charges_fixes.annee2,
+                    charges_fixes.annee3,
+                    charges_fixes.annee4,
+                    charges_fixes.annee5,
+                ];
+                const sumChargesFixes = yearlyCharges.map((el) => {
+                    const { total_charges_fixes, ...rest } = el;
+                    const values = Object.values(rest)
+                        .map((item) => Number(item))
+                        .filter(
+                            (v) => typeof Number(v) == "number" && !isNaN(v)
+                        );
+                    return sumFunction(values);
+                });
+                const totalVente = sumFunction(chiffre_vente_Totals);
+                const totalServices = sumFunction(chiffre_services_Totals);
 
                 return (
                     <Box
@@ -454,8 +706,8 @@ const Demo = () => {
                                                 marginInline: -1,
                                                 borderRadius: 0.5,
                                                 background: alpha(
-                                                    theme.palette.primary.light,
-                                                    0.3
+                                                    theme.palette.success.light,
+                                                    0.2
                                                 ),
                                             }}
                                         >
@@ -498,6 +750,15 @@ const Demo = () => {
                                             </Grid>
                                             //   Durée d'amortissement des investissements :
                                         ))}
+                                        <Grid sx={{ pt: 2 }}>
+                                            <Typography
+                                                variant="subtitle1"
+                                                color={"primary"}
+                                            >
+                                                Autres Frais (inscrire libellé
+                                                ci-dessous) :
+                                            </Typography>
+                                        </Grid>
                                         <FieldArray name="besoin_demarage.autres_frais">
                                             {(fieldArrayProps) => {
                                                 // console.log(fieldArrayProps);
@@ -529,10 +790,14 @@ const Demo = () => {
                                                                     alignItems={
                                                                         "center"
                                                                     }
-                                                                    sx={{
-                                                                        marginBottom: 2,
-                                                                    }}
-                                                                    key={index}
+                                                                    sx={
+                                                                        {
+                                                                            // marginBottom: 2,
+                                                                        }
+                                                                    }
+                                                                    key={
+                                                                        el.label
+                                                                    }
                                                                 >
                                                                     <Grid
                                                                         item
@@ -564,28 +829,31 @@ const Demo = () => {
                                                                         // xs={12}
                                                                         // sm={1}
                                                                     >
-                                                                        <Tooltip title="Supprimer la dépense">
-                                                                            <IconButton
-                                                                                // sx={{
-                                                                                //     position:
-                                                                                //         "absolute",
-                                                                                //     top: "25%",
-                                                                                //     right: -40,
-                                                                                //     transform:
-                                                                                //         "translateY(-50%)",
-                                                                                // }}
-                                                                                color="error"
-                                                                                ria-label="delete"
-                                                                                size="small"
-                                                                                onClick={() => {
-                                                                                    remove(
-                                                                                        index
-                                                                                    );
-                                                                                }}
-                                                                            >
-                                                                                <DeleteOutlineOutlinedIcon />
-                                                                            </IconButton>
-                                                                        </Tooltip>
+                                                                        {index >
+                                                                            2 && (
+                                                                            <Tooltip title="Supprimer la dépense">
+                                                                                <IconButton
+                                                                                    // sx={{
+                                                                                    //     position:
+                                                                                    //         "absolute",
+                                                                                    //     top: "25%",
+                                                                                    //     right: -40,
+                                                                                    //     transform:
+                                                                                    //         "translateY(-50%)",
+                                                                                    // }}
+                                                                                    color="error"
+                                                                                    ria-label="delete"
+                                                                                    size="small"
+                                                                                    onClick={() => {
+                                                                                        remove(
+                                                                                            index
+                                                                                        );
+                                                                                    }}
+                                                                                >
+                                                                                    <DeleteOutlineOutlinedIcon />
+                                                                                </IconButton>
+                                                                            </Tooltip>
+                                                                        )}
                                                                     </Grid>
                                                                 </Grid>
                                                             )
@@ -671,8 +939,8 @@ const Demo = () => {
                                             marginInline: -1,
                                             borderRadius: 0.5,
                                             background: alpha(
-                                                theme.palette.primary.light,
-                                                0.3
+                                                theme.palette.success.light,
+                                                0.2
                                             ),
                                         }}
                                     >
@@ -761,6 +1029,8 @@ const Demo = () => {
                                                     sx={{
                                                         // padding: "0 20px 0 0",
                                                         // backgroundColor: "red",
+                                                        display: "flex",
+                                                        alignItems: "center",
                                                         marginRight: 1,
                                                         paddingRight: 1,
                                                         fontFamily: "inherit",
@@ -775,7 +1045,22 @@ const Demo = () => {
                                                         overflow: "unset",
                                                     }}
                                                 >
-                                                    Prêt n°1(nom de la banque)
+                                                    {/* <Typography> */}
+                                                    Prêt n°1(
+                                                    {/* </Typography> */}
+                                                    <TextLikeInput
+                                                        id="pret_1"
+                                                        name="financement_demarage.pret_1.nom_banque"
+                                                        placeholder="nom de la banque"
+                                                        // width={"15"}
+                                                        // textAlign="right"
+                                                        // fullWidth
+                                                        // comment={
+                                                        //     "Nom de votre projet ou description de votre activité"
+                                                        // }
+                                                    />
+                                                    )
+                                                    {/* <Typography>)</Typography> */}
                                                 </InputLabel>
                                             </Grid>
                                             <Grid
@@ -850,6 +1135,8 @@ const Demo = () => {
                                                     sx={{
                                                         // padding: "0 20px 0 0",
                                                         // backgroundColor: "red",
+                                                        display: "flex",
+                                                        alignItems: "center",
                                                         marginRight: 1,
                                                         paddingRight: 1,
                                                         fontFamily: "inherit",
@@ -864,7 +1151,22 @@ const Demo = () => {
                                                         overflow: "unset",
                                                     }}
                                                 >
-                                                    Prêt n°2(nom de la banque)
+                                                    {/* <Typography> */}
+                                                    Prêt n°1(
+                                                    {/* </Typography> */}
+                                                    <TextLikeInput
+                                                        // id="pret_2"
+                                                        name="financement_demarage.pret_2.nom_banque"
+                                                        placeholder="nom de la banque"
+                                                        // width={"15"}
+                                                        // textAlign="right"
+                                                        // fullWidth
+                                                        // comment={
+                                                        //     "Nom de votre projet ou description de votre activité"
+                                                        // }
+                                                    />
+                                                    )
+                                                    {/* <Typography>)</Typography> */}
                                                 </InputLabel>
                                             </Grid>
                                             <Grid
@@ -939,6 +1241,8 @@ const Demo = () => {
                                                     sx={{
                                                         // padding: "0 20px 0 0",
                                                         // backgroundColor: "red",
+                                                        display: "flex",
+                                                        alignItems: "center",
                                                         marginRight: 1,
                                                         paddingRight: 1,
                                                         fontFamily: "inherit",
@@ -953,7 +1257,21 @@ const Demo = () => {
                                                         overflow: "unset",
                                                     }}
                                                 >
-                                                    Prêt n°3 (nom de la banque)
+                                                    {/* <Typography> */}
+                                                    Prêt n°3(
+                                                    {/* </Typography> */}
+                                                    <TextLikeInput
+                                                        // id="pret_1"
+                                                        name="financement_demarage.pret_3.nom_banque"
+                                                        placeholder="nom de la banque"
+                                                        // width={"15"}
+                                                        // textAlign="right"
+                                                        // fullWidth
+                                                        // comment={
+                                                        //     "Nom de votre projet ou description de votre activité"
+                                                        // }
+                                                    />
+                                                    )
                                                 </InputLabel>
                                             </Grid>
                                             <Grid
@@ -1042,6 +1360,20 @@ const Demo = () => {
                                             // sm={9}
                                         >
                                             <InlineTextField
+                                                id="autre_financement"
+                                                name="financement_demarage.autre_financement.montant"
+                                                label="Autre financement (libellé)"
+                                                width={"15"}
+                                                textAlign="right"
+                                                // fullWidt
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={12}
+                                            // sm={9}
+                                        >
+                                            <InlineTextField
                                                 labelAlign="right"
                                                 textAlign="right"
                                                 id="financement_demarage_total"
@@ -1082,21 +1414,23 @@ const Demo = () => {
                                     </Typography>
                                     <Grid
                                         container
+                                        columnGap={0.3}
+                                        alignItems={"center"}
                                         sx={{
                                             padding: 2,
                                             marginBlock: 2,
                                             marginInline: -1,
                                             borderRadius: 0.5,
                                             background: alpha(
-                                                theme.palette.primary.light,
-                                                0.3
+                                                theme.palette.success.light,
+                                                0.2
                                             ),
                                         }}
                                     >
                                         <Grid item xs={3}></Grid>
                                         <Grid
                                             item
-                                            xs={1.8}
+                                            xs={1.7}
                                             // sm={9}
                                         >
                                             <Typography
@@ -1108,7 +1442,7 @@ const Demo = () => {
                                         </Grid>
                                         <Grid
                                             item
-                                            xs={1.8}
+                                            xs={1.7}
                                             // sm={9}
                                         >
                                             <Typography
@@ -1120,7 +1454,7 @@ const Demo = () => {
                                         </Grid>
                                         <Grid
                                             item
-                                            xs={1.8}
+                                            xs={1.7}
                                             // sm={9}
                                         >
                                             <Typography
@@ -1132,7 +1466,7 @@ const Demo = () => {
                                         </Grid>
                                         <Grid
                                             item
-                                            xs={1.8}
+                                            xs={1.7}
                                             // sm={9}
                                         >
                                             <Typography
@@ -1144,7 +1478,7 @@ const Demo = () => {
                                         </Grid>
                                         <Grid
                                             item
-                                            xs={1.8}
+                                            xs={1.7}
                                             // sm={9}
                                         >
                                             <Typography
@@ -1165,7 +1499,7 @@ const Demo = () => {
                                             ({ name, label }) => (
                                                 <Grid
                                                     container
-                                                    columnGap={1}
+                                                    columnGap={0.2}
                                                     alignItems={"center"}
                                                     key={name}
                                                     // sx={{
@@ -1209,12 +1543,15 @@ const Demo = () => {
                                                     <Grid
                                                         item
                                                         xs={1.7}
+                                                        sx={{
+                                                            paddingInline: 0.3,
+                                                        }}
                                                         // sm={9}
                                                     >
                                                         <BaseTextInput
                                                             id={name}
                                                             name={`charges_fixes.annee1.${name}`}
-                                                            width={"15"}
+                                                            // width={"10"}
                                                             textAlign="right"
                                                             // fullWidth
                                                             // comment={
@@ -1225,6 +1562,9 @@ const Demo = () => {
                                                     <Grid
                                                         item
                                                         xs={1.7}
+                                                        sx={{
+                                                            paddingInline: 0.3,
+                                                        }}
                                                         // sm={9}
                                                     >
                                                         <BaseTextInput
@@ -1241,6 +1581,9 @@ const Demo = () => {
                                                     <Grid
                                                         item
                                                         xs={1.7}
+                                                        sx={{
+                                                            paddingInline: 0.3,
+                                                        }}
                                                         // sm={9}
                                                     >
                                                         <BaseTextInput
@@ -1257,6 +1600,9 @@ const Demo = () => {
                                                     <Grid
                                                         item
                                                         xs={1.7}
+                                                        sx={{
+                                                            paddingInline: 0.3,
+                                                        }}
                                                         // sm={9}
                                                     >
                                                         <BaseTextInput
@@ -1273,6 +1619,9 @@ const Demo = () => {
                                                     <Grid
                                                         item
                                                         xs={1.7}
+                                                        sx={{
+                                                            paddingInline: 0.3,
+                                                        }}
                                                         // sm={9}
                                                     >
                                                         <BaseTextInput
@@ -1289,9 +1638,238 @@ const Demo = () => {
                                                 </Grid>
                                             )
                                         )}
+                                        <Grid sx={{ pt: 2 }}>
+                                            <Typography
+                                                variant="subtitle1"
+                                                color={"primary"}
+                                            >
+                                                Autres charges (inscrire libellé
+                                                ci-dessous) :
+                                            </Typography>
+                                        </Grid>
+                                        <FieldArray name="charges_fixes.autres_charge">
+                                            {(fieldArrayProps) => {
+                                                // console.log(fieldArrayProps);
+                                                const { push, remove, form } =
+                                                    fieldArrayProps;
+                                                const { values } = form;
+                                                const autres_charge =
+                                                    values.charges_fixes
+                                                        .autres_charge;
+                                                // console.log(autres_frais);
+                                                return (
+                                                    <Box
+                                                        // rowSpacing={3}
+                                                        // columnSpacing={6}
+                                                        // container
+                                                        sx={{
+                                                            py: 3,
+                                                            width: "100%",
+                                                        }}
+                                                        // xs={12}
+                                                    >
+                                                        {autres_charge?.map(
+                                                            (el, index) => (
+                                                                <Grid
+                                                                    container
+                                                                    columnGap={
+                                                                        0.2
+                                                                    }
+                                                                    alignItems={
+                                                                        "center"
+                                                                    }
+                                                                    key={
+                                                                        el.name
+                                                                    }
+                                                                    // sx={{
+                                                                    //     marginBottom: 2,
+                                                                    // }}
+                                                                >
+                                                                    <Grid
+                                                                        item
+                                                                        xs={3}
+                                                                        // sm={9}
+                                                                    >
+                                                                        <BaseTextInput
+                                                                            // id={name}
+                                                                            name={`charges_fixes.autre-charges[${index}].name`}
+                                                                            // width={"15"}
+                                                                            // textAlign="right"
+                                                                            fullWidth
+                                                                            // comment={
+                                                                            //     "Nom de votre projet ou description de votre activité"
+                                                                            // }
+                                                                        />
+                                                                    </Grid>
+                                                                    <Grid
+                                                                        item
+                                                                        xs={1.7}
+                                                                        sx={{
+                                                                            paddingInline: 0.3,
+                                                                        }}
+                                                                        // sm={9}
+                                                                    >
+                                                                        <BaseTextInput
+                                                                            // id={el.name}
+                                                                            name={`charges_fixes.autre-charges[${index}].autres_an1`}
+                                                                            // width={"10"}
+                                                                            textAlign="right"
+                                                                            // fullWidth
+                                                                            // comment={
+                                                                            //     "Nom de votre projet ou description de votre activité"
+                                                                            // }
+                                                                        />
+                                                                    </Grid>
+                                                                    <Grid
+                                                                        item
+                                                                        xs={1.7}
+                                                                        sx={{
+                                                                            paddingInline: 0.3,
+                                                                        }}
+                                                                        // sm={9}
+                                                                    >
+                                                                        <BaseTextInput
+                                                                            // id={name}
+                                                                            name={`charges_fixes.autre-charges[${index}].autres_an2`}
+                                                                            width={
+                                                                                "15"
+                                                                            }
+                                                                            textAlign="right"
+                                                                            // fullWidth
+                                                                            // comment={
+                                                                            //     "Nom de votre projet ou description de votre activité"
+                                                                            // }
+                                                                        />
+                                                                    </Grid>{" "}
+                                                                    <Grid
+                                                                        item
+                                                                        xs={1.7}
+                                                                        sx={{
+                                                                            paddingInline: 0.3,
+                                                                        }}
+                                                                        // sm={9}
+                                                                    >
+                                                                        <BaseTextInput
+                                                                            // id={name}
+                                                                            name={`charges_fixes.autre-charges[${index}].autres_an3`}
+                                                                            width={
+                                                                                "15"
+                                                                            }
+                                                                            textAlign="right"
+                                                                            // fullWidth
+                                                                            // comment={
+                                                                            //     "Nom de votre projet ou description de votre activité"
+                                                                            // }
+                                                                        />
+                                                                    </Grid>
+                                                                    <Grid
+                                                                        item
+                                                                        xs={1.7}
+                                                                        sx={{
+                                                                            paddingInline: 0.3,
+                                                                        }}
+                                                                        // sm={9}
+                                                                    >
+                                                                        <BaseTextInput
+                                                                            name={`charges_fixes.autre-charges[${index}].autres_an4`}
+                                                                            width={
+                                                                                "15"
+                                                                            }
+                                                                            textAlign="right"
+                                                                            // fullWidth
+                                                                            // comment={
+                                                                            //     "Nom de votre projet ou description de votre activité"
+                                                                            // }
+                                                                        />
+                                                                    </Grid>
+                                                                    <Grid
+                                                                        item
+                                                                        xs={1.7}
+                                                                        sx={{
+                                                                            paddingInline: 0.3,
+                                                                        }}
+                                                                        // sm={9}
+                                                                    >
+                                                                        <BaseTextInput
+                                                                            name={`charges_fixes.autre-charges[${index}].autres_an5`}
+                                                                            width={
+                                                                                "15"
+                                                                            }
+                                                                            textAlign="right"
+                                                                            // fullWidth
+                                                                            // comment={
+                                                                            //     "Nom de votre projet ou description de votre activité"
+                                                                            // }
+                                                                        />
+                                                                    </Grid>
+                                                                    <Grid
+                                                                        item
+                                                                        // xs={12}
+                                                                        // sm={1}
+                                                                    >
+                                                                        {index >
+                                                                            2 && (
+                                                                            <Tooltip title="Supprimer la dépense">
+                                                                                <IconButton
+                                                                                    // sx={{
+                                                                                    //     position:
+                                                                                    //         "absolute",
+                                                                                    //     top: "25%",
+                                                                                    //     right: -40,
+                                                                                    //     transform:
+                                                                                    //         "translateY(-50%)",
+                                                                                    // }}
+                                                                                    color="error"
+                                                                                    ria-label="delete"
+                                                                                    size="small"
+                                                                                    onClick={() => {
+                                                                                        remove(
+                                                                                            index
+                                                                                        );
+                                                                                    }}
+                                                                                >
+                                                                                    <DeleteOutlineOutlinedIcon />
+                                                                                </IconButton>
+                                                                            </Tooltip>
+                                                                        )}
+                                                                    </Grid>
+                                                                </Grid>
+                                                            )
+                                                        )}
+                                                        <Tooltip title="Ajouter une autre charge">
+                                                            <IconButton
+                                                                variant="contained"
+                                                                size="small"
+                                                                // color={`${theme.palette.primary.light}`}
+                                                                onClick={() => {
+                                                                    push({
+                                                                        name: "",
+                                                                        autres_an1:
+                                                                            "",
+                                                                        autres_an2:
+                                                                            "",
+                                                                        autres_an3:
+                                                                            "",
+                                                                        autres_an4:
+                                                                            "",
+                                                                        autres_an5:
+                                                                            "",
+                                                                    });
+                                                                }}
+                                                            >
+                                                                <AddCircleIcon
+                                                                    color="success"
+                                                                    fontSize="large"
+                                                                />
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                    </Box>
+                                                );
+                                            }}
+                                        </FieldArray>
                                         <Grid
                                             container
-                                            columnGap={1}
+                                            columnGap={0.2}
                                             alignItems={"center"}
                                             // sx={{
                                             //     marginBottom: 2,
@@ -1329,12 +1907,19 @@ const Demo = () => {
                                             <Grid
                                                 item
                                                 xs={1.7}
+                                                sx={{
+                                                    paddingInline: 0.3,
+                                                }}
                                                 // sm={9}
                                             >
                                                 <BaseTextInput
                                                     // id={name}
                                                     name={`charges_fixes.annee1.total_charges_fixes`}
                                                     width={"15"}
+                                                    customValue={
+                                                        sumChargesFixes[0]
+                                                    }
+                                                    readOnly
                                                     textAlign="right"
                                                     // fullWidth
                                                     // comment={
@@ -1345,6 +1930,9 @@ const Demo = () => {
                                             <Grid
                                                 item
                                                 xs={1.7}
+                                                sx={{
+                                                    paddingInline: 0.3,
+                                                }}
                                                 // sm={9}
                                             >
                                                 <BaseTextInput
@@ -1352,6 +1940,10 @@ const Demo = () => {
                                                     name={`charges_fixes.annee2.total_charges_fixes`}
                                                     width={"15"}
                                                     textAlign="right"
+                                                    customValue={
+                                                        sumChargesFixes[1]
+                                                    }
+                                                    readOnly
                                                     // fullWidth
                                                     // comment={
                                                     //     "Nom de votre projet ou description de votre activité"
@@ -1361,6 +1953,9 @@ const Demo = () => {
                                             <Grid
                                                 item
                                                 xs={1.7}
+                                                sx={{
+                                                    paddingInline: 0.3,
+                                                }}
                                                 // sm={9}
                                             >
                                                 <BaseTextInput
@@ -1368,6 +1963,10 @@ const Demo = () => {
                                                     name={`charges_fixes.annee3.total_charges_fixes`}
                                                     width={"15"}
                                                     textAlign="right"
+                                                    customValue={
+                                                        sumChargesFixes[2]
+                                                    }
+                                                    readOnly
                                                     // fullWidth
                                                     // comment={
                                                     //     "Nom de votre projet ou description de votre activité"
@@ -1377,6 +1976,9 @@ const Demo = () => {
                                             <Grid
                                                 item
                                                 xs={1.7}
+                                                sx={{
+                                                    paddingInline: 0.3,
+                                                }}
                                                 // sm={9}
                                             >
                                                 <BaseTextInput
@@ -1384,6 +1986,10 @@ const Demo = () => {
                                                     name={`charges_fixes.annee4.total_charges_fixes`}
                                                     width={"15"}
                                                     textAlign="right"
+                                                    customValue={
+                                                        sumChargesFixes[3]
+                                                    }
+                                                    readOnly
                                                     // fullWidth
                                                     // comment={
                                                     //     "Nom de votre projet ou description de votre activité"
@@ -1393,6 +1999,9 @@ const Demo = () => {
                                             <Grid
                                                 item
                                                 xs={1.7}
+                                                sx={{
+                                                    paddingInline: 0.3,
+                                                }}
                                                 // sm={9}
                                             >
                                                 <BaseTextInput
@@ -1400,6 +2009,10 @@ const Demo = () => {
                                                     name={`charges_fixes.annee5.total_charges_fixes`}
                                                     width={"15"}
                                                     textAlign="right"
+                                                    customValue={
+                                                        sumChargesFixes[4]
+                                                    }
+                                                    readOnly
                                                     // fullWidth
                                                     // comment={
                                                     //     "Nom de votre projet ou description de votre activité"
@@ -1407,25 +2020,692 @@ const Demo = () => {
                                                 />
                                             </Grid>
                                         </Grid>
-                                        {/* <Grid
+                                    </Grid>
+                                </div>
+                                <div id="chiffre_affaire_an1">
+                                    <Grid
+                                        // rowSpacing={3}
+                                        // columnSpacing={6}
+                                        // container
+                                        sx={{ py: 3 }}
+                                        // xs={12}
+                                    >
+                                        <Typography variant="h6" gutterBottom>
+                                            Votre chiffre d'affaires de la
+                                            première année
+                                        </Typography>
+                                    </Grid>
+                                    <Typography
+                                        variant="body1"
+                                        align="center"
+                                        sx={{
+                                            marginBottom: 6,
+                                        }}
+                                    >
+                                        Prévoyez ici le chiffre d'affaires de
+                                        votre activité (hors taxes).
+                                    </Typography>
+                                    <Grid
+                                        container
+                                        // rowSpacing={1}
+                                        columnSpacing={2}
+                                    >
+                                        {" "}
+                                        <Grid
                                             item
-                                            xs={12}
-                                            // sm={9}
+                                            md={12}
+                                            lg={6}
+                                            //
+                                            sx={{ padding: 2 }}
                                         >
-                                            <InlineTextField
-                                                labelAlign="right"
-                                                textAlign="right"
-                                                id="total_charges_fixes"
-                                                name={
-                                                    "charges_fixes.total_charges_fixes"
-                                                }
-                                                label={"Total"}
-                                                customValue={financement_sum}
-                                                width={"15"}
-                                                readOnly
-                                                fullWidth
-                                            />
-                                        </Grid> */}
+                                            <Grid
+                                                // rowSpacing={3}
+                                                // columnSpacing={6}
+                                                // container
+                                                sx={{ py: 3 }}
+                                                // xs={12}
+                                            >
+                                                <Typography
+                                                    variant="h6"
+                                                    // gutterBottom
+                                                    sx={{
+                                                        marginBottom: 2,
+                                                    }}
+                                                >
+                                                    Année 1 - Vente de
+                                                    Marchandises
+                                                </Typography>
+                                                <Grid
+                                                    container
+                                                    columnGap={0.3}
+                                                    alignItems={"center"}
+                                                    sx={{
+                                                        padding: 2,
+                                                        marginBlock: 2,
+                                                        marginInline: -1,
+                                                        borderRadius: 0.5,
+                                                        background: alpha(
+                                                            theme.palette
+                                                                .success.light,
+                                                            0.2
+                                                        ),
+                                                    }}
+                                                >
+                                                    <Grid item xs={3}></Grid>
+                                                    <Grid
+                                                        item
+                                                        xs={2.8}
+                                                        // sm={9}
+                                                    >
+                                                        <Typography
+                                                            variant="subtitle2"
+                                                            textAlign={"center"}
+                                                        >
+                                                            Nb de jours
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid
+                                                        item
+                                                        xs={2.8}
+                                                        // sm={9}
+                                                    >
+                                                        <Typography
+                                                            variant="subtitle2"
+                                                            textAlign={"center"}
+                                                        >
+                                                            Chiffre d'affaires
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid
+                                                        item
+                                                        xs={2.8}
+                                                        // sm={9}
+                                                    >
+                                                        <Typography
+                                                            variant="subtitle2"
+                                                            textAlign={"center"}
+                                                        >
+                                                            Chiffre d'affaires
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
+                                                {monthsDataArray.map(
+                                                    (
+                                                        { name, label },
+                                                        index
+                                                    ) => (
+                                                        <Grid
+                                                            container
+                                                            columnGap={0.2}
+                                                            alignItems={
+                                                                "center"
+                                                            }
+                                                            key={name}
+                                                            // sx={{
+                                                            //     marginBottom: 2,
+                                                            // }}
+                                                        >
+                                                            <Grid
+                                                                item
+                                                                xs={3}
+                                                                // sm={9}
+                                                            >
+                                                                <InputLabel
+                                                                    // shrink
+                                                                    htmlFor="bootstrap-input"
+                                                                    sx={{
+                                                                        // padding: "0 20px 0 0",
+                                                                        // backgroundColor: "red",
+                                                                        marginRight: 1,
+                                                                        paddingRight: 1,
+                                                                        fontFamily:
+                                                                            "inherit",
+                                                                        fontSize: 16,
+                                                                        fontWeight:
+                                                                            "500",
+                                                                        // width: "30%",
+                                                                        lineHeight:
+                                                                            "unset",
+                                                                        transformOrigin:
+                                                                            "unset",
+                                                                        textOverflow:
+                                                                            "unset",
+                                                                        whiteSpace:
+                                                                            "unset",
+                                                                        overflow:
+                                                                            "unset",
+                                                                    }}
+                                                                >
+                                                                    {label}
+                                                                </InputLabel>
+                                                            </Grid>
+                                                            <Grid
+                                                                item
+                                                                xs={2.8}
+                                                                sx={{
+                                                                    paddingInline: 0.3,
+                                                                }}
+                                                                // sm={9}
+                                                            >
+                                                                <BaseTextInput
+                                                                    id={name}
+                                                                    name={`chiffre_affaire_an1.vente[${index}].nb_jours`}
+                                                                    // width={"10"}
+                                                                    textAlign="right"
+                                                                    // fullWidth
+                                                                    // comment={
+                                                                    //     "Nom de votre projet ou description de votre activité"
+                                                                    // }
+                                                                />
+                                                            </Grid>
+                                                            <Grid
+                                                                item
+                                                                xs={2.8}
+                                                                sx={{
+                                                                    paddingInline: 0.3,
+                                                                }}
+                                                                // sm={9}
+                                                            >
+                                                                <BaseTextInput
+                                                                    id={name}
+                                                                    name={`chiffre_affaire_an1.vente[${index}].chiffre_affaires`}
+                                                                    width={"15"}
+                                                                    textAlign="right"
+
+                                                                    // fullWidth
+                                                                    // comment={
+                                                                    //     "Nom de votre projet ou description de votre activité"
+                                                                    // }
+                                                                />
+                                                            </Grid>{" "}
+                                                            <Grid
+                                                                item
+                                                                xs={2.8}
+                                                                sx={{
+                                                                    paddingInline: 0.3,
+                                                                }}
+                                                                // sm={9}
+                                                            >
+                                                                <BaseTextInput
+                                                                    readOnly
+                                                                    id={name}
+                                                                    name={`chiffre_affaire_an1.vente[${index}].total_chiffre_affaires`}
+                                                                    customValue={
+                                                                        chiffre_vente_Totals[
+                                                                            index
+                                                                        ]
+                                                                    }
+                                                                    width={"15"}
+                                                                    textAlign="right"
+                                                                    // fullWidth
+                                                                    // comment={
+                                                                    //     "Nom de votre projet ou description de votre activité"
+                                                                    // }
+                                                                />
+                                                            </Grid>
+                                                        </Grid>
+                                                    )
+                                                )}
+                                                <Grid
+                                                    container
+                                                    // direction={"row-reverse"}
+                                                    // justifyContent={"start"}
+                                                    alignItems={"center"}
+                                                    columnGap={0.2}
+                                                >
+                                                    {" "}
+                                                    <Grid
+                                                        item
+                                                        xs={2.8}
+                                                        // sm={9}
+                                                        sx={{
+                                                            paddingInline: 0.3,
+                                                        }}
+                                                    ></Grid>
+                                                    <Grid
+                                                        item
+                                                        xs={2.8}
+                                                        // sm={9}
+                                                        sx={{
+                                                            paddingInline: 0.3,
+                                                        }}
+                                                    ></Grid>
+                                                    <Grid item xs={3}>
+                                                        <InputLabel
+                                                            // shrink
+                                                            htmlFor="bootstrap-input"
+                                                            sx={{
+                                                                textAlign:
+                                                                    "right",
+                                                                // padding: "0 20px 0 0",
+                                                                // backgroundColor: "red",
+                                                                marginRight: 1,
+                                                                paddingRight: 1,
+                                                                fontFamily:
+                                                                    "inherit",
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    "500",
+                                                                // width: "30%",
+                                                                lineHeight:
+                                                                    "unset",
+                                                                transformOrigin:
+                                                                    "unset",
+                                                                textOverflow:
+                                                                    "unset",
+                                                                whiteSpace:
+                                                                    "unset",
+                                                                overflow:
+                                                                    "unset",
+                                                            }}
+                                                        >
+                                                            Total
+                                                        </InputLabel>
+                                                    </Grid>
+                                                    <Grid
+                                                        item
+                                                        xs={2.8}
+                                                        // sm={9}
+                                                        sx={{
+                                                            paddingInline: 0.3,
+                                                        }}
+                                                    >
+                                                        <BaseTextInput
+                                                            textAlign="right"
+                                                            // id="total"
+                                                            name={
+                                                                "chiffre_affaire_an1.total_vente"
+                                                            }
+                                                            label={"Total"}
+                                                            customValue={
+                                                                totalVente
+                                                            }
+                                                            // width={"15"}
+                                                            readOnly
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={8.7}>
+                                                        <InputLabel
+                                                            // shrink
+                                                            htmlFor="bootstrap-input"
+                                                            sx={{
+                                                                // padding: "0 20px 0 0",
+                                                                // backgroundColor: "red",
+                                                                marginRight: 1,
+                                                                paddingRight: 1,
+                                                                fontFamily:
+                                                                    "inherit",
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    "500",
+                                                                // width: "30%",
+                                                                lineHeight:
+                                                                    "unset",
+                                                                transformOrigin:
+                                                                    "unset",
+                                                                textOverflow:
+                                                                    "unset",
+                                                                whiteSpace:
+                                                                    "unset",
+                                                                overflow:
+                                                                    "unset",
+                                                            }}
+                                                        >
+                                                            % d'augmentation du
+                                                            chiffre d'affaire
+                                                            entre l'année 1 et
+                                                            l'année 2
+                                                        </InputLabel>
+                                                    </Grid>
+                                                    <Grid
+                                                        item
+                                                        xs={2.8}
+                                                        // sm={9}
+                                                        sx={{
+                                                            paddingInline: 0.3,
+                                                        }}
+                                                    >
+                                                        <BaseTextInput
+                                                            textAlign="right"
+                                                            // id="total"
+                                                            name={
+                                                                "chiffre_affaire_an1.augmentation_vente1"
+                                                            }
+                                                            label={"Total"}
+                                                            customValue={
+                                                                totalServices
+                                                            }
+                                                            // width={"15"}
+                                                        />
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            md={12}
+                                            lg={6}
+                                            //
+                                            sx={{ padding: 2 }}
+                                        >
+                                            <Grid
+                                                // rowSpacing={3}
+                                                // columnSpacing={6}
+                                                // container
+                                                sx={{ py: 3 }}
+                                                // xs={12}
+                                            >
+                                                <Typography
+                                                    variant="h6"
+                                                    // gutterBottom
+                                                    sx={{
+                                                        marginBottom: 2,
+                                                    }}
+                                                >
+                                                    Année 1 - Services
+                                                </Typography>
+                                                <Grid
+                                                    container
+                                                    columnGap={0.3}
+                                                    alignItems={"center"}
+                                                    sx={{
+                                                        padding: 2,
+                                                        marginBlock: 2,
+                                                        marginInline: -1,
+                                                        borderRadius: 0.5,
+                                                        background: alpha(
+                                                            theme.palette
+                                                                .success.light,
+                                                            0.2
+                                                        ),
+                                                    }}
+                                                >
+                                                    <Grid item xs={3}></Grid>
+                                                    <Grid
+                                                        item
+                                                        xs={2.8}
+                                                        // sm={9}
+                                                    >
+                                                        <Typography
+                                                            variant="subtitle2"
+                                                            textAlign={"center"}
+                                                        >
+                                                            Nb de jours
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid
+                                                        item
+                                                        xs={2.8}
+                                                        // sm={9}
+                                                    >
+                                                        <Typography
+                                                            variant="subtitle2"
+                                                            textAlign={"center"}
+                                                        >
+                                                            Chiffre d'affaires
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid
+                                                        item
+                                                        xs={2.8}
+                                                        // sm={9}
+                                                    >
+                                                        <Typography
+                                                            variant="subtitle2"
+                                                            textAlign={"center"}
+                                                        >
+                                                            Chiffre d'affaires
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
+                                                {monthsDataArray.map(
+                                                    (
+                                                        { name, label },
+                                                        index
+                                                    ) => (
+                                                        <Grid
+                                                            container
+                                                            columnGap={0.2}
+                                                            alignItems={
+                                                                "center"
+                                                            }
+                                                            key={name}
+                                                            // sx={{
+                                                            //     marginBottom: 2,
+                                                            // }}
+                                                        >
+                                                            <Grid
+                                                                item
+                                                                xs={3}
+                                                                // sm={9}
+                                                            >
+                                                                <InputLabel
+                                                                    // shrink
+                                                                    htmlFor="bootstrap-input"
+                                                                    sx={{
+                                                                        // padding: "0 20px 0 0",
+                                                                        // backgroundColor: "red",
+                                                                        marginRight: 1,
+                                                                        paddingRight: 1,
+                                                                        fontFamily:
+                                                                            "inherit",
+                                                                        fontSize: 16,
+                                                                        fontWeight:
+                                                                            "500",
+                                                                        // width: "30%",
+                                                                        lineHeight:
+                                                                            "unset",
+                                                                        transformOrigin:
+                                                                            "unset",
+                                                                        textOverflow:
+                                                                            "unset",
+                                                                        whiteSpace:
+                                                                            "unset",
+                                                                        overflow:
+                                                                            "unset",
+                                                                    }}
+                                                                >
+                                                                    {label}
+                                                                </InputLabel>
+                                                            </Grid>
+                                                            <Grid
+                                                                item
+                                                                xs={2.8}
+                                                                sx={{
+                                                                    paddingInline: 0.3,
+                                                                }}
+                                                                // sm={9}
+                                                            >
+                                                                <BaseTextInput
+                                                                    id={name}
+                                                                    name={`chiffre_affaire_an1.services[${index}].nb_jours`}
+                                                                    // width={"10"}
+                                                                    textAlign="right"
+                                                                    // fullWidth
+                                                                    // comment={
+                                                                    //     "Nom de votre projet ou description de votre activité"
+                                                                    // }
+                                                                />
+                                                            </Grid>
+                                                            <Grid
+                                                                item
+                                                                xs={2.8}
+                                                                sx={{
+                                                                    paddingInline: 0.3,
+                                                                }}
+                                                                // sm={9}
+                                                            >
+                                                                <BaseTextInput
+                                                                    id={name}
+                                                                    name={`chiffre_affaire_an1.services[${index}].chiffre_affaires`}
+                                                                    width={"15"}
+                                                                    textAlign="right"
+                                                                    // fullWidth
+                                                                    // comment={
+                                                                    //     "Nom de votre projet ou description de votre activité"
+                                                                    // }
+                                                                />
+                                                            </Grid>{" "}
+                                                            <Grid
+                                                                item
+                                                                xs={2.8}
+                                                                sx={{
+                                                                    paddingInline: 0.3,
+                                                                }}
+                                                                // sm={9}
+                                                            >
+                                                                <BaseTextInput
+                                                                    id={name}
+                                                                    readOnly
+                                                                    name={`chiffre_affaire_an1.services[${index}].total_chiffre_affaires`}
+                                                                    customValue={
+                                                                        chiffre_services_Totals[
+                                                                            index
+                                                                        ]
+                                                                    }
+                                                                    width={"15"}
+                                                                    textAlign="right"
+                                                                    // fullWidth
+                                                                    // comment={
+                                                                    //     "Nom de votre projet ou description de votre activité"
+                                                                    // }
+                                                                />
+                                                            </Grid>
+                                                        </Grid>
+                                                    )
+                                                )}{" "}
+                                                <Grid
+                                                    container
+                                                    // direction={"row-reverse"}
+                                                    // justifyContent={"start"}
+                                                    alignItems={"center"}
+                                                    columnGap={0.2}
+                                                >
+                                                    {" "}
+                                                    <Grid
+                                                        item
+                                                        xs={2.8}
+                                                        // sm={9}
+                                                        sx={{
+                                                            paddingInline: 0.3,
+                                                        }}
+                                                    ></Grid>
+                                                    <Grid
+                                                        item
+                                                        xs={2.8}
+                                                        // sm={9}
+                                                        sx={{
+                                                            paddingInline: 0.3,
+                                                        }}
+                                                    ></Grid>
+                                                    <Grid item xs={3}>
+                                                        <InputLabel
+                                                            // shrink
+                                                            htmlFor="bootstrap-input"
+                                                            sx={{
+                                                                textAlign:
+                                                                    "right",
+                                                                // padding: "0 20px 0 0",
+                                                                // backgroundColor: "red",
+                                                                marginRight: 1,
+                                                                paddingRight: 1,
+                                                                fontFamily:
+                                                                    "inherit",
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    "500",
+                                                                // width: "30%",
+                                                                lineHeight:
+                                                                    "unset",
+                                                                transformOrigin:
+                                                                    "unset",
+                                                                textOverflow:
+                                                                    "unset",
+                                                                whiteSpace:
+                                                                    "unset",
+                                                                overflow:
+                                                                    "unset",
+                                                            }}
+                                                        >
+                                                            Total
+                                                        </InputLabel>
+                                                    </Grid>
+                                                    <Grid
+                                                        item
+                                                        xs={2.8}
+                                                        sx={{
+                                                            paddingInline: 0.3,
+                                                        }}
+                                                        // sm={9}
+                                                    >
+                                                        <BaseTextInput
+                                                            textAlign="right"
+                                                            // id="total"
+                                                            name={
+                                                                "chiffre_affaire_an1.total_service"
+                                                            }
+                                                            label={"Total"}
+                                                            customValue={
+                                                                totalServices
+                                                            }
+                                                            // width={"15"}
+                                                            readOnly
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={8.7}>
+                                                        <InputLabel
+                                                            // shrink
+                                                            htmlFor="bootstrap-input"
+                                                            sx={{
+                                                                // padding: "0 20px 0 0",
+                                                                // backgroundColor: "red",
+                                                                marginRight: 1,
+                                                                paddingRight: 1,
+                                                                fontFamily:
+                                                                    "inherit",
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    "500",
+                                                                // width: "30%",
+                                                                lineHeight:
+                                                                    "unset",
+                                                                transformOrigin:
+                                                                    "unset",
+                                                                textOverflow:
+                                                                    "unset",
+                                                                whiteSpace:
+                                                                    "unset",
+                                                                overflow:
+                                                                    "unset",
+                                                            }}
+                                                        >
+                                                            % d'augmentation du
+                                                            chiffre d'affaire
+                                                            entre l'année 1 et
+                                                            l'année 2
+                                                        </InputLabel>
+                                                    </Grid>
+                                                    <Grid
+                                                        item
+                                                        xs={2.8}
+                                                        // sm={9}
+                                                    >
+                                                        <BaseTextInput
+                                                            textAlign="right"
+                                                            // id="total"
+                                                            name={
+                                                                "chiffre_affaire_an1.augmentation_services1"
+                                                            }
+                                                            label={"Total"}
+                                                            customValue={
+                                                                totalServices
+                                                            }
+                                                            // width={"15"}
+                                                        />
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
                                     </Grid>
                                 </div>
                                 <ButtonContainerFloatRight>
@@ -1610,5 +2890,55 @@ const chargesFixesDataArray = [
         name: "impôt_taxes",
         comment: "Matières premières, produits finis ou semi-finis",
         label: "Impôt et Taxes, CFE",
+    },
+];
+const monthsDataArray = [
+    {
+        label: "Mois 1",
+        name: "mois1",
+    },
+    {
+        name: "Mois 2",
+        label: "mois2",
+    },
+    {
+        label: "Mois 3",
+        name: "mois3",
+    },
+    {
+        label: "Mois 4",
+        name: "mois4",
+    },
+    {
+        label: "Mois 5",
+        name: "mois5",
+    },
+    {
+        label: "Mois 6",
+        name: "mois6",
+    },
+    {
+        label: "Mois 7",
+        name: "mois7",
+    },
+    {
+        label: "Mois 8",
+        name: "mois8",
+    },
+    {
+        label: "Mois 9",
+        name: "mois9",
+    },
+    {
+        label: "Mois 10",
+        name: "mois10",
+    },
+    {
+        label: "Mois 11",
+        name: "mois11",
+    },
+    {
+        label: "Mois 12",
+        name: "mois12",
     },
 ];

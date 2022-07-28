@@ -14,51 +14,63 @@ import { Box } from "@mui/system";
 import { useField, useFormikContext } from "formik";
 import { useEffect } from "react";
 
-const BootstrapInput = styled(InputBase)(({ theme, align, error }) => ({
-    "label + &": {
-        // marginTop: theme.spacing(3),
-    },
+const BootstrapInput = styled(InputBase)(
+    ({ theme, align, error, readOnly }) => ({
+        "label + &": {
+            // marginTop: theme.spacing(3),
+        },
 
-    "& .MuiInputBase-input": {
-        textAlign: align ? align : "left",
-        borderRadius: 4,
-        position: "relative",
-        backgroundColor: theme.palette.mode === "light" ? "#fcfcfb" : "#2b2b2b",
-        border: "1px solid #ced4da",
-        fontSize: 16,
-        // width: "60%",
-        padding: "10px 12px",
-        borderColor: error ? theme.palette.error.main : theme.palette.grey[300],
-        boxShadow:
-            error && `${alpha(theme.palette.error.main, 0.25)} 0 0 0 0.2rem`,
-        transition: theme.transitions.create([
-            "border-color",
-            "background-color",
-            "box-shadow",
-        ]),
-        // Use the system font instead of the default Roboto font.
-        // fontFamily: [
-        //     "-apple-system",
-        //     "BlinkMacSystemFont",
-        //     '"Segoe UI"',
-        //     "Roboto",
-        //     '"Helvetica Neue"',
-        //     "Arial",
-        //     "sans-serif",
-        //     '"Apple Color Emoji"',
-        //     '"Segoe UI Emoji"',
-        //     '"Segoe UI Symbol"',
-        // ].join(","),
-        "&:focus": {
-            boxShadow: error
-                ? `${alpha(theme.palette.error.main, 0.25)} 0 0 0 0.2rem`
-                : `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
+        "& .MuiInputBase-input": {
+            textAlign: align ? align : "left",
+            borderRadius: 4,
+            position: "relative",
+
+            backgroundColor: !readOnly
+                ? "#fcfcfb"
+                : `${alpha(theme.palette.primary.light, 0.15)}`,
+            border: "1px solid #ced4da",
+            fontSize: 16,
+            // width: "60%",
+            padding: "10px 12px",
             borderColor: error
                 ? theme.palette.error.main
-                : theme.palette.primary.main,
+                : theme.palette.grey[300],
+            boxShadow:
+                error &&
+                `${alpha(theme.palette.error.main, 0.25)} 0 0 0 0.2rem`,
+            transition: theme.transitions.create([
+                "border-color",
+                "background-color",
+                "box-shadow",
+            ]),
+            // Use the system font instead of the default Roboto font.
+            // fontFamily: [
+            //     "-apple-system",
+            //     "BlinkMacSystemFont",
+            //     '"Segoe UI"',
+            //     "Roboto",
+            //     '"Helvetica Neue"',
+            //     "Arial",
+            //     "sans-serif",
+            //     '"Apple Color Emoji"',
+            //     '"Segoe UI Emoji"',
+            //     '"Segoe UI Symbol"',
+            // ].join(","),
+            "&:focus": {
+                boxShadow: error
+                    ? `${alpha(theme.palette.error.main, 0.25)} 0 0 0 0.2rem`
+                    : readOnly
+                    ? "none"
+                    : `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
+                borderColor: error
+                    ? theme.palette.error.main
+                    : readOnly
+                    ? "none"
+                    : theme.palette.primary.main,
+            },
         },
-    },
-}));
+    })
+);
 const ErrorMsgDisplayer = styled(FormHelperText)(({ theme }) => ({
     marginLeft: "35%",
     padding: "4px 8px",
@@ -107,6 +119,7 @@ const InlineTextField = ({
     width,
     comment,
     labelAlign,
+    readOnly,
     ...props
 }) => {
     const { setFieldValue } = useFormikContext();
@@ -152,6 +165,7 @@ const InlineTextField = ({
                     sx={{
                         // padding: "0 20px 0 0",
                         // backgroundColor: "red",
+
                         marginRight: 1,
                         paddingRight: labelAlign && 1,
                         textAlign: labelAlign && labelAlign,
@@ -171,6 +185,7 @@ const InlineTextField = ({
                 {/* </Grid> */}
                 {/* <Grid item xs={width ? 2 : 4}> */}
                 <BootstrapInput
+                    readOnly={readOnly}
                     align={textAlign}
                     sx={{ width: width ? `${width}%` : "40%" }}
                     // sx={{ width: "35%" }}

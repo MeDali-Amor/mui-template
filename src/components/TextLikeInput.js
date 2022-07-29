@@ -19,17 +19,18 @@ const BootstrapInput = styled(InputBase)(
 
         "& .MuiInputBase-input": {
             textAlign: align ? align : "left",
-            // borderRadius: 4,
+            borderRadius: 4,
             // position: "relative",
 
-            backgroundColor: "#fcfcfb",
+            // backgroundColor: "#fcfcfb",
+            backgroundColor: "transparent",
             //     !readOnly
             //     ? "#fcfcfb"
             //     : `${alpha(theme.palette.primary.light, 0.15)}`,
             border: "none",
             // fontSize: 16,
             // width: "60%",
-            // padding: "4px 4px",
+            padding: "6px 8px",
             borderColor: "none",
             // error
             // ? theme.palette.error.main

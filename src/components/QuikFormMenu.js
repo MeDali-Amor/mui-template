@@ -67,6 +67,27 @@ const QuikFormMenu = () => {
                             Chiffre d'affraires 1ere année
                         </a>
                     </li>
+                    <li>
+                        <a href="#charges-variable">Charges variables</a>
+                    </li>
+                    <li>
+                        <a href="#besoin-fonds-roulement">
+                            Besoin en fonds de roulement
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#salaires">Salaires et rémunération</a>
+                    </li>
+                    <li>
+                        <a href="#rentabilite">
+                            Contrôle de seuil de rentabilité
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#niveau_tresorie">
+                            Contrôle du niveau de trésorerie de départ
+                        </a>
+                    </li>
                 </ul>
             </Box>
         </div>

@@ -9,10 +9,11 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import { red } from "@mui/material/colors";
+import debounce from "lodash.debounce";
 import { Box } from "@mui/system";
-import { useField, useFormikContext } from "formik";
+import { FastField, useField, useFormikContext } from "formik";
 import { useEffect } from "react";
+import { useDebounce } from "../hooks/debounceHook";
 
 const BootstrapInput = styled(InputBase)(
     ({ theme, align, error, readOnly }) => ({
@@ -77,38 +78,6 @@ const ErrorMsgDisplayer = styled(FormHelperText)(({ theme }) => ({
     color: theme.palette.error.main,
 }));
 
-const StyledTextField = styled(TextField)(({ theme }) => ({
-    width: "60%",
-    // margin: 20,
-    "& .MuiFormControl-root ": {
-        display: "flex",
-        flexDirection: "row",
-    },
-
-    "& .MuiInputBase-root": {
-        backgroundColor: "#fdfdfd",
-    },
-    "& .MuiOutlinedInput-root": {
-        "& > fieldset": {
-            border: `1px solid ${theme.palette.grey[300]}`,
-            // backgroundColor: theme.palette.grey[200],
-            // boxShadow: `0px 2px 6px 0px ${theme.palette.grey[300]}`,
-            boxShadow: `0px 1px 3px 0px #eeeeee`,
-        },
-    },
-    "& .MuiOutlinedInput-root:hover": {
-        "& > fieldset": {
-            border: `1px solid ${theme.palette.grey[300]}`,
-        },
-    },
-    "& .MuiOutlinedInput-root.Mui-focused": {
-        "& > fieldset": {
-            border: `2px solid ${theme.palette.primary.main}`,
-            // boxShadow: `0 0 0 3px ${theme.palette.primary.lighter}`,
-        },
-    },
-}));
-
 const InlineTextField = ({
     label,
     handleChange,
@@ -126,11 +95,22 @@ const InlineTextField = ({
     const [field, meta] = useField(props);
     const { name, value, onBlur, onChange } = field;
     // console.log(name);
+    const changeHandler = (e) => {
+        onChange(e);
+        setCustomValue &&
+            customValue !== null &&
+            customValue !== undefined &&
+            setCustomValue(e.currentTarget.value);
+        if (handleChange) {
+            handleChange(e);
+        }
+    };
     useEffect(() => {
         if (customValue === null || customValue === undefined) return;
         setFieldValue(name, customValue);
         // console.log(customValue);
     }, [customValue]);
+    // useDebounce(changeHandler, 500);
 
     return (
         <Box>
@@ -184,6 +164,9 @@ const InlineTextField = ({
                 </InputLabel>
                 {/* </Grid> */}
                 {/* <Grid item xs={width ? 2 : 4}> */}
+                {/* <FastField name={name}>
+                    {({ field, meta }) => ( */}
+
                 <BootstrapInput
                     readOnly={readOnly}
                     align={textAlign}
@@ -191,22 +174,16 @@ const InlineTextField = ({
                     // sx={{ width: "35%" }}
                     // label={label}
                     onBlur={onBlur}
-                    name={name}
+                    // name={name}
                     value={value}
                     {...field}
                     {...props}
                     error={meta.touched && Boolean(meta.error)}
-                    onChange={(e) => {
-                        onChange(e);
-                        setCustomValue &&
-                            customValue !== null &&
-                            customValue !== undefined &&
-                            setCustomValue(e.currentTarget.value);
-                        if (handleChange) {
-                            handleChange(e);
-                        }
-                    }}
+                    onChange={changeHandler}
                 />
+                {/* )}
+                </FastField> */}
+
                 {/* </Grid> */}
                 {/* <Grid item xs={3}> */}
                 <Typography

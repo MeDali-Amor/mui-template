@@ -5,7 +5,7 @@ import SectionTitle from "../../components/SectionTitle";
 
 const Page9 = () => {
     return (
-        <div id="rentabilite">
+        <div id="niveau_tresorie">
             <SectionTitle title="Contrôle du niveau de votre trésorerie de départ" />
 
             <Grid

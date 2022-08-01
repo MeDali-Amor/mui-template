@@ -9,11 +9,13 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import debounce from "lodash.debounce";
+import { useFormContext } from "react-hook-form";
+
+// import debounce from "lodash.debounce";
 import { Box } from "@mui/system";
-import { FastField, useField, useFormikContext } from "formik";
+// import { FastField, useField, useFormikContext } from "formik";
 import { useEffect } from "react";
-import { useDebounce } from "../hooks/debounceHook";
+// import { useDebounce } from "../hooks/debounceHook";
 
 const BootstrapInput = styled(InputBase)(
     ({ theme, align, error, readOnly }) => ({
@@ -79,6 +81,9 @@ const ErrorMsgDisplayer = styled(FormHelperText)(({ theme }) => ({
 }));
 
 const InlineTextField = ({
+    // setValue,
+    // register,
+    name,
     label,
     handleChange,
     customValue,
@@ -91,25 +96,27 @@ const InlineTextField = ({
     readOnly,
     ...props
 }) => {
-    const { setFieldValue } = useFormikContext();
-    const [field, meta] = useField(props);
-    const { name, value, onBlur, onChange } = field;
+    // const { setFieldValue } = useFormikContext();
+    // const [field, meta] = useField(props);
+    // const { name, value, onBlur, onChange } = field;
     // console.log(name);
-    const changeHandler = (e) => {
-        onChange(e);
-        setCustomValue &&
-            customValue !== null &&
-            customValue !== undefined &&
-            setCustomValue(e.currentTarget.value);
-        if (handleChange) {
-            handleChange(e);
-        }
-    };
+    // const changeHandler = (e) => {
+    //     onChange(e);
+    //     setCustomValue &&
+    //         customValue !== null &&
+    //         customValue !== undefined &&
+    //         setCustomValue(e.currentTarget.value);
+    //     if (handleChange) {
+    //         handleChange(e);
+    //     }
+    // };
+    const { register, setValue } = useFormContext();
     useEffect(() => {
         if (customValue === null || customValue === undefined) return;
-        setFieldValue(name, customValue);
         // console.log(customValue);
-    }, [customValue]);
+        setValue(name, customValue);
+        // console.log(customValue);
+    }, [name, customValue, setValue]);
     // useDebounce(changeHandler, 500);
 
     return (
@@ -168,19 +175,28 @@ const InlineTextField = ({
                     {({ field, meta }) => ( */}
 
                 <BootstrapInput
+                    {...register(name)}
                     readOnly={readOnly}
                     align={textAlign}
                     sx={{ width: width ? `${width}%` : "40%" }}
                     // sx={{ width: "35%" }}
                     // label={label}
-                    onBlur={onBlur}
+                    // onBlur={onBlur}
                     // name={name}
-                    value={value}
-                    {...field}
-                    {...props}
-                    error={meta.touched && Boolean(meta.error)}
-                    onChange={changeHandler}
+                    // value={value}
+                    // {...field}
+                    // {...props}
+                    // error={meta.touched && Boolean(meta.error)}
+                    // onChange={changeHandler}
                 />
+                {/* <button
+                    type="button"
+                    onClick={() => {
+                        setValue(name, "dali");
+                    }}
+                >
+                    set
+                </button> */}
                 {/* )}
                 </FastField> */}
 
@@ -203,7 +219,7 @@ const InlineTextField = ({
                 {/* </Grid> */}
             </Box>
             <ErrorMsgDisplayer>
-                {meta.touched && Boolean(meta.error) && meta.error}
+                {/* {meta.touched && Boolean(meta.error) && meta.error} */}
             </ErrorMsgDisplayer>
         </Box>
     );

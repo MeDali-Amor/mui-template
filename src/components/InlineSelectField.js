@@ -13,8 +13,10 @@ import {
     Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { useField, useFormikContext } from "formik";
-import { useEffect } from "react";
+import { useFormContext } from "react-hook-form";
+
+// import { useField, useFormikContext } from "formik";
+// import { useEffect } from "react";
 
 const BootstrapInput = styled(InputBase)(({ theme, align, error }) => ({
     "label + &": {
@@ -55,6 +57,7 @@ const ErrorMsgDisplayer = styled(FormHelperText)(({ theme }) => ({
 }));
 
 const InlineSelectField = ({
+    name,
     label,
     handleChange,
     customValue,
@@ -64,14 +67,17 @@ const InlineSelectField = ({
     comment,
     ...props
 }) => {
-    const { setFieldValue } = useFormikContext();
-    const [field, meta] = useField(props);
-    const { name, value, onBlur, onChange } = field;
+    // const { register, handleSubmit, errors } = useFrom();
+    const { register, setValue } = useFormContext();
+
+    // const { setFieldValue } = useFormikContext();
+    // const [field, meta] = useField(props);
+    // const { name, value, onBlur, onChange } = field;
     // console.log(name);
-    useEffect(() => {
-        if (!customValue) return;
-        setFieldValue(name, customValue);
-    }, [customValue]);
+    // useEffect(() => {
+    //     if (!customValue) return;
+    //     setFieldValue(name, customValue);
+    // }, [customValue]);
     return (
         <Box>
             <Box
@@ -125,9 +131,10 @@ const InlineSelectField = ({
                 {/* </Grid> */}
                 {/* <Grid item xs={4}> */}
                 <NativeSelect
-                    onBlur={onBlur}
-                    name={name}
-                    value={value}
+                    {...register(name)}
+                    // onBlur={onBlur}
+                    // name={name}
+                    // value={value}
                     // sx={{ width: "100%", backgroundColor: "blue" }}
                     align={textAlign}
                     sx={{
@@ -139,12 +146,12 @@ const InlineSelectField = ({
                     // {...field}
                     {...props}
                     // error={meta.touched && Boolean(meta.error)}
-                    onChange={(e) => {
-                        onChange(e);
-                        if (handleChange) {
-                            handleChange(e);
-                        }
-                    }}
+                    // onChange={(e) => {
+                    //     onChange(e);
+                    //     if (handleChange) {
+                    //         handleChange(e);
+                    //     }
+                    // }}
                     input={<BootstrapInput />}
                 >
                     {/* <option aria-label="None" value="" /> */}
@@ -181,7 +188,7 @@ const InlineSelectField = ({
                 {/* </Grid> */}
             </Box>
             <ErrorMsgDisplayer>
-                {meta.touched && Boolean(meta.error) && meta.error}
+                {/* {meta.touched && Boolean(meta.error) && meta.error} */}
             </ErrorMsgDisplayer>
         </Box>
     );

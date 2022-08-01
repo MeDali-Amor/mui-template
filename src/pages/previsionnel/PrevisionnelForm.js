@@ -1,21 +1,20 @@
-import {
-    FormControl,
-    Grid,
-    InputLabel,
-    Stack,
-    styled,
-    TextField,
-    Typography,
-} from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
-import InputFeild from "../../components/InputFeild";
-import MultiStepForm, { FormStep } from "../../components/MultiStepForm";
-import CustomizedSnackbar from "../../components/Sbackbar";
 import * as yup from "yup";
-import InlineSelectField from "../../components/InlineSelectField";
-import InlineTextField from "../../components/InlineTextFeild";
-import { useFormikContext } from "formik";
+import { useForm, FormProvider } from "react-hook-form";
+import Page0 from "./Page0";
+import { Button, styled } from "@mui/material";
+import Page1 from "./Page1";
+import Page2 from "./Page2";
+import Page3 from "./Page3";
+import Page4 from "./Page4";
+import Page5 from "./Page5";
+import Page6 from "./Page6";
+import Page7 from "./Page7";
+import Page8 from "./Page8";
+import Page9 from "./Page9";
+import QuikFormMenu from "../../components/QuikFormMenu";
+
 const besoinDemarageDataArray = [
     {
         name: "frais_etablissement",
@@ -159,6 +158,356 @@ const besoinDemarageValidation = yup.object({
 });
 
 const PrevisionnelForm = () => {
+    const methods = useForm({
+        defaultValues: {
+            nom: "",
+            prenom: "",
+            nom_projet: "",
+            form_juridique: "",
+            num_telephone: "",
+            email: "",
+            commune: "",
+            code_postal: "",
+            activite: "",
+            duree_amortissement: "",
+            besoin_demarage: {
+                frais_etablissement: "",
+                frais_compteurs: "",
+                frais_logiciels: "",
+                frais_marque: "",
+                frais_droit_entree: "",
+                achat_fonds_de_commerce: "",
+                droit_au_bail: "",
+                depot_garantie: "",
+                frais_dossier: "",
+                frais_avocat: "",
+                frais_communication: "",
+                achat_immobilier: "",
+                frais_travaux: "",
+                frais_materiel: "",
+                frais_materiel_bureau: "",
+                frais_stock: "",
+                tresorie_de_depart: "",
+                total: 0,
+                autres_frais: [
+                    {
+                        label: "",
+                        montant: "",
+                    },
+                    {
+                        label: "",
+                        montant: "",
+                    },
+                    {
+                        label: "",
+                        montant: "",
+                    },
+                ],
+            },
+            financement_demarage: {
+                apport_personnel: "",
+                apports_en_nature: "",
+                pret_1: {
+                    nom_banque: "",
+                    montant: "",
+                    taux: "",
+                    duree_en_mois: "",
+                },
+                pret_2: {
+                    nom_banque: "",
+                    montant: "",
+                    taux: "",
+                    duree_en_mois: "",
+                },
+                pret_3: {
+                    nom_banque: "",
+                    montant: "",
+                    taux: "",
+                    duree_en_mois: "",
+                },
+                subvention_1: "",
+                subvention_2: "",
+                autre_financement: { label: "", montant: "" },
+                financement_total: 0,
+            },
+            charges_fixes: {
+                autres_charges_fixes: [
+                    {
+                        name: "",
+                        autres_an1: "",
+                        autres_an2: "",
+                        autres_an3: "",
+                        autres_an4: "",
+                        autres_an5: "",
+                    },
+                    {
+                        name: "",
+                        autres_an1: "",
+                        autres_an2: "",
+                        autres_an3: "",
+                        autres_an4: "",
+                        autres_an5: "",
+                    },
+                    {
+                        name: "",
+                        autres_an1: "",
+                        autres_an2: "",
+                        autres_an3: "",
+                        autres_an4: "",
+                        autres_an5: "",
+                    },
+                ],
+                annee1: {
+                    assurances: "",
+                    telephone_internet: "",
+                    autres_abonnements: "",
+                    carburant_transports: "",
+                    frais_deplacement_hebergement: "",
+                    Eau_electricite_gaz: "",
+                    mutuellee: "",
+                    entretien_vehicule: "",
+                    nettoyage_locaux: "",
+                    publicite_communication: "",
+                    loyer: "",
+                    comptable_avocats: "",
+                    frais_bancaires: "",
+                    impôt_taxes: "",
+                    total_charges_fixes: 0,
+                },
+                annee2: {
+                    assurances: "",
+                    telephone_internet: "",
+                    autres_abonnements: "",
+                    carburant_transports: "",
+                    frais_deplacement_hebergement: "",
+                    Eau_electricite_gaz: "",
+                    mutuellee: "",
+                    entretien_vehicule: "",
+                    nettoyage_locaux: "",
+                    publicite_communication: "",
+                    loyer: "",
+                    comptable_avocats: "",
+                    frais_bancaires: "",
+                    impôt_taxes: "",
+                    total_charges_fixes: 0,
+                },
+                annee3: {
+                    assurances: "",
+                    telephone_internet: "",
+                    autres_abonnements: "",
+                    carburant_transports: "",
+                    frais_deplacement_hebergement: "",
+                    Eau_electricite_gaz: "",
+                    mutuellee: "",
+                    entretien_vehicule: "",
+                    nettoyage_locaux: "",
+                    publicite_communication: "",
+                    loyer: "",
+                    comptable_avocats: "",
+                    frais_bancaires: "",
+                    impôt_taxes: "",
+                    total_charges_fixes: 0,
+                },
+                annee4: {
+                    assurances: "",
+                    telephone_internet: "",
+                    autres_abonnements: "",
+                    carburant_transports: "",
+                    frais_deplacement_hebergement: "",
+                    Eau_electricite_gaz: "",
+                    mutuellee: "",
+                    entretien_vehicule: "",
+                    nettoyage_locaux: "",
+                    publicite_communication: "",
+                    loyer: "",
+                    comptable_avocats: "",
+                    frais_bancaires: "",
+                    impôt_taxes: "",
+                    total_charges_fixes: 0,
+                },
+                annee5: {
+                    assurances: "",
+                    telephone_internet: "",
+                    autres_abonnements: "",
+                    carburant_transports: "",
+                    frais_deplacement_hebergement: "",
+                    Eau_electricite_gaz: "",
+                    mutuellee: "",
+                    entretien_vehicule: "",
+                    nettoyage_locaux: "",
+                    publicite_communication: "",
+                    loyer: "",
+                    comptable_avocats: "",
+                    frais_bancaires: "",
+                    impôt_taxes: "",
+                    total_charges_fixes: 0,
+                },
+            },
+            chiffre_affaire_an1: {
+                total_vente: 0,
+                total_service: 0,
+                augmentation_vente1: "",
+                augmentation_services1: "",
+                vente: [
+                    {
+                        name: "Mois 1",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 2",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 3",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 4",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 5",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 6",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 7",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 8",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 9",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 10",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 11",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 12",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                ],
+                services: [
+                    {
+                        name: "Mois 1",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 2",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 3",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 4",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 5",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 6",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 7",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 8",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 9",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 10",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 11",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                    {
+                        name: "Mois 12",
+                        nb_jours: 25,
+                        chiffre_affaires: "",
+                        total_chiffre_affaires: 0,
+                    },
+                ],
+            },
+            pourcentage_vente_cout_achat: "",
+            duree_credits_clients: "",
+            duree_dettes_fournisseurs: "",
+            salaires_employes: ["", "", "", "", ""],
+            remuneration_dirigeants: ["", "", "", "", ""],
+            dir_ACCRE: "Non",
+            rentabilite: "",
+            niveau_tresorie: "",
+        },
+    });
+
     // const { values } = useFormikContext();
     const [sign, setSign] = useState(window.innerWidth);
     const [open, setOpen] = useState(false);
@@ -173,323 +522,195 @@ const PrevisionnelForm = () => {
         if (Number(value)) sum += Number(value);
         setTotal(sum);
     };
-    const handleSubmit = async (values) => {
+    const submitForm = async (values) => {
         console.log(values);
     };
     return (
-        <div>
+        <Box
+            sx={{
+                // backgroundColor: "red",
+                height: "100%",
+                // maxWidth: 900,
+                // margin: "auto",
+
+                // py: 2,
+                // px: 16,
+                padding: 4,
+                display: "flex",
+                flexDirection: "row",
+                // scrollBehavior: "smooth",
+                position: "relative",
+            }}
+        >
             <Box
                 sx={{
-                    minHeight: "calc(100vh - 170px)",
-                    height: "100%",
-                    // maxWidth: 900,
-                    margin: "auto",
-                    py: 2,
-                    px: 16,
+                    marginRight: "280px",
+                    scrollBehavior: "smooth",
                 }}
             >
-                <MultiStepForm
-                    setSign={setSign}
-                    loading={loading}
-                    initialValues={{
-                        nom: "",
-                        prenom: "",
-                        nom_projet: "",
-                        form_juridique: "",
-                        num_telephone: "",
-                        email: "",
-                        commune: "",
-                        code_postal: "",
-                        activite: "",
-                        duree_amortissement: "",
-                        besoin_demarage: {
-                            frais_etablissement: "",
-                            frais_compteurs: "",
-                            frais_logiciels: "",
-                            frais_marque: "",
-                            frais_droit_entree: "",
-                            achat_fonds_de_commerce: "",
-                            droit_au_bail: "",
-                            depot_garantie: "",
-                            frais_dossier: "",
-                            frais_avocat: "",
-                            frais_communication: "",
-                            achat_immobilier: "",
-                            frais_travaux: "",
-                            frais_materiel: "",
-                            frais_materiel_bureau: "",
-                            frais_stock: "",
-                            tresorie_de_depart: "",
-                            total: 0,
-                        },
-                    }}
-                    onSubmit={(values) => handleSubmit(values)}
-                >
-                    <FormStep
-                        sign={sign}
-                        stepName="Bonjour"
-                        onSubmit={() => console.log("step 0")}
-                        // validationSchema={validationSchema}
-                    >
-                        <Typography
-                            component="h1"
-                            variant="h4"
-                            align="center"
-                            sx={{
-                                marginTop: 4,
-                                marginBottom: 2,
-                            }}
-                        >
-                            Vous souhaitez ajouter une societé?
-                        </Typography>
+                <FormProvider {...methods}>
+                    <form onSubmit={methods.handleSubmit(submitForm)}>
+                        <Page0 />
+                        <Page1
+                            // formik={formik}
+                            besoinDemarageDataArray={besoinDemarageDataArray}
+                            // sumTotal={sumTotal}
+                        />
+                        <Page2 />
+                        <Page3 chargesFixesDataArray={chargesFixesDataArray} />
+                        <Page4 monthsDataArray={monthsDataArray} />
+                        <Page5 />
+                        <Page6 />
+                        <Page7 />
+                        <Page8 />
+                        <Page9 />
 
-                        <Typography
-                            variant="body1"
-                            align="center"
-                            sx={{
-                                marginBottom: 6,
-                            }}
-                        >
-                            Saisissez dans cet onglet toutes les données de
-                            votre projet
-                        </Typography>
-                    </FormStep>
-                    <FormStep
-                        sign={sign}
-                        stepName="Identification"
-                        onSubmit={() => console.log("step 1")}
-                        validationSchema={validationSchema}
-                    >
-                        <Grid
-                            // rowSpacing={3}
-                            // columnSpacing={6}
-                            // container
-                            sx={{ py: 3 }}
-                            // xs={12}
-                        >
-                            <Typography variant="h6" gutterBottom>
-                                Identification
-                            </Typography>
-                        </Grid>
-                        <Grid container rowSpacing={2} columnSpacing={0}>
-                            <Grid item xs={12} sm={8}>
-                                <InlineTextField
-                                    id="prenom"
-                                    name="prenom"
-                                    label="Prenom"
-                                    fullWidth
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={8}>
-                                <InlineTextField
-                                    id="nom"
-                                    name="nom"
-                                    label="Nom"
-                                    fullWidth
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={8}>
-                                <InlineTextField
-                                    id="nom_projet"
-                                    name="nom_projet"
-                                    label="Intitulé du projet"
-                                    fullWidth
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <Typography
-                                    variant="body2"
-                                    align="left"
-                                    sx={{ marginTop: "10px" }}
-                                >
-                                    (Nom de votre projet ou description de votre
-                                    activité )
-                                </Typography>
-                            </Grid>
-                            {/* */}
-                            <Grid item xs={12} sm={8}>
-                                <InlineSelectField
-                                    options={[
-                                        "Micro-entreprise",
-                                        "Entreprise individuelle au réel (IR)",
-                                        "EURL (IS)",
-                                        "SARL (IS)",
-                                        "SAS (IS)",
-                                        "SASU (IS)",
-                                    ]}
-                                    id="form_juridique"
-                                    name="form_juridique"
-                                    label="Statut juridique *"
-                                    fullWidth
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={8}>
-                                <InlineTextField
-                                    id="email"
-                                    name="email"
-                                    label="Email"
-                                    fullWidth
-                                    //   customValue={dirigTel}
-                                    //   setCustomValue={setDirigTel}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={8}>
-                                <InlineTextField
-                                    id="num_telephone"
-                                    name="num_telephone"
-                                    label="Téléphone"
-                                    fullWidth
-                                    //   customValue={dirigTel}
-                                    //   setCustomValue={setDirigTel}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={8}>
-                                <InlineTextField
-                                    id="code_postal"
-                                    name="code_postal"
-                                    label="Code Postal"
-                                    fullWidth
-                                    autoComplete="billing postal-code"
-                                    //   handleChange={handleAdressChange}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={8}>
-                                <InlineTextField
-                                    id="commune"
-                                    name="commune"
-                                    label="Votre ville ou commune d'activité"
-                                    //   customValue={city ? city : ""}
-                                    //   setCustomValue={setCity}
-                                    fullWidth
-                                    autoComplete="billing address-level2"
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={8}>
-                                <InlineSelectField
-                                    options={[
-                                        "Marchandises (y compris hébergement et restauration)",
-                                        "Services",
-                                        "Mixte",
-                                    ]}
-                                    id="activite"
-                                    name="activite"
-                                    label="Vente de marchandises ou de services"
-                                    fullWidth
-                                />
-                            </Grid>
-                            {/* <Grid item xs={12} sm={4}>
-                                <InlineTextField
-                                    id="nationalite"
-                                    name="nationalite"
-                                    label="Pays"
-                                    fullWidth
-                                    autoComplete="billing country"
-                                />
-                            </Grid> */}
-                        </Grid>
-                    </FormStep>
-                    <FormStep
-                        sign={sign}
-                        stepName="Besoins de démarage"
-                        onSubmit={() => console.log("step 2")}
-                        validationSchema={besoinDemarageValidation}
-                    >
-                        <Grid
-                            // rowSpacing={3}
-                            // columnSpacing={6}
-                            // container
-                            sx={{ py: 3 }}
-                            // xs={12}
-                        >
-                            <Typography variant="h6" gutterBottom>
-                                Besoins de démarage
-                            </Typography>
-                            <Typography
-                                variant="body1"
-                                align="center"
-                                sx={{
-                                    marginBottom: 6,
-                                }}
+                        <ButtonContainerFloatRight>
+                            <Button
+                                variant="contained"
+                                size="large"
+                                type="submit"
                             >
-                                Listez toutes les dépenses ou investissements
-                                que vous devrez faire avant même de démarrer
-                                l’activité, en hors taxes (ou TTC si vous n'êtes
-                                pas soumis à la TVA)
-                            </Typography>
-                        </Grid>
-                        <Grid container rowSpacing={2} columnSpacing={0}>
-                            {besoinDemarageDataArray.map((item) => (
-                                <Grid
-                                    container
-                                    rowSpacing={2}
-                                    columnSpacing={0}
-                                    key={item.name}
-                                >
-                                    <Grid item xs={12} sm={8}>
-                                        <InlineTextField
-                                            id={item.name}
-                                            name={`besoin_demarage.${item.name}`}
-                                            label={item.label}
-                                            fullWidth
-                                            handleChange={(e) =>
-                                                sumValues(e.target.value)
-                                            }
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12} sm={4}>
-                                        <Typography
-                                            variant="body2"
-                                            align="left"
-                                            sx={{ marginTop: "10px" }}
-                                        >
-                                            {item.comment &&
-                                                `(${item.comment})`}
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-                                //   Durée d'amortissement des investissements :
-                            ))}
-                            <Grid item xs={12} sm={8}>
-                                <InlineTextField
-                                    id="total"
-                                    name={"besoin_demarage.total"}
-                                    label={"Total"}
-                                    customValue={total}
-                                    readOnly
-                                    fullWidth
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={8}>
-                                <InlineTextField
-                                    id="duree_amortissement"
-                                    name="duree_amortissement"
-                                    label={
-                                        "Durée d'amortissement des investissements *"
-                                    }
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <Typography
-                                    variant="body2"
-                                    align="left"
-                                    sx={{ marginTop: "10px" }}
-                                >
-                                    (durée de vie des acquisitions de départ, en
-                                    années)
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                    </FormStep>
-                </MultiStepForm>
+                                Submit
+                            </Button>
+                        </ButtonContainerFloatRight>
+                    </form>
+                </FormProvider>
             </Box>
-            <CustomizedSnackbar
-                open={open}
-                setOpen={setOpen}
-                alertType={alertType}
-                msg={msg}
-            />
-        </div>
+            <Box>
+                <QuikFormMenu />
+            </Box>
+        </Box>
     );
 };
 
 export default PrevisionnelForm;
+const ButtonContainerFloatRight = styled("div")(({ theme }) => ({
+    paddingInline: theme.spacing(8),
+    // paddingBlock: theme.spacing(16),
+    paddingTop: "16px",
+    float: "right",
+}));
+const chargesFixesDataArray = [
+    {
+        name: "assurances",
+        label: "Assurances",
+        comment: "Ce sont les frais de création de l’entreprise (formalités)",
+    },
+    {
+        name: "telephone_internet",
+        comment: "Compteurs d'eau, électricité, gaz…",
+        label: "Téléphone, internet",
+    },
+    {
+        name: "autres_abonnements",
+        comment: "Frais de dépôt ou d’enregistrement",
+        label: "Autres abonnements",
+    },
+    {
+        name: "carburant_transports",
+        comment: "Par exemple pour intégrer un réseau de franchise",
+        label: "Carburant, transports",
+    },
+    {
+        name: "frais_deplacement_hebergement",
+        comment: "Dans le cas d'une reprise",
+        label: "Frais de déplacement et hébergement",
+    },
+    {
+        name: "Eau_electricite_gaz",
+        comment: "",
+        label: "Eau, électricité, gaz",
+    },
+    {
+        name: "mutuellee",
+        comment: "",
+        label: "Mutuelle",
+    },
+    {
+        name: "entretien_vehicule",
+        comment: "Pour la signature de contrats de prêt",
+        label: "Entretien du véhicule",
+    },
+    {
+        name: "nettoyage_locaux",
+        comment: "Pour la signature des contrats et baux commerciaux",
+        label: "Nettoyage des locaux",
+    },
+    {
+        name: "publicite_communication",
+        comment: "Acquisition d'immeuble",
+        label: "Budget publicité et communication",
+    },
+    {
+        name: "loyer",
+        comment: "Pour l'aménagement du local",
+        label: "Loyer et charges locatives",
+    },
+    {
+        name: "comptable_avocats",
+        comment: "Matériel, outillage, machines, véhicules…",
+        label: "Expert comptable, avocats",
+    },
+    {
+        name: "frais_bancaires",
+        comment: "Fournitures, ordinateur, imprimante",
+        label: "Frais bancaires et terminal carte bleue",
+    },
+    {
+        name: "impôt_taxes",
+        comment: "Matières premières, produits finis ou semi-finis",
+        label: "Impôt et Taxes, CFE",
+    },
+];
+
+const monthsDataArray = [
+    {
+        label: "Mois 1",
+        name: "mois1",
+    },
+    {
+        name: "Mois 2",
+        label: "mois2",
+    },
+    {
+        label: "Mois 3",
+        name: "mois3",
+    },
+    {
+        label: "Mois 4",
+        name: "mois4",
+    },
+    {
+        label: "Mois 5",
+        name: "mois5",
+    },
+    {
+        label: "Mois 6",
+        name: "mois6",
+    },
+    {
+        label: "Mois 7",
+        name: "mois7",
+    },
+    {
+        label: "Mois 8",
+        name: "mois8",
+    },
+    {
+        label: "Mois 9",
+        name: "mois9",
+    },
+    {
+        label: "Mois 10",
+        name: "mois10",
+    },
+    {
+        label: "Mois 11",
+        name: "mois11",
+    },
+    {
+        label: "Mois 12",
+        name: "mois12",
+    },
+];

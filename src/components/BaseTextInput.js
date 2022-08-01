@@ -7,8 +7,9 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
+import { useFormContext } from "react-hook-form";
 import { Box } from "@mui/system";
-import { useField, useFormikContext } from "formik";
+// import { useField, useFormikContext } from "formik";
 import { useEffect } from "react";
 
 const BootstrapInput = styled(InputBase)(
@@ -63,6 +64,7 @@ const ErrorMsgDisplayer = styled(FormHelperText)(({ theme }) => ({
 }));
 
 const BaseTextInput = ({
+    name,
     label,
     handleChange,
     customValue,
@@ -75,13 +77,14 @@ const BaseTextInput = ({
     readOnly,
     ...props
 }) => {
-    const { setFieldValue } = useFormikContext();
-    const [field, meta] = useField(props);
-    const { name, value, onBlur, onChange } = field;
+    const { register, setValue } = useFormContext();
+    // const { setFieldValue } = useFormikContext();
+    // const [field, meta] = useField(props);
+    // const { name, value, onBlur, onChange } = field;
     // console.log(name);
     useEffect(() => {
         if (customValue === null || customValue === undefined) return;
-        setFieldValue(name, customValue);
+        setValue(name, customValue);
         // console.log(customValue);
     }, [customValue]);
 
@@ -99,30 +102,31 @@ const BaseTextInput = ({
             >
                 <BootstrapInput
                     align={textAlign}
+                    {...register(name)}
                     // sx={{ width: width ? `${width}%` : "40%" }}
                     // sx={{ width: "35%" }}
                     // label={label}
                     readOnly={readOnly}
-                    onBlur={onBlur}
-                    name={name}
-                    value={value}
-                    {...field}
+                    // onBlur={onBlur}
+                    // name={name}
+                    // value={value}
+                    // {...field}
                     {...props}
-                    error={meta.touched && Boolean(meta.error)}
-                    onChange={(e) => {
-                        onChange(e);
-                        setCustomValue &&
-                            customValue !== null &&
-                            customValue !== undefined &&
-                            setCustomValue(e.currentTarget.value);
-                        if (handleChange) {
-                            handleChange(e);
-                        }
-                    }}
+                    // error={meta.touched && Boolean(meta.error)}
+                    // onChange={(e) => {
+                    //     onChange(e);
+                    //     setCustomValue &&
+                    //         customValue !== null &&
+                    //         customValue !== undefined &&
+                    //         setCustomValue(e.currentTarget.value);
+                    //     if (handleChange) {
+                    //         handleChange(e);
+                    //     }
+                    // }}
                 />
             </Box>
             <ErrorMsgDisplayer>
-                {meta.touched && Boolean(meta.error) && meta.error}
+                {/* {meta.touched && Boolean(meta.error) && meta.error} */}
             </ErrorMsgDisplayer>
         </Box>
     );

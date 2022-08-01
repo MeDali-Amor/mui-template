@@ -8,7 +8,7 @@ import {
     Typography,
     useTheme,
 } from "@mui/material";
-import { FieldArray } from "formik";
+// import { FieldArray } from "formik";
 import React from "react";
 import BaseTextInput from "../../components/BaseTextInput";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
@@ -16,15 +16,26 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SectionTitle from "../../components/SectionTitle";
 import FormOpeningText from "../../components/FormOpeningText";
 import { useMemo } from "react";
-import { useRef } from "react";
-import useIsInView from "../../hooks/isInViewHook";
+import { useFormContext, useFieldArray, useWatch } from "react-hook-form";
 
-const Page3 = ({ formik, chargesFixesDataArray }) => {
+const Page3 = ({ chargesFixesDataArray }) => {
+    const watchedValues = useWatch({
+        name: "charges_fixes",
+    });
     const theme = useTheme();
-    const charges_fixes = formik.values.charges_fixes;
+    const { getValues, control } = useFormContext();
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "autres_charges_fixes",
+    });
+    const formValues = getValues();
+
+    const charges_fixes = formValues.charges_fixes;
     const autreCharges = charges_fixes.autres_charges_fixes;
-    const yearlyCharges = useMemo(
-        () => [
+    const yearlyCharges =
+        // useMemo(
+        // () =>
+        [
             {
                 ...charges_fixes.annee1,
                 autres_charges_annuel: autreCharges.map((el) => el.autres_an1),
@@ -45,9 +56,9 @@ const Page3 = ({ formik, chargesFixesDataArray }) => {
                 ...charges_fixes.annee5,
                 autres_charges_annuel: autreCharges.map((el) => el.autres_an5),
             },
-        ],
-        [autreCharges, charges_fixes]
-    );
+        ];
+    // [autreCharges, charges_fixes]
+    // );
     function sumFunction(array) {
         return array.reduce(
             (previousValue, currentValue) =>
@@ -281,7 +292,7 @@ const Page3 = ({ formik, chargesFixesDataArray }) => {
                         Autres charges (inscrire libellé ci-dessous) :
                     </Typography>
                 </Grid>
-                <FieldArray name="charges_fixes.autres_charges_fixes">
+                {/* <FieldArray name="charges_fixes.autres_charges_fixes">
                     {(fieldArrayProps) => {
                         // console.log(fieldArrayProps);
                         const { push, remove, form } = fieldArrayProps;
@@ -299,182 +310,179 @@ const Page3 = ({ formik, chargesFixesDataArray }) => {
                                     width: "100%",
                                 }}
                                 // xs={12}
-                            >
-                                {autres_charges_fixes?.map((el, index) => (
-                                    <Grid
-                                        container
-                                        columnGap={0.2}
-                                        alignItems={"center"}
-                                        key={`${el.name}${index}`}
-                                        // sx={{
-                                        //     marginBottom: 2,
-                                        // }}
-                                    >
-                                        <Grid
-                                            item
-                                            xs={3}
-                                            // sm={9}
-                                        >
-                                            <BaseTextInput
-                                                // id={name}
-                                                name={`charges_fixes.autres_charges_fixes[${index}].name`}
-                                                // width={"15"}
-                                                // textAlign="right"
-                                                fullWidth
-                                                // comment={
-                                                //     "Nom de votre projet ou description de votre activité"
-                                                // }
-                                            />
-                                        </Grid>
-                                        <Grid
-                                            item
-                                            xs={1.7}
-                                            sx={{
-                                                paddingInline: 0.3,
-                                            }}
-                                            // sm={9}
-                                        >
-                                            <BaseTextInput
-                                                // id={el.name}
-                                                name={`charges_fixes.autres_charges_fixes[${index}].autres_an1`}
-                                                // width={"10"}
-                                                textAlign="right"
-                                                // fullWidth
-                                                // comment={
-                                                //     "Nom de votre projet ou description de votre activité"
-                                                // }
-                                            />
-                                        </Grid>
-                                        <Grid
-                                            item
-                                            xs={1.7}
-                                            sx={{
-                                                paddingInline: 0.3,
-                                            }}
-                                            // sm={9}
-                                        >
-                                            <BaseTextInput
-                                                // id={name}
-                                                name={`charges_fixes.autres_charges_fixes[${index}].autres_an2`}
-                                                width={"15"}
-                                                textAlign="right"
-                                                // fullWidth
-                                                // comment={
-                                                //     "Nom de votre projet ou description de votre activité"
-                                                // }
-                                            />
-                                        </Grid>{" "}
-                                        <Grid
-                                            item
-                                            xs={1.7}
-                                            sx={{
-                                                paddingInline: 0.3,
-                                            }}
-                                            // sm={9}
-                                        >
-                                            <BaseTextInput
-                                                // id={name}
-                                                name={`charges_fixes.autres_charges_fixes[${index}].autres_an3`}
-                                                width={"15"}
-                                                textAlign="right"
-                                                // fullWidth
-                                                // comment={
-                                                //     "Nom de votre projet ou description de votre activité"
-                                                // }
-                                            />
-                                        </Grid>
-                                        <Grid
-                                            item
-                                            xs={1.7}
-                                            sx={{
-                                                paddingInline: 0.3,
-                                            }}
-                                            // sm={9}
-                                        >
-                                            <BaseTextInput
-                                                name={`charges_fixes.autres_charges_fixes[${index}].autres_an4`}
-                                                width={"15"}
-                                                textAlign="right"
-                                                // fullWidth
-                                                // comment={
-                                                //     "Nom de votre projet ou description de votre activité"
-                                                // }
-                                            />
-                                        </Grid>
-                                        <Grid
-                                            item
-                                            xs={1.7}
-                                            sx={{
-                                                paddingInline: 0.3,
-                                            }}
-                                            // sm={9}
-                                        >
-                                            <BaseTextInput
-                                                name={`charges_fixes.autres_charges_fixes[${index}].autres_an5`}
-                                                width={"15"}
-                                                textAlign="right"
-                                                // fullWidth
-                                                // comment={
-                                                //     "Nom de votre projet ou description de votre activité"
-                                                // }
-                                            />
-                                        </Grid>
-                                        <Grid
-                                            item
-                                            // xs={12}
-                                            // sm={1}
-                                        >
-                                            {index > 2 && (
-                                                <Tooltip title="Supprimer la dépense">
-                                                    <IconButton
-                                                        // sx={{
-                                                        //     position:
-                                                        //         "absolute",
-                                                        //     top: "25%",
-                                                        //     right: -40,
-                                                        //     transform:
-                                                        //         "translateY(-50%)",
-                                                        // }}
-                                                        color="error"
-                                                        ria-label="delete"
-                                                        size="small"
-                                                        onClick={() => {
-                                                            remove(index);
-                                                        }}
-                                                    >
-                                                        <DeleteOutlineOutlinedIcon />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            )}
-                                        </Grid>
-                                    </Grid>
-                                ))}
-                                <Tooltip title="Ajouter une autre charge">
+                            > */}
+                {fields?.map((el, index) => (
+                    <Grid
+                        container
+                        columnGap={0.2}
+                        alignItems={"center"}
+                        key={`${el.name}${index}`}
+                        // sx={{
+                        //     marginBottom: 2,
+                        // }}
+                    >
+                        <Grid
+                            item
+                            xs={3}
+                            // sm={9}
+                        >
+                            <BaseTextInput
+                                // id={name}
+                                name={`charges_fixes.autres_charges_fixes[${index}].name`}
+                                // width={"15"}
+                                // textAlign="right"
+                                fullWidth
+                                // comment={
+                                //     "Nom de votre projet ou description de votre activité"
+                                // }
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            xs={1.7}
+                            sx={{
+                                paddingInline: 0.3,
+                            }}
+                            // sm={9}
+                        >
+                            <BaseTextInput
+                                // id={el.name}
+                                name={`charges_fixes.autres_charges_fixes[${index}].autres_an1`}
+                                // width={"10"}
+                                textAlign="right"
+                                // fullWidth
+                                // comment={
+                                //     "Nom de votre projet ou description de votre activité"
+                                // }
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            xs={1.7}
+                            sx={{
+                                paddingInline: 0.3,
+                            }}
+                            // sm={9}
+                        >
+                            <BaseTextInput
+                                // id={name}
+                                name={`charges_fixes.autres_charges_fixes[${index}].autres_an2`}
+                                width={"15"}
+                                textAlign="right"
+                                // fullWidth
+                                // comment={
+                                //     "Nom de votre projet ou description de votre activité"
+                                // }
+                            />
+                        </Grid>{" "}
+                        <Grid
+                            item
+                            xs={1.7}
+                            sx={{
+                                paddingInline: 0.3,
+                            }}
+                            // sm={9}
+                        >
+                            <BaseTextInput
+                                // id={name}
+                                name={`charges_fixes.autres_charges_fixes[${index}].autres_an3`}
+                                width={"15"}
+                                textAlign="right"
+                                // fullWidth
+                                // comment={
+                                //     "Nom de votre projet ou description de votre activité"
+                                // }
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            xs={1.7}
+                            sx={{
+                                paddingInline: 0.3,
+                            }}
+                            // sm={9}
+                        >
+                            <BaseTextInput
+                                name={`charges_fixes.autres_charges_fixes[${index}].autres_an4`}
+                                width={"15"}
+                                textAlign="right"
+                                // fullWidth
+                                // comment={
+                                //     "Nom de votre projet ou description de votre activité"
+                                // }
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            xs={1.7}
+                            sx={{
+                                paddingInline: 0.3,
+                            }}
+                            // sm={9}
+                        >
+                            <BaseTextInput
+                                name={`charges_fixes.autres_charges_fixes[${index}].autres_an5`}
+                                width={"15"}
+                                textAlign="right"
+                                // fullWidth
+                                // comment={
+                                //     "Nom de votre projet ou description de votre activité"
+                                // }
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            // xs={12}
+                            // sm={1}
+                        >
+                            {index > 2 && (
+                                <Tooltip title="Supprimer la dépense">
                                     <IconButton
-                                        variant="contained"
+                                        // sx={{
+                                        //     position:
+                                        //         "absolute",
+                                        //     top: "25%",
+                                        //     right: -40,
+                                        //     transform:
+                                        //         "translateY(-50%)",
+                                        // }}
+                                        color="error"
+                                        ria-label="delete"
                                         size="small"
-                                        // color={`${theme.palette.primary.light}`}
                                         onClick={() => {
-                                            push({
-                                                name: "",
-                                                autres_an1: "",
-                                                autres_an2: "",
-                                                autres_an3: "",
-                                                autres_an4: "",
-                                                autres_an5: "",
-                                            });
+                                            remove(index);
                                         }}
                                     >
-                                        <AddCircleIcon
-                                            color="success"
-                                            fontSize="large"
-                                        />
+                                        <DeleteOutlineOutlinedIcon />
                                     </IconButton>
                                 </Tooltip>
-                            </Box>
+                            )}
+                        </Grid>
+                    </Grid>
+                ))}
+                <Tooltip title="Ajouter une autre charge">
+                    <IconButton
+                        variant="contained"
+                        size="small"
+                        // color={`${theme.palette.primary.light}`}
+                        onClick={() => {
+                            append({
+                                name: "",
+                                autres_an1: "",
+                                autres_an2: "",
+                                autres_an3: "",
+                                autres_an4: "",
+                                autres_an5: "",
+                            });
+                        }}
+                    >
+                        <AddCircleIcon color="success" fontSize="large" />
+                    </IconButton>
+                </Tooltip>
+                {/* </Box>
                         );
                     }}
-                </FieldArray>
+                </FieldArray> */}
                 <Grid
                     container
                     columnGap={0.2}

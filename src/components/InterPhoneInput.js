@@ -7,9 +7,11 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import { useField, useFormikContext } from "formik";
+// import { useField, useFormikContext } from "formik";
 import MuiPhoneNumber from "material-ui-phone-number";
 import React, { useEffect } from "react";
+import { useFormContext } from "react-hook-form";
+
 // import IntlTelInput from "react-intl-tel-input";
 // import "react-intl-tel-input/dist/main.css";
 import "./telInput.css";
@@ -60,6 +62,7 @@ const ErrorMsgDisplayer = styled(FormHelperText)(({ theme }) => ({
 }));
 
 const InterPhoneInput = ({
+    name,
     label,
     handleChange,
     customValue,
@@ -71,15 +74,18 @@ const InterPhoneInput = ({
     labelAlign,
     ...props
 }) => {
-    const { setFieldValue } = useFormikContext();
-    const [field, meta] = useField(props);
-    const { name, value, onBlur, onChange } = field;
+    // const { setFieldValue } = useFormikContext();
+    // const [field, meta] = useField(props);
+    // const { name, value, onBlur, onChange } = field;*
+
     // console.log(name);
+    const { register, setValue } = useFormContext();
     useEffect(() => {
         if (customValue === null || customValue === undefined) return;
-        setFieldValue(name, customValue);
         // console.log(customValue);
-    }, [customValue]);
+        setValue(name, customValue);
+        // console.log(customValue);
+    }, [name, customValue, setValue]);
     return (
         <Box>
             <Box
@@ -120,11 +126,12 @@ const InterPhoneInput = ({
                     <BootstrapInput
                         variant="outlined"
                         defaultCountry="fr"
-                        name={name}
-                        // value={value}
-                        {...field}
+                        fullWidth
+                        // name={name}
+                        // // value={value}
+                        // {...field}
                         {...props}
-                        error={meta.touched && Boolean(meta.error)}
+                        // error={meta.touched && Boolean(meta.error)}
                         // onChange={(e) => {
                         //     onChange(e);
                         //     setCustomValue &&
@@ -136,9 +143,9 @@ const InterPhoneInput = ({
                         //     }
                         // }}
                         onChange={(v) => {
-                            console.log(name, value);
-                            setFieldValue(name, v);
-                            console.log(value);
+                            // console.log(name, v);
+                            setValue(name, v);
+                            // console.log(v);
                         }}
                     />
                     {/* <IntlTelInput
@@ -200,7 +207,7 @@ const InterPhoneInput = ({
                 {/* </Grid> */}
             </Box>
             <ErrorMsgDisplayer>
-                {meta.touched && Boolean(meta.error) && meta.error}
+                {/* {meta.touched && Boolean(meta.error) && meta.error} */}
             </ErrorMsgDisplayer>
         </Box>
     );

@@ -17,6 +17,7 @@ const Page0 = () => {
                         id="prenom"
                         name="prenom"
                         label="Prenom"
+                        customValue={"dali"}
                         // fullWidth
                     />
                 </Grid>

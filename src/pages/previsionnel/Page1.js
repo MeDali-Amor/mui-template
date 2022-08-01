@@ -7,7 +7,8 @@ import {
     Typography,
     useTheme,
 } from "@mui/material";
-import { FieldArray } from "formik";
+// import { FieldArray } from "formik";
+import { useFormContext, useFieldArray, useWatch } from "react-hook-form";
 import React, { useMemo } from "react";
 import BaseTextInput from "../../components/BaseTextInput";
 import InlineTextField from "../../components/InlineTextFeild";
@@ -17,10 +18,19 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SectionTitle from "../../components/SectionTitle";
 import FormOpeningText from "../../components/FormOpeningText";
 
-const Page1 = ({ besoinDemarageDataArray, formik }) => {
+const Page1 = ({ besoinDemarageDataArray }) => {
+    const watchedValues = useWatch({
+        name: "besoin_demarage",
+    });
     const theme = useTheme();
+    const { getValues, control } = useFormContext();
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "besoin_demarage.autres_frais",
+    });
+    const formValues = getValues();
 
-    const { total, autres_frais, ...values } = formik.values.besoin_demarage;
+    const { total, autres_frais, ...values } = formValues.besoin_demarage;
     let otherValues = autres_frais
         ?.map((el) => Number(el.montant))
         .filter((v) => typeof Number(v) == "number" && !isNaN(v));
@@ -38,6 +48,7 @@ const Page1 = ({ besoinDemarageDataArray, formik }) => {
         () => sumFunction(valuesToBeSummed),
         [valuesToBeSummed]
     );
+    // console.log(sumTotal);
 
     return (
         <div id="besoin_demarage">
@@ -100,114 +111,90 @@ const Page1 = ({ besoinDemarageDataArray, formik }) => {
                         Autres Frais (inscrire libellé ci-dessous) :
                     </Typography>
                 </Grid>
-                <FieldArray name="besoin_demarage.autres_frais">
-                    {(fieldArrayProps) => {
-                        // console.log(fieldArrayProps);
-                        const { push, remove, form } = fieldArrayProps;
-                        const { values } = form;
-                        const autres_frais =
-                            values.besoin_demarage.autres_frais;
-                        // console.log(autres_frais);
-                        return (
-                            <Box
-                                // rowSpacing={3}
-                                // columnSpacing={6}
-                                // container
-                                sx={{
-                                    py: 3,
-                                    width: "100%",
-                                }}
-                                // xs={12}
-                            >
-                                {autres_frais?.map((el, index) => (
-                                    <Grid
-                                        container
-                                        columnGap={2}
-                                        alignItems={"center"}
-                                        sx={
-                                            {
-                                                // marginBottom: 2,
-                                            }
-                                        }
-                                        key={`${el.label}${index}`}
-                                    >
-                                        <Grid
-                                            item
-                                            xs={3.5}
-                                            // sm={9}
-                                        >
-                                            <BaseTextInput
-                                                name={`besoin_demarage.autres_frais[${index}].label`}
-                                                // label="civilité"
-                                                // width={"15"}
-                                                fullWidth
-                                            />
-                                        </Grid>
-                                        <Grid
-                                            item
-                                            xs={1.9}
-                                            // sm={9}
-                                        >
-                                            <BaseTextInput
-                                                name={`besoin_demarage.autres_frais[${index}].montant`}
-                                                // label="civilité"
-                                                // width={"15"}
-                                                textAlign="right"
-                                                fullWidth
-                                            />
-                                        </Grid>
-                                        <Grid
-                                            item
-                                            // xs={12}
-                                            // sm={1}
-                                        >
-                                            {index > 2 && (
-                                                <Tooltip title="Supprimer la dépense">
-                                                    <IconButton
-                                                        // sx={{
-                                                        //     position:
-                                                        //         "absolute",
-                                                        //     top: "25%",
-                                                        //     right: -40,
-                                                        //     transform:
-                                                        //         "translateY(-50%)",
-                                                        // }}
-                                                        color="error"
-                                                        ria-label="delete"
-                                                        size="small"
-                                                        onClick={() => {
-                                                            remove(index);
-                                                        }}
-                                                    >
-                                                        <DeleteOutlineOutlinedIcon />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            )}
-                                        </Grid>
-                                    </Grid>
-                                ))}
-                                <Tooltip title="Ajouter une autre dépense">
+
+                {fields?.map((el, index) => (
+                    <Grid
+                        container
+                        columnGap={2}
+                        alignItems={"center"}
+                        sx={
+                            {
+                                // marginBottom: 2,
+                            }
+                        }
+                        key={`${el.label}${index}`}
+                    >
+                        <Grid
+                            item
+                            xs={3.5}
+                            // sm={9}
+                        >
+                            <BaseTextInput
+                                name={`besoin_demarage.autres_frais[${index}].label`}
+                                // label="civilité"
+                                // width={"15"}
+                                fullWidth
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            xs={1.9}
+                            // sm={9}
+                        >
+                            <BaseTextInput
+                                name={`besoin_demarage.autres_frais[${index}].montant`}
+                                // label="civilité"
+                                // width={"15"}
+                                textAlign="right"
+                                fullWidth
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            // xs={12}
+                            // sm={1}
+                        >
+                            {index > 2 && (
+                                <Tooltip title="Supprimer la dépense">
                                     <IconButton
-                                        variant="contained"
+                                        // sx={{
+                                        //     position:
+                                        //         "absolute",
+                                        //     top: "25%",
+                                        //     right: -40,
+                                        //     transform:
+                                        //         "translateY(-50%)",
+                                        // }}
+                                        color="error"
+                                        ria-label="delete"
                                         size="small"
-                                        // color={`${theme.palette.primary.light}`}
                                         onClick={() => {
-                                            push({
-                                                label: "",
-                                                montant: "",
-                                            });
+                                            remove(index);
                                         }}
                                     >
-                                        <AddCircleIcon
-                                            color="success"
-                                            fontSize="large"
-                                        />
+                                        <DeleteOutlineOutlinedIcon />
                                     </IconButton>
                                 </Tooltip>
-                            </Box>
-                        );
-                    }}
-                </FieldArray>
+                            )}
+                        </Grid>
+                    </Grid>
+                ))}
+                <Tooltip title="Ajouter une autre dépense">
+                    <IconButton
+                        variant="contained"
+                        size="small"
+                        // color={`${theme.palette.primary.light}`}
+                        onClick={() => {
+                            append({
+                                label: "",
+                                montant: "",
+                            });
+                        }}
+                    >
+                        <AddCircleIcon color="success" fontSize="large" />
+                    </IconButton>
+                </Tooltip>
+
                 <Grid
                     item
                     xs={12}

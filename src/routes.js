@@ -42,7 +42,8 @@ function Router() {
                 },
                 {
                     path: "/previsionnel",
-                    element: <Demo />,
+                    // element: <Demo />,
+                    element: <PrevisionnelForm />,
                 },
             ],
         },

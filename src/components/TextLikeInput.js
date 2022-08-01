@@ -8,8 +8,9 @@ import {
     Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { useField, useFormikContext } from "formik";
+// import { useField, useFormikContext } from "formik";
 import { useEffect } from "react";
+import { useFormContext } from "react-hook-form";
 
 const BootstrapInput = styled(InputBase)(
     ({ theme, align, error, readOnly }) => ({
@@ -68,6 +69,7 @@ const ErrorMsgDisplayer = styled(FormHelperText)(({ theme }) => ({
 
 const TextLikeInput = ({
     // placeHolder,
+    name,
     label,
     handleChange,
     customValue,
@@ -80,13 +82,15 @@ const TextLikeInput = ({
     readOnly,
     ...props
 }) => {
-    const { setFieldValue } = useFormikContext();
-    const [field, meta] = useField(props);
-    const { name, value, onBlur, onChange } = field;
+    const { register, setValue } = useFormContext();
+
+    // const { setFieldValue } = useFormikContext();
+    // const [field, meta] = useField(props);
+    // const { name, value, onBlur, onChange } = field;
     // console.log(name);
     useEffect(() => {
         if (customValue === null || customValue === undefined) return;
-        setFieldValue(name, customValue);
+        setValue(name, customValue);
         // console.log(customValue);
     }, [customValue]);
 
@@ -96,23 +100,24 @@ const TextLikeInput = ({
             sx={{ width: width ? `${width}%` : "50%" }}
             // sx={{ width: "35%" }}
             // label={label}
+            {...register(name)}
             readOnly={readOnly}
-            onBlur={onBlur}
-            name={name}
-            value={value}
-            {...field}
+            // onBlur={onBlur}
+            // name={name}
+            // value={value}
+            // {...field}
             {...props}
-            error={meta.touched && Boolean(meta.error)}
-            onChange={(e) => {
-                onChange(e);
-                setCustomValue &&
-                    customValue !== null &&
-                    customValue !== undefined &&
-                    setCustomValue(e.currentTarget.value);
-                if (handleChange) {
-                    handleChange(e);
-                }
-            }}
+            // error={meta.touched && Boolean(meta.error)}
+            // onChange={(e) => {
+            //     onChange(e);
+            //     setCustomValue &&
+            //         customValue !== null &&
+            //         customValue !== undefined &&
+            //         setCustomValue(e.currentTarget.value);
+            //     if (handleChange) {
+            //         handleChange(e);
+            //     }
+            // }}
         />
     );
 };

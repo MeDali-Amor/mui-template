@@ -3,11 +3,18 @@ import React, { useMemo, useRef } from "react";
 import BaseTextInput from "../../components/BaseTextInput";
 import FormOpeningText from "../../components/FormOpeningText";
 import SectionTitle from "../../components/SectionTitle";
-import useIsInView from "../../hooks/isInViewHook";
+// import useIsInView from "../../hooks/isInViewHook";
+import { useFormContext, useWatch } from "react-hook-form";
 
-const Page4 = ({ formik, monthsDataArray }) => {
+const Page4 = ({ monthsDataArray }) => {
+    const watchedValues = useWatch({
+        name: "chiffre_affaire_an1",
+    });
     const theme = useTheme();
-    const chiffre_vente_Totals = formik.values.chiffre_affaire_an1.vente.map(
+    const { getValues, control } = useFormContext();
+    const formValues = getValues();
+
+    const chiffre_vente_Totals = formValues.chiffre_affaire_an1.vente.map(
         (el) => {
             if (
                 !isNaN(Number(el.chiffre_affaires)) &&
@@ -17,15 +24,16 @@ const Page4 = ({ formik, monthsDataArray }) => {
             return 0;
         }
     );
-    const chiffre_services_Totals =
-        formik.values.chiffre_affaire_an1.services.map((el) => {
+    const chiffre_services_Totals = formValues.chiffre_affaire_an1.services.map(
+        (el) => {
             if (
                 !isNaN(Number(el.chiffre_affaires)) &&
                 !isNaN(Number(el.nb_jours))
             )
                 return Number(el.chiffre_affaires) * Number(el.nb_jours);
             return 0;
-        });
+        }
+    );
     // console.log(otherValues);
     function sumFunction(array) {
         return array.reduce(

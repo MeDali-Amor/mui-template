@@ -1,18 +1,28 @@
 import { alpha, Grid, InputLabel, Typography, useTheme } from "@mui/material";
+import { useFormContext, useFieldArray, useWatch } from "react-hook-form";
+
 import React, { useMemo } from "react";
 import BaseTextInput from "../../components/BaseTextInput";
 import InlineTextField from "../../components/InlineTextFeild";
 import SectionTitle from "../../components/SectionTitle";
 import TextLikeInput from "../../components/TextLikeInput";
 
-const Page2 = ({ formik }) => {
+const Page2 = () => {
     const theme = useTheme();
-
-    const { financement_total, ...other } = formik.values.financement_demarage;
-    const finance_values = Object.values(other).map((v) => {
-        if (typeof v === "object") return v.montant;
-        return v;
+    const watchedValues = useWatch({
+        name: "financement_demarage",
     });
+    const { getValues, control } = useFormContext();
+
+    const formValues = getValues();
+
+    const { financement_total, ...other } = formValues.financement_demarage;
+    const finance_values = Object.values(other)
+        .map((v) => {
+            if (typeof v === "object") return Number(v.montant);
+            return Number(v);
+        })
+        .filter((v) => typeof Number(v) == "number" && !isNaN(v));
     function sumFunction(array) {
         return array.reduce(
             (previousValue, currentValue) =>

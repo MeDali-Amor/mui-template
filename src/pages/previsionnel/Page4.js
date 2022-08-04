@@ -349,7 +349,49 @@ const Page4 = ({ monthsDataArray }) => {
                                         "chiffre_affaire_an1.augmentation_vente1"
                                     }
                                     label={"Total"}
-                                    customValue={totalServices}
+
+                                    // width={"15"}
+                                />
+                            </Grid>
+                            <Grid item xs={8.7}>
+                                <InputLabel
+                                    // shrink
+                                    htmlFor="bootstrap-input"
+                                    sx={{
+                                        // padding: "0 20px 0 0",
+                                        // backgroundColor: "red",
+                                        marginRight: 1,
+                                        paddingRight: 1,
+                                        fontFamily: "inherit",
+                                        fontSize: 16,
+                                        fontWeight: "500",
+                                        // width: "30%",
+                                        lineHeight: "unset",
+                                        transformOrigin: "unset",
+                                        textOverflow: "unset",
+                                        whiteSpace: "unset",
+                                        overflow: "unset",
+                                    }}
+                                >
+                                    % d'augmentation du chiffre d'affaire entre
+                                    l'année 2 et l'année 3
+                                </InputLabel>
+                            </Grid>
+                            <Grid
+                                item
+                                xs={2.8}
+                                // sm={9}
+                                sx={{
+                                    paddingInline: 0.3,
+                                }}
+                            >
+                                <BaseTextInput
+                                    textAlign="right"
+                                    // id="total"
+                                    name={
+                                        "chiffre_affaire_an1.augmentation_vente2"
+                                    }
+                                    label={"Total"}
                                     // width={"15"}
                                 />
                             </Grid>
@@ -634,7 +676,45 @@ const Page4 = ({ monthsDataArray }) => {
                                         "chiffre_affaire_an1.augmentation_services1"
                                     }
                                     label={"Total"}
-                                    customValue={totalServices}
+                                    // width={"15"}
+                                />
+                            </Grid>
+                            <Grid item xs={8.7}>
+                                <InputLabel
+                                    // shrink
+                                    htmlFor="bootstrap-input"
+                                    sx={{
+                                        // padding: "0 20px 0 0",
+                                        // backgroundColor: "red",
+                                        marginRight: 1,
+                                        paddingRight: 1,
+                                        fontFamily: "inherit",
+                                        fontSize: 16,
+                                        fontWeight: "500",
+                                        // width: "30%",
+                                        lineHeight: "unset",
+                                        transformOrigin: "unset",
+                                        textOverflow: "unset",
+                                        whiteSpace: "unset",
+                                        overflow: "unset",
+                                    }}
+                                >
+                                    % d'augmentation du chiffre d'affaire entre
+                                    l'année 2 et l'année 3
+                                </InputLabel>
+                            </Grid>
+                            <Grid
+                                item
+                                xs={2.8}
+                                // sm={9}
+                            >
+                                <BaseTextInput
+                                    textAlign="right"
+                                    // id="total"
+                                    name={
+                                        "chiffre_affaire_an1.augmentation_services2"
+                                    }
+                                    label={"Total"}
                                     // width={"15"}
                                 />
                             </Grid>

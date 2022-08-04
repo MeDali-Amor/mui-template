@@ -420,7 +420,7 @@ const Page2 = () => {
                         />
                     </Grid>
                 </Grid>
-                <Grid
+                {/* <Grid
                     item
                     xs={12}
                     // sm={9}
@@ -433,8 +433,77 @@ const Page2 = () => {
                         textAlign="right"
                         // fullWidt
                     />
-                </Grid>
+                </Grid> */}
                 <Grid
+                    container
+                    columnGap={1.7}
+                    alignItems={"center"}
+                    // sx={{
+                    //     marginBottom: 2,
+                    // }}
+                >
+                    <Grid
+                        item
+                        xs={3.55}
+                        // sm={9}
+                    >
+                        {" "}
+                        <InputLabel
+                            // shrink
+                            htmlFor="bootstrap-input"
+                            sx={{
+                                // padding: "0 20px 0 0",
+                                // backgroundColor: "red",
+                                display: "flex",
+                                alignItems: "center",
+                                marginRight: 1,
+                                paddingRight: 1,
+                                fontFamily: "inherit",
+                                fontSize: 16,
+                                fontWeight: "500",
+                                // width: "30%",
+                                lineHeight: "unset",
+                                transformOrigin: "unset",
+                                textOverflow: "unset",
+                                whiteSpace: "unset",
+                                overflow: "unset",
+                            }}
+                        >
+                            {/* <Typography> */}
+                            Subvention n°1(
+                            {/* </Typography> */}
+                            <TextLikeInput
+                                // id="pret_1"
+                                name="financement_demarage.subvention_1.label"
+                                placeholder="libellé"
+                                // width={"15"}
+                                // textAlign="right"
+                                // fullWidth
+                                // comment={
+                                //     "Nom de votre projet ou description de votre activité"
+                                // }
+                            />
+                            ){/* <Typography>)</Typography> */}
+                        </InputLabel>
+                    </Grid>
+                    <Grid
+                        item
+                        xs={1.8}
+                        // sm={9}
+                    >
+                        <BaseTextInput
+                            // id="pret_1"
+                            name="financement_demarage.subvention_1.montant"
+                            width={"15"}
+                            textAlign="right"
+                            // fullWidth
+                            // comment={
+                            //     "Nom de votre projet ou description de votre activité"
+                            // }
+                        />
+                    </Grid>
+                </Grid>
+                {/* <Grid
                     item
                     xs={12}
                     // sm={9}
@@ -447,6 +516,75 @@ const Page2 = () => {
                         textAlign="right"
                         // fullWidt
                     />
+                </Grid> */}
+                <Grid
+                    container
+                    columnGap={1.7}
+                    alignItems={"center"}
+                    // sx={{
+                    //     marginBottom: 2,
+                    // }}
+                >
+                    <Grid
+                        item
+                        xs={3.55}
+                        // sm={9}
+                    >
+                        {" "}
+                        <InputLabel
+                            // shrink
+                            htmlFor="bootstrap-input"
+                            sx={{
+                                // padding: "0 20px 0 0",
+                                // backgroundColor: "red",
+                                display: "flex",
+                                alignItems: "center",
+                                marginRight: 1,
+                                paddingRight: 1,
+                                fontFamily: "inherit",
+                                fontSize: 16,
+                                fontWeight: "500",
+                                // width: "30%",
+                                lineHeight: "unset",
+                                transformOrigin: "unset",
+                                textOverflow: "unset",
+                                whiteSpace: "unset",
+                                overflow: "unset",
+                            }}
+                        >
+                            {/* <Typography> */}
+                            Subvention n°2(
+                            {/* </Typography> */}
+                            <TextLikeInput
+                                // id="pret_1"
+                                name="financement_demarage.subvention_2.label"
+                                placeholder="libellé"
+                                // width={"15"}
+                                // textAlign="right"
+                                // fullWidth
+                                // comment={
+                                //     "Nom de votre projet ou description de votre activité"
+                                // }
+                            />
+                            ){/* <Typography>)</Typography> */}
+                        </InputLabel>
+                    </Grid>
+                    <Grid
+                        item
+                        xs={1.8}
+                        // sm={9}
+                    >
+                        <BaseTextInput
+                            // id="pret_1"
+                            name="financement_demarage.subvention_2.montant"
+                            width={"15"}
+                            textAlign="right"
+                            // fullWidth
+                            // comment={
+                            //     "Nom de votre projet ou description de votre activité"
+                            // }
+                        />
+                    </Grid>
                 </Grid>
                 <Grid
                     item

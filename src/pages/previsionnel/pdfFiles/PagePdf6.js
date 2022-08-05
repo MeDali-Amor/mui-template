@@ -12,7 +12,7 @@ import PageIntro from "./components/PageIntro";
 import TableHeader4 from "./components/TableHeader4";
 import TableRow4 from "./components/TableRow4";
 
-const PagePdf7 = ({ data }) => {
+const PagePdf6 = ({ data }) => {
     return (
         <Box
             sx={{
@@ -201,10 +201,10 @@ const PagePdf7 = ({ data }) => {
                 Rappel trésorerie début année 1 :
             </Typography>
             <Box sx={{ position: "absolute", bottom: "1.25%", right: "5%" }}>
-                6
+                7
             </Box>
         </Box>
     );
 };
 
-export default PagePdf7;
+export default PagePdf6;

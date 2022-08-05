@@ -476,7 +476,7 @@ const Page2 = () => {
                                 // id="pret_1"
                                 name="financement_demarage.subvention_1.label"
                                 placeholder="libellé"
-                                // width={"15"}
+                                width={"35"}
                                 // textAlign="right"
                                 // fullWidth
                                 // comment={
@@ -503,20 +503,6 @@ const Page2 = () => {
                         />
                     </Grid>
                 </Grid>
-                {/* <Grid
-                    item
-                    xs={12}
-                    // sm={9}
-                >
-                    <InlineTextField
-                        id="subvention_2"
-                        name="financement_demarage.subvention_2"
-                        label="Subvention n°2"
-                        width={"15"}
-                        textAlign="right"
-                        // fullWidt
-                    />
-                </Grid> */}
                 <Grid
                     container
                     columnGap={1.7}
@@ -559,7 +545,7 @@ const Page2 = () => {
                                 // id="pret_1"
                                 name="financement_demarage.subvention_2.label"
                                 placeholder="libellé"
-                                // width={"15"}
+                                width={"35"}
                                 // textAlign="right"
                                 // fullWidth
                                 // comment={
@@ -587,18 +573,72 @@ const Page2 = () => {
                     </Grid>
                 </Grid>
                 <Grid
-                    item
-                    xs={12}
-                    // sm={9}
+                    container
+                    columnGap={1.7}
+                    alignItems={"center"}
+                    // sx={{
+                    //     marginBottom: 2,
+                    // }}
                 >
-                    <InlineTextField
-                        id="autre_financement"
-                        name="financement_demarage.autre_financement.montant"
-                        label="Autre financement (libellé)"
-                        width={"15"}
-                        textAlign="right"
-                        // fullWidt
-                    />
+                    <Grid
+                        item
+                        xs={3.55}
+                        // sm={9}
+                    >
+                        {" "}
+                        <InputLabel
+                            // shrink
+                            htmlFor="bootstrap-input"
+                            sx={{
+                                // padding: "0 20px 0 0",
+                                // backgroundColor: "red",
+                                display: "flex",
+                                alignItems: "center",
+                                marginRight: 1,
+                                paddingRight: 1,
+                                fontFamily: "inherit",
+                                fontSize: 16,
+                                fontWeight: "500",
+                                // width: "30%",
+                                lineHeight: "unset",
+                                transformOrigin: "unset",
+                                textOverflow: "unset",
+                                whiteSpace: "unset",
+                                overflow: "unset",
+                            }}
+                        >
+                            {/* <Typography> */}Autre financement(
+                            {/* </Typography> */}
+                            <TextLikeInput
+                                // id="pret_1"
+                                name="financement_demarage.autre_financement.label"
+                                placeholder="libellé"
+                                width={"28"}
+                                // textAlign="right"
+                                // fullWidth
+                                // comment={
+                                //     "Nom de votre projet ou description de votre activité"
+                                // }
+                            />
+                            ){/* <Typography>)</Typography> */}
+                        </InputLabel>
+                    </Grid>
+                    <Grid
+                        item
+                        xs={1.8}
+                        // sm={9}
+                    >
+                        <BaseTextInput
+                            // id="pret_1"
+                            name="financement_demarage.autre_financement.montant"
+                            width={"15"}
+                            textAlign="right"
+                            // fullWidth
+                            // comment={
+                            //     "Nom de votre projet ou description de votre activité"
+                            // }
+                        />
+                    </Grid>
                 </Grid>
                 <Grid
                     item

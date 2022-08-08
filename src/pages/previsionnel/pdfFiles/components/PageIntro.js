@@ -5,7 +5,7 @@ const PageIntro = ({ nom_projet = "", nom = "", prenom = "" }) => {
     return (
         <Box
             sx={{
-                width: "100%",
+                width: "90%",
                 height: "8%",
                 // border: "3px solid black",
                 padding: 2,

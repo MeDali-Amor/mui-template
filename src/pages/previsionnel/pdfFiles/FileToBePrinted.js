@@ -7,6 +7,8 @@ import PagePdf3 from "./PagePdf3";
 import PagePdf4 from "./PagePdf4";
 import PagePdf5 from "./PagePdf5";
 import PagePdf6 from "./PagePdf6";
+import PagePdf7 from "./PagePdf7";
+import PagePdf8 from "./PagePdf8";
 
 const FileToBePrinted = ({ data }) => {
     const chiffre_affaire_an1 = data.chiffre_affaire_an1;
@@ -293,6 +295,8 @@ const FileToBePrinted = ({ data }) => {
             />
             <PagePdf5 data={data} />
             <PagePdf6 data={data} />
+            <PagePdf7 data={data} />
+            <PagePdf8 data={data} />
         </Box>
     );
 };

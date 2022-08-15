@@ -51,21 +51,10 @@ export const chiffresAffairesHandler = (
             chiffres_affaire.augmentation_services2
         ),
     ];
-    const chargeExploit = [
-        pourcentage(totalVenteAnnuel[1], pourcentage_vente_cout_achat),
-        pourcentage(totalVenteAnnuel[2], pourcentage_vente_cout_achat),
-        pourcentage(totalVenteAnnuel[3], pourcentage_vente_cout_achat),
-    ];
+    const chargeExploit = totalServicesAnnuel.map((value) =>
+        pourcentage(value, pourcentage_vente_cout_achat)
+    );
 
-    // const totalVenteAn1 = chiffres_affaire.total_vente;
-
-    // const totalVenteAn2 = tauxAugmentation(
-    //     totalVenteAn1,
-    //     chiffres_affaire.augmentation_vente1
-    // );
-    // const totalVenteAn3 = tauxAugmentation(
-    //     totalVenteAn2,
-    //     chiffres_affaire.augmentation_vente2
     // );
     return {
         totalVenteAnnuel,

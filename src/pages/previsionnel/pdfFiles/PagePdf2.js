@@ -9,6 +9,7 @@ import {
     Typography,
 } from "@mui/material";
 import React, { useMemo } from "react";
+import { amortissementHandler } from "../computationHandlers/Investissement";
 import A4SectionHeader from "./components/A4SectionHeader";
 import PageIntro from "./components/PageIntro";
 import TableHeader4 from "./components/TableHeader4";
@@ -17,116 +18,13 @@ import TableRow4 from "./components/TableRow4";
 const PagePdf2 = ({ data }) => {
     const besoin_demarage = data?.besoin_demarage;
     const duree_amortissement = data?.duree_amortissement;
-    const amortissementFunction = (valeurAAmortir, dureeAmortissment) => {
-        if (
-            typeof Number(valeurAAmortir) == "number" &&
-            !isNaN(Number(valeurAAmortir)) &&
-            typeof Number(dureeAmortissment) == "number" &&
-            !isNaN(Number(dureeAmortissment)) &&
-            Number(dureeAmortissment) !== 0
-        )
-            return valeurAAmortir / dureeAmortissment;
-        return 0;
-    };
-    function sumFunction(array) {
-        return array.reduce(
-            (previousValue, currentValue) =>
-                Number(previousValue) + Number(currentValue),
-            0
-        );
-    }
-    const amortissementIncorporelsArray = [
-        {
-            label: "Frais d’établissement",
-            value: amortissementFunction(
-                besoin_demarage.frais_etablissement,
-                duree_amortissement
-            ),
-        },
-        {
-            value: amortissementFunction(
-                besoin_demarage.frais_logiciels,
-                duree_amortissement
-            ),
-            label: "Logiciels, formations",
-        },
-        {
-            value: amortissementFunction(
-                besoin_demarage.frais_droit_entree,
-                duree_amortissement
-            ),
-            label: "Droits d’entrée",
-        },
-        {
-            value: amortissementFunction(
-                besoin_demarage.frais_dossier,
-                duree_amortissement
-            ),
-            label: "Frais de dossier",
-        },
-        {
-            value: amortissementFunction(
-                besoin_demarage.frais_avocat,
-                duree_amortissement
-            ),
-            label: "Frais de notaire ou d’avocat",
-        },
-    ];
-    const amortissementCorporelsArray = [
-        {
-            value: amortissementFunction(
-                besoin_demarage.frais_communication,
-                duree_amortissement
-            ),
-            label: "Enseigne et éléments de communication",
-        },
-        {
-            value: amortissementFunction(
-                besoin_demarage.achat_immobilier,
-                duree_amortissement
-            ),
-            label: "Achat immobilier",
-        },
-        {
-            value: amortissementFunction(
-                besoin_demarage.frais_travaux,
-                duree_amortissement
-            ),
-            label: "Travaux et aménagements",
-        },
-        {
-            value: amortissementFunction(
-                besoin_demarage.frais_materiel,
-                duree_amortissement
-            ),
-            label: "Matériel",
-        },
-        {
-            value: amortissementFunction(
-                besoin_demarage.frais_materiel_bureau,
-                duree_amortissement
-            ),
-            label: "Matériel de bureau",
-        },
-    ];
-    const amortisIncorp = useMemo(
-        () =>
-            sumFunction(
-                amortissementIncorporelsArray
-                    .map((el) => Number(el.value))
-                    .filter((v) => typeof Number(v) == "number" && !isNaN(v))
-            ),
-        [amortissementIncorporelsArray]
-    );
-    const amortisCorp = useMemo(
-        () =>
-            sumFunction(
-                amortissementCorporelsArray
-                    .map((el) => Number(el.value))
-                    .filter((v) => typeof Number(v) == "number" && !isNaN(v))
-            ),
-        [amortissementCorporelsArray]
-    );
+    const {
+        totalAmortissementIncorp,
+        amortissementIncorporelsArray,
+        totalAmortissementCorp,
+        amortissementCorporelsArray,
+        totalAmortissement,
+    } = amortissementHandler(besoin_demarage, duree_amortissement);
 
     return (
         <Box
@@ -447,9 +345,9 @@ const PagePdf2 = ({ data }) => {
                 <TableBody>
                     <TableRow4
                         label="Amortissements incorporels"
-                        v1={amortisIncorp || 0}
-                        v2={amortisIncorp || 0}
-                        v3={amortisIncorp || 0}
+                        v1={totalAmortissementIncorp || 0}
+                        v2={totalAmortissementIncorp || 0}
+                        v3={totalAmortissementIncorp || 0}
                         fontWeight="600"
                     />
                     {amortissementIncorporelsArray.map((el) => (
@@ -465,9 +363,9 @@ const PagePdf2 = ({ data }) => {
                 <TableBody> */}
                     <TableRow4
                         label="Amortissements corporels"
-                        v1={amortisCorp}
-                        v2={amortisCorp}
-                        v3={amortisCorp}
+                        v1={totalAmortissementCorp}
+                        v2={totalAmortissementCorp}
+                        v3={totalAmortissementCorp}
                         fontWeight="600"
                     />
                     {amortissementCorporelsArray.map((el) => (
@@ -509,7 +407,7 @@ const PagePdf2 = ({ data }) => {
                                 fontWeight: "600",
                             }}
                         >
-                            {Number(amortisCorp) + Number(amortisIncorp) || 0}
+                            {totalAmortissement || 0}
                         </TableCell>
                         <TableCell
                             sx={{
@@ -521,7 +419,7 @@ const PagePdf2 = ({ data }) => {
                                 fontWeight: "600",
                             }}
                         >
-                            {Number(amortisCorp) + Number(amortisIncorp) || 0}
+                            {totalAmortissement || 0}
                         </TableCell>
                         <TableCell
                             sx={{
@@ -534,7 +432,7 @@ const PagePdf2 = ({ data }) => {
                                 fontWeight: "600",
                             }}
                         >
-                            {Number(amortisCorp) + Number(amortisIncorp) || 0}
+                            {totalAmortissement || 0}
                         </TableCell>
                     </TableRow>
                 </TableBody>

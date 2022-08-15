@@ -307,7 +307,7 @@ const Page7 = () => {
                     // sm={9}
                 >
                     <BaseTextInput
-                        name="remuneration_dirigeants[5]"
+                        name="remuneration_dirigeants[4]"
                         width={"15"}
                         textAlign="right"
                         // fullWidth

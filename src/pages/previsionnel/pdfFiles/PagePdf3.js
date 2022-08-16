@@ -9,6 +9,7 @@ import {
     Typography,
 } from "@mui/material";
 import React, { useEffect, useMemo } from "react";
+import { analysePret } from "../computationHandlers/chargeFinancieres";
 import { chiffresAffairesHandler } from "../computationHandlers/chiffresAffaires";
 import { chargesFixesDataArray } from "../formData";
 import A4SectionHeader from "./components/A4SectionHeader";
@@ -78,20 +79,49 @@ const PagePdf3 = ({
     data,
     totalVente,
     totalServices,
-    chargeExploit,
-    margeBrute,
-    chargesExternes,
+    // chargeExploit,
+    // margeBrute,
+    // chargesExternes,
     TotalChargesExternes,
     valerAjoutées,
     impots,
-    autres_charges_fixes,
+    // autres_charges_fixes,
     chargesSociales,
     interetPrets,
     excedentChargeBrute,
     charges_bancaires,
 }) => {
-    const totalVenteAnnuel = chiffresAffairesHandler(data.chiffre_affaire_an1);
-    console.log(totalVenteAnnuel);
+    const analysePrets = [
+        data.financement_demarage.pret_1,
+        data.financement_demarage.pret_2,
+        data.financement_demarage.pret_3,
+    ].map((el) => analysePret(el));
+    const {
+        totalVenteAnnuel,
+        totalServicesAnnuel,
+        chargeExploit,
+        margeBrute,
+        totalChargesExternes,
+        valeurAjoutee,
+        produitsExploit,
+        chargesExternes,
+        autres_charges_fixes,
+    } = chiffresAffairesHandler(
+        data.chiffre_affaire_an1,
+        data.pourcentage_vente_cout_achat,
+        data.charges_fixes,
+        analysePrets
+    );
+
+    console.log(
+        analysePrets
+        // totalVenteAnnuel,
+        // totalServicesAnnuel,
+        // chargeExploit,
+        // margeBrute,
+        // totalChargesExternes,
+        // valeurAjoutee
+    );
     function sumFunction(array) {
         return array.reduce(
             (previousValue, currentValue) =>
@@ -167,53 +197,51 @@ const PagePdf3 = ({
                 <TableBody>
                     <TableRow4
                         label="Produits d'exploitation"
-                        v1={totalVente.a1 + totalServices.a1 || 0}
-                        v2={totalVente.a2 + totalServices.a2 || 0}
-                        v3={totalVente.a3 + totalServices.a3 || 0}
+                        v1={produitsExploit[0] || 0}
+                        v2={produitsExploit[1] || 0}
+                        v3={produitsExploit[2] || 0}
                         fontWeight="600"
                     />
                     <TableRow4
                         label="Chiffre d'affaires HT vente de marchandises"
-                        v1={totalVente.a1 || 0}
-                        v2={totalVente.a2 || 0}
-                        v3={totalVente.a3 || 0}
-                        // fontWeight=""
+                        v1={totalVenteAnnuel[0] || 0}
+                        v2={totalVenteAnnuel[1] || 0}
+                        v3={totalVenteAnnuel[2] || 0}
                     />
                     <TableRow4
                         label="Chiffre d'affaires HT services"
-                        v1={totalServices.a1 || 0}
-                        v2={totalServices.a2 || 0}
-                        v3={totalServices.a3 || 0}
+                        v1={totalServicesAnnuel[0] || 0}
+                        v2={totalServicesAnnuel[1] || 0}
+                        v3={totalServicesAnnuel[2] || 0}
                         // fontWeight=""
                     />
                     <TableRow4
                         label=" Charges d'exploitation"
-                        v1={chargeExploit.v1}
-                        v2={chargeExploit.v2}
-                        v3={chargeExploit.v3}
+                        v1={chargeExploit[0] || 0}
+                        v2={chargeExploit[1] || 0}
+                        v3={chargeExploit[2] || 0}
                         fontWeight="600"
                     />
                     <TableRow4
                         label="Achats consommés"
-                        v1={chargeExploit.v1}
-                        v2={chargeExploit.v2}
-                        v3={chargeExploit.v3}
-                        // fontWeight="600"
+                        v1={chargeExploit[0] || 0}
+                        v2={chargeExploit[1] || 0}
+                        v3={chargeExploit[2] || 0}
                     />
                     <TableRow4
                         highlighted
                         label="Marge brute"
-                        v1={margeBrute.v1}
-                        v2={margeBrute.v2}
-                        v3={margeBrute.v3}
+                        v1={margeBrute[0] || 0}
+                        v2={margeBrute[1] || 0}
+                        v3={margeBrute[2] || 0}
                         fontWeight={"600"}
                     />
                     <TableRow4
                         fontWeight={"600"}
                         label="Charges externes"
-                        v1={TotalChargesExternes.v1}
-                        v2={TotalChargesExternes.v2}
-                        v3={TotalChargesExternes.v3}
+                        v1={totalChargesExternes[0] || 0}
+                        v2={totalChargesExternes[1] || 0}
+                        v3={totalChargesExternes[2] || 0}
                     />
                     {chargesExternes.map((el) => (
                         <TableRow4
@@ -238,9 +266,9 @@ const PagePdf3 = ({
                         highlighted
                         fontWeight={"600"}
                         label="Valeur ajoutée"
-                        v1={valerAjoutées.v1}
-                        v2={valerAjoutées.v2}
-                        v3={valerAjoutées.v3}
+                        v1={valeurAjoutee[0]}
+                        v2={valeurAjoutee[1]}
+                        v3={valeurAjoutee[2]}
                     />
                     <TableRow4
                         // highlighted

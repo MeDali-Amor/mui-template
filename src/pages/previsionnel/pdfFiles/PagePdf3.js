@@ -10,7 +10,9 @@ import {
 } from "@mui/material";
 import React, { useEffect, useMemo } from "react";
 import { analysePret } from "../computationHandlers/chargeFinancieres";
+import { chargesSocialsHandler } from "../computationHandlers/chargesSocials";
 import { chiffresAffairesHandler } from "../computationHandlers/chiffresAffaires";
+import { amortissementHandler } from "../computationHandlers/Investissement";
 import { chargesFixesDataArray } from "../formData";
 import A4SectionHeader from "./components/A4SectionHeader";
 import PageIntro from "./components/PageIntro";
@@ -84,13 +86,18 @@ const PagePdf3 = ({
     // chargesExternes,
     TotalChargesExternes,
     valerAjoutées,
-    impots,
+    // impots,
     // autres_charges_fixes,
     chargesSociales,
     interetPrets,
     excedentChargeBrute,
     charges_bancaires,
 }) => {
+    const { totalAmortissement } = amortissementHandler(
+        data?.besoin_demarage,
+        data?.duree_amortissement
+    );
+
     const analysePrets = [
         data.financement_demarage.pret_1,
         data.financement_demarage.pret_2,
@@ -106,22 +113,48 @@ const PagePdf3 = ({
         produitsExploit,
         chargesExternes,
         autres_charges_fixes,
+        totalChargesBancaire,
     } = chiffresAffairesHandler(
         data.chiffre_affaire_an1,
         data.pourcentage_vente_cout_achat,
         data.charges_fixes,
         analysePrets
     );
+    const impots = [
+        data.charges_fixes.annee1.impôt_taxes,
+        data.charges_fixes.annee2.impôt_taxes,
 
-    console.log(
-        analysePrets
-        // totalVenteAnnuel,
-        // totalServicesAnnuel,
-        // chargeExploit,
-        // margeBrute,
-        // totalChargesExternes,
-        // valeurAjoutee
+        data.charges_fixes.annee2.impôt_taxes,
+    ];
+
+    const {
+        charges_employes,
+        charges_social_dirig,
+        excedentBrute,
+        resultat_avant_impot,
+        impot_societes,
+    } = chargesSocialsHandler(
+        data.form_juridique,
+        data.salaires_employes,
+        data.remuneration_dirigeants,
+        data.dir_ACCRE,
+        impots,
+        totalAmortissement,
+        totalChargesBancaire,
+        valeurAjoutee,
+        totalVenteAnnuel,
+        totalServicesAnnuel
     );
+    // console.log(charges_employes);
+    // console.log(
+    //     analysePrets
+    //     // totalVenteAnnuel,
+    //     // totalServicesAnnuel,
+    //     // chargeExploit,
+    //     // margeBrute,
+    //     // totalChargesExternes,
+    //     // valeurAjoutee
+    // );
     function sumFunction(array) {
         return array.reduce(
             (previousValue, currentValue) =>
@@ -274,9 +307,9 @@ const PagePdf3 = ({
                         // highlighted
                         fontWeight={"600"}
                         label="Impôt et taxes"
-                        v1={data.charges_fixes.annee1.impôt_taxes}
-                        v2={data.charges_fixes.annee2.impôt_taxes}
-                        v3={data.charges_fixes.annee3.impôt_taxes}
+                        v1={impots[0]}
+                        v2={impots[1]}
+                        v3={impots[2]}
                     />
                     <TableRow4
                         // highlighted
@@ -290,9 +323,9 @@ const PagePdf3 = ({
                         // highlighted
                         // fontWeight={"600"}
                         label="Charges sociales employés"
-                        v1={chargesSociales.annee1.cs_employes}
-                        v2={chargesSociales.annee2.cs_employes}
-                        v3={chargesSociales.annee3.cs_employes}
+                        v1={charges_employes[0]}
+                        v2={charges_employes[1]}
+                        v3={charges_employes[2]}
                     />
                     <TableRow4
                         // highlighted
@@ -306,66 +339,52 @@ const PagePdf3 = ({
                         // highlighted
                         // fontWeight={"600"}
                         label="Charges sociales dirigeant(s)"
-                        v1={chargesSociales.annee1.total_charges_dirig}
-                        v2={chargesSociales.annee2.total_charges_dirig}
-                        v3={chargesSociales.annee3.total_charges_dirig}
+                        v1={charges_social_dirig[0]}
+                        v2={charges_social_dirig[1]}
+                        v3={charges_social_dirig[2]}
                     />
                     <TableRow4
                         highlighted
                         fontWeight={"600"}
                         label="Excédent brut d'exploitation"
-                        v1={excedentChargeBrute1}
-                        v2={excedentChargeBrute2}
-                        v3={excedentChargeBrute3}
+                        v1={excedentBrute[0]}
+                        v2={excedentBrute[1]}
+                        v3={excedentBrute[2]}
                     />
                     <TableRow4
                         // highlighted
                         fontWeight={"600"}
                         label="Frais bancaires, charges financières"
-                        v1={charges_bancaires.charges_bancaires1}
-                        v2={charges_bancaires.charges_bancaires2}
-                        v3={charges_bancaires.charges_bancaires3}
+                        v1={totalChargesBancaire[0]}
+                        v2={totalChargesBancaire[1]}
+                        v3={totalChargesBancaire[2]}
                     />
                     <TableRow4
                         // highlighted
                         fontWeight={"600"}
                         label="Dotations aux amortissements"
-                        v1={
-                            Number(data.besoin_demarage.total) /
-                            Number(data.duree_amortissement)
-                        }
-                        v2={
-                            Number(data.besoin_demarage.total) /
-                            Number(data.duree_amortissement)
-                        }
-                        v3={
-                            Number(data.besoin_demarage.total) /
-                            Number(data.duree_amortissement)
-                        }
+                        v1={totalAmortissement}
+                        v2={totalAmortissement}
+                        v3={totalAmortissement}
                     />
                     <TableRow4
                         highlighted
                         fontWeight={"600"}
                         label="Résultat avant impôts"
-                        v1={
-                            excedentChargeBrute1 -
-                            charges_bancaires.charges_bancaires1 -
-                            Number(data.besoin_demarage.total) /
-                                Number(data.duree_amortissement)
-                        }
-                        v2={
-                            excedentChargeBrute2 -
-                            charges_bancaires.charges_bancaires2 -
-                            Number(data.besoin_demarage.total) /
-                                Number(data.duree_amortissement)
-                        }
-                        v3={
-                            excedentChargeBrute3 -
-                            charges_bancaires.charges_bancaires3 -
-                            Number(data.besoin_demarage.total) /
-                                Number(data.duree_amortissement)
-                        }
+                        v1={resultat_avant_impot[0]}
+                        v2={resultat_avant_impot[1]}
+                        v3={resultat_avant_impot[2]}
                     />
+                    {impot_societes && (
+                        <TableRow4
+                            highlighted
+                            fontWeight={"600"}
+                            label="Impôts sur les sociétés"
+                            v1={impot_societes[0]}
+                            v2={impot_societes[1]}
+                            v3={impot_societes[2]}
+                        />
+                    )}
 
                     <RegulatTableRow />
                     <TableRow4

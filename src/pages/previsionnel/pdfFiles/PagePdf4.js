@@ -7,6 +7,10 @@ import {
     TableRow,
 } from "@mui/material";
 import React, { useMemo } from "react";
+import { analysePret } from "../computationHandlers/chargeFinancieres";
+import { chargesSocialsHandler } from "../computationHandlers/chargesSocials";
+import { chiffresAffairesHandler } from "../computationHandlers/chiffresAffaires";
+import { amortissementHandler } from "../computationHandlers/Investissement";
 import A4SectionHeader from "./components/A4SectionHeader";
 import PageIntro from "./components/PageIntro";
 import TableHeader4 from "./components/TableHeader4";
@@ -19,10 +23,60 @@ const PagePdf4 = ({
     data,
     totalVente,
     totalServices,
-    chargeExploit,
+    // chargeExploit,
     TotalChargesExternes,
-    impots,
+    // impots,
 }) => {
+    const { totalAmortissement } = amortissementHandler(
+        data?.besoin_demarage,
+        data?.duree_amortissement
+    );
+    const analysePrets = [
+        data.financement_demarage.pret_1,
+        data.financement_demarage.pret_2,
+        data.financement_demarage.pret_3,
+    ].map((el) => analysePret(el));
+    const {
+        totalVenteAnnuel,
+        totalServicesAnnuel,
+        chargeExploit,
+        margeBrute,
+        totalChargesExternes,
+        valeurAjoutee,
+        produitsExploit,
+        totalChargesBancaire,
+    } = chiffresAffairesHandler(
+        data.chiffre_affaire_an1,
+        data.pourcentage_vente_cout_achat,
+        data.charges_fixes,
+        analysePrets
+    );
+
+    const impots = [
+        data.charges_fixes.annee1.impôt_taxes,
+        data.charges_fixes.annee2.impôt_taxes,
+
+        data.charges_fixes.annee2.impôt_taxes,
+    ];
+
+    const {
+        excedentBrute,
+        resultat_avant_impot,
+        impot_societes,
+        chargesPersonnel,
+    } = chargesSocialsHandler(
+        data.form_juridique,
+        data.salaires_employes,
+        data.remuneration_dirigeants,
+        data.dir_ACCRE,
+        impots,
+        totalAmortissement,
+        totalChargesBancaire,
+        valeurAjoutee,
+        totalVenteAnnuel,
+        totalServicesAnnuel
+    );
+
     const pourcentageArrondi = (a, b) => {
         if (
             typeof Number(a) == "number" &&

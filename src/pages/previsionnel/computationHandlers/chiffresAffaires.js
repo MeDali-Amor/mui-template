@@ -191,7 +191,7 @@ export const chiffresAffairesHandler = (
     // pourcentage(totalVenteAn1, data.pourcentage_vente_cout_achat);
 
     // );
-    console.log(totalChargesBancaire, totalInteretAnnuel);
+    // console.log(totalChargesBancaire, totalInteretAnnuel);
     const produitsExploit = totalVenteAnnuel.map(
         (el, index) => Number(el) + Number(totalServicesAnnuel[index])
     );
@@ -205,5 +205,6 @@ export const chiffresAffairesHandler = (
         produitsExploit,
         chargesExternes,
         autres_charges_fixes,
+        totalChargesBancaire,
     };
 };

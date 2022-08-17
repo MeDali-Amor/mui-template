@@ -207,14 +207,14 @@ const FileToBePrinted = ({ data }) => {
         financement_demarage.pret_3.taux,
         financement_demarage.pret_3.duree_en_mois
     );
-    console.log(mensualite1);
+    // console.log(mensualite1);
     const totalRemboursement1 =
         mensualite1 * Number(financement_demarage.pret_1.duree_en_mois);
     const totalRemboursement2 =
         mensualite2 * Number(financement_demarage.pret_2.duree_en_mois);
     const totalRemboursement3 =
         mensualite3 * Number(financement_demarage.pret_3.duree_en_mois);
-    console.log(totalRemboursement1);
+    // console.log(totalRemboursement1);
     const principalMensuel1 =
         Number(financement_demarage.pret_1.montant) /
         Number(financement_demarage.pret_1.duree_en_mois);
@@ -224,11 +224,11 @@ const FileToBePrinted = ({ data }) => {
     const principalMensuel3 =
         Number(financement_demarage.pret_3.montant) /
         Number(financement_demarage.pret_3.duree_en_mois);
-    console.log(principalMensuel1);
+    // console.log(principalMensuel1);
     const interetMois1 = mensualite1 - principalMensuel1;
     const interetMois2 = mensualite2 - principalMensuel2;
     const interetMois3 = mensualite3 - principalMensuel3;
-    console.log(interetMois1);
+    // console.log(interetMois1);
     const interetDuree1 =
         Number(interetMois1) *
         Number(financement_demarage.pret_1.duree_en_mois);
@@ -238,7 +238,7 @@ const FileToBePrinted = ({ data }) => {
     const interetDuree3 =
         Number(interetMois3) *
         Number(financement_demarage.pret_3.duree_en_mois);
-    console.log(interetDuree1);
+    // console.log(interetDuree1);
     const interetAnnuelle = (duree, interetDuree) => {
         return {
             an1:
@@ -267,7 +267,7 @@ const FileToBePrinted = ({ data }) => {
         financement_demarage.pret_3.duree_en_mois,
         interetDuree3
     );
-    console.log(interetAnnuelPret1);
+    // console.log(interetAnnuelPret1);
     const margeBrute1 =
         totalVenteAn1 +
         totalServicesAn1 -
@@ -325,10 +325,10 @@ const FileToBePrinted = ({ data }) => {
             .map((el) => Number(el))
             .filter((v) => typeof Number(v) == "number" && !isNaN(v))
     );
-    console.log(
-        data.charges_fixes.annee1.frais_bancaires,
-        interetPrets.pret1.interetAn1
-    );
+    // console.log(
+    //     data.charges_fixes.annee1.frais_bancaires,
+    //     interetPrets.pret1.interetAn1
+    // );
     const charges_bancaires2 = sumFunction(
         [
             data.charges_fixes.annee2.frais_bancaires,

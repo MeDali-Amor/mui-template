@@ -15,7 +15,7 @@ export const analysePret = (pret) => {
     const principalAnnuel = [1, 2, 3].map((el) =>
         analyseAnnuel(duree, el, principal_mois)
     );
-    console.log(mensualite);
+    // console.log(mensualite);
     return {
         intretAnnuel,
         principalAnnuel,

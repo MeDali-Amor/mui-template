@@ -133,6 +133,7 @@ const PagePdf3 = ({
         excedentBrute,
         resultat_avant_impot,
         impot_societes,
+        resultat_net,
     } = chargesSocialsHandler(
         data.form_juridique,
         data.salaires_employes,
@@ -391,9 +392,9 @@ const PagePdf3 = ({
                         highlighted
                         fontWeight={"600"}
                         label="Résultat net comptable (résultat de l'exercice)"
-                        // v1={data.salaires_employes[1]}
-                        // v2={data.salaires_employes[2]}
-                        // v3={data.salaires_employes[3]}
+                        v1={resultat_net[0]}
+                        v2={resultat_net[1]}
+                        v3={resultat_net[2]}
                     />
                     <RegulatTableRow />
                 </TableBody>

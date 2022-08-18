@@ -90,6 +90,7 @@ export const chargesSocialsHandler = (
         resultat_avant_impot,
         impot_societes,
         chargesPersonnel,
+        resultat_net,
     };
 };
 

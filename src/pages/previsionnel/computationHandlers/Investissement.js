@@ -22,9 +22,15 @@ export const investissmentHandler = (besoin_demarage) => {
     ].filter((v) => typeof Number(v) == "number" && !isNaN(v));
     const totalIncorp = arraySumFunction(immobilisationsIncorpArray);
     const totalCorp = arraySumFunction(immobilisationsCorpArray);
+    const immpbilisation = arraySumFunction(
+        [totalIncorp, totalCorp].filter(
+            (v) => typeof Number(v) == "number" && !isNaN(v)
+        )
+    );
     const totalBesoin = arraySumFunction([
         totalCorp,
         totalIncorp,
+
         besoin_demarage.frais_stock,
         besoin_demarage.tresorie_de_depart,
     ]);
@@ -100,6 +106,7 @@ export const investissmentHandler = (besoin_demarage) => {
         tableDataCorporelles,
         totalIncorp,
         totalCorp,
+        immpbilisation,
         totalBesoin,
         frais_stock: besoin_demarage.frais_stock,
         tresorie_de_depart: besoin_demarage.tresorie_de_depart,

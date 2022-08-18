@@ -206,5 +206,6 @@ export const chiffresAffairesHandler = (
         chargesExternes,
         autres_charges_fixes,
         totalChargesBancaire,
+        totalPrincipaltAnnuel,
     };
 };

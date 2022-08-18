@@ -16,3 +16,14 @@ export function checkInteger(value) {
         return parseInt(value);
     else return 0;
 }
+export const pourcentageArrondi = (a, b) => {
+    if (
+        typeof Number(a) == "number" &&
+        !isNaN(Number(a)) &&
+        typeof Number(b) == "number" &&
+        !isNaN(Number(b)) &&
+        Number(b) !== 0
+    )
+        return Math.round((Number(a) / Number(b)) * 100);
+    return 0;
+};

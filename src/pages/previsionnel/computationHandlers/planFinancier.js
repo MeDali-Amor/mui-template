@@ -57,10 +57,13 @@ export function planFinancement(
             )
         )
     );
-    const excedent_tresorie = variation_tresorie.map((el, index) => {
-        if (index === 0) return Number(el);
-        return Number(el) + Number(variation_tresorie[index - 1]);
-    });
+    const excedent_tresorie = variation_tresorie.map((elem, index) =>
+        variation_tresorie.slice(0, index + 1).reduce((a, b) => a + b)
+    );
+    //     map((el, index) => {
+    //     if (index === 0) return Number(el);
+    //     return Number(el) + Number(variation_tresorie[index - 1]);
+    // });
     return {
         immobilisations_3ans,
         frais_stock_3ans,

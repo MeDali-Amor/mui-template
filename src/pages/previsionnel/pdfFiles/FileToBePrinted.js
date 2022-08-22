@@ -562,6 +562,7 @@ const FileToBePrinted = ({ data }) => {
                 alignItems: "center",
                 gap: 1,
                 marginBlock: 8,
+                // fontSize: 11,
             }}
         >
             <PagePdf0 data={data} />

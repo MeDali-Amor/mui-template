@@ -14,7 +14,7 @@ const TableRow4 = ({
             sx={{
                 "& td": {
                     // borderRight: 0,
-                    fontSize: 14,
+                    fontSize: 13,
                     borderBlock: highlighted ? "1px solid black" : 0,
                     fontWeight: fontWeight || "400",
                 },

@@ -15,6 +15,7 @@ const TableRow7 = ({
         <TableRow
             sx={{
                 "& td": {
+                    fontSize: 13,
                     // borderRight: 0,
                     borderBlock: highlighted ? "1px solid black" : 0,
                 },

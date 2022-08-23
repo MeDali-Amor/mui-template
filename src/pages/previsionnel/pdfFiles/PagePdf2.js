@@ -9,6 +9,9 @@ import {
     Typography,
 } from "@mui/material";
 import React, { useMemo } from "react";
+import { analysePret } from "../computationHandlers/chargeFinancieres";
+import { chargesSocialsHandler } from "../computationHandlers/chargesSocials";
+import { chiffresAffairesHandler } from "../computationHandlers/chiffresAffaires";
 import { amortissementHandler } from "../computationHandlers/Investissement";
 import A4SectionHeader from "./components/A4SectionHeader";
 import PageIntro from "./components/PageIntro";
@@ -25,7 +28,53 @@ const PagePdf2 = ({ data }) => {
         amortissementCorporelsArray,
         totalAmortissement,
     } = amortissementHandler(besoin_demarage, duree_amortissement);
+    const impots = [
+        data.charges_fixes.annee1.impôt_taxes,
+        data.charges_fixes.annee2.impôt_taxes,
 
+        data.charges_fixes.annee2.impôt_taxes,
+    ];
+    const analysePrets = [
+        data.financement_demarage.pret_1,
+        data.financement_demarage.pret_2,
+        data.financement_demarage.pret_3,
+    ].map((el) => analysePret(el));
+    const {
+        totalVenteAnnuel,
+        totalServicesAnnuel,
+        chargeExploit,
+        margeBrute,
+        totalChargesExternes,
+        valeurAjoutee,
+        produitsExploit,
+        chargesExternes,
+        autres_charges_fixes,
+        totalChargesBancaire,
+    } = chiffresAffairesHandler(
+        data.chiffre_affaire_an1,
+        data.pourcentage_vente_cout_achat,
+        data.charges_fixes,
+        analysePrets
+    );
+
+    const {
+        charges_employes,
+        charges_social_dirig,
+        augmentation_remuneration_dirig,
+        augmentation_salaires_employes,
+    } = chargesSocialsHandler(
+        data.form_juridique,
+        data.salaires_employes,
+        data.remuneration_dirigeants,
+        data.dir_ACCRE,
+        impots,
+        totalAmortissement,
+        totalChargesBancaire,
+        valeurAjoutee,
+        totalVenteAnnuel,
+        totalServicesAnnuel
+    );
+    console.log(augmentation_remuneration_dirig);
     return (
         <Box
             sx={{
@@ -137,8 +186,12 @@ const PagePdf2 = ({ data }) => {
                     </Typography>
                 </Stack>
             </Box>
-            <Table>
-                <TableHead
+            <Table
+                sx={{
+                    borderBottom: "1px solid black",
+                }}
+            >
+                {/* <TableHead
                     sx={{
                         "& th": {
                             borderBottom: 0,
@@ -194,128 +247,51 @@ const PagePdf2 = ({ data }) => {
                             Année 3
                         </TableCell>
                     </TableRow>
-                </TableHead>
+                </TableHead> */}
+                <TableHeader4 />
                 <TableBody>
-                    <TableRow
-                        sx={{
-                            "& td": {
-                                border: "1px solid black",
-                            },
-                        }}
-                    >
-                        <TableCell
-                            sx={{
-                                width: "50%",
-                                paddingInline: 2,
-                                paddingBlock: 2,
-                                borderBottom: "1px solid black",
-                                borderTop: "1px solid black",
-                                borderLeft: "1px solid black",
-                                fontWeight: "600",
-                            }}
-                        >
-                            Rémunération du (des) dirigeants <br />
-                            <Box
-                                textAlign={"center"}
-                                fontWeight={300}
-                                sx={{ margin: 0, padding: 0 }}
-                            >
-                                % augmentation
-                            </Box>
-                            {/* <br /> */}
-                            Charges sociales du (des) dirigeant(s)
-                        </TableCell>
-                        <TableCell
-                            sx={{
-                                textAlign: "center",
-                                width: "15%",
-                                paddingInline: 1,
-                                paddingBlock: 2,
-                                borderLeft: "1px solid black",
-                                fontWeight: "600",
-                            }}
-                        ></TableCell>
-                        <TableCell
-                            sx={{
-                                textAlign: "center",
-                                width: "15%",
-                                paddingInline: 1,
-                                paddingBlock: 2,
-                                borderLeft: "1px solid black",
-                                fontWeight: "600",
-                            }}
-                        ></TableCell>
-                        <TableCell
-                            sx={{
-                                textAlign: "center",
-                                width: "15%",
-                                paddingInline: 1,
-                                paddingBlock: 2,
-                                borderLeft: "1px solid black",
-                                fontWeight: "600",
-                            }}
-                        ></TableCell>
-                    </TableRow>
-                    <TableRow
-                        sx={{
-                            "& td": {
-                                border: "1px solid black",
-                            },
-                        }}
-                    >
-                        <TableCell
-                            sx={{
-                                width: "50%",
-                                paddingInline: 2,
-                                paddingBlock: 2,
-                                borderBottom: "1px solid black",
-                                borderTop: "1px solid black",
-                                borderLeft: "1px solid black",
-                                fontWeight: "600",
-                            }}
-                        >
-                            Salaires des employés <br />
-                            <Box
-                                textAlign={"center"}
-                                fontWeight={300}
-                                sx={{ margin: 0, padding: 0 }}
-                            >
-                                % augmentation
-                            </Box>
-                            {/* <br /> */}
-                            Charges sociales employés
-                        </TableCell>
-                        <TableCell
-                            sx={{
-                                textAlign: "center",
-                                width: "15%",
-                                paddingInline: 1,
-                                paddingBlock: 2,
-                                borderLeft: "1px solid black",
-                                fontWeight: "600",
-                            }}
-                        ></TableCell>
-                        <TableCell
-                            sx={{
-                                textAlign: "center",
-                                width: "15%",
-                                paddingInline: 1,
-                                paddingBlock: 2,
-                                borderLeft: "1px solid black",
-                                fontWeight: "600",
-                            }}
-                        ></TableCell>
-                        <TableCell
-                            sx={{
-                                textAlign: "center",
-                                width: "15%",
-                                paddingInline: 1,
-                                paddingBlock: 2,
-                                borderLeft: "1px solid black",
-                                fontWeight: "600",
-                            }}
-                        ></TableCell>
-                    </TableRow>
+                    <TableRow4
+                        label="Rémunération du (des) dirigeants"
+                        v1={data.remuneration_dirigeants[0]}
+                        v2={data.remuneration_dirigeants[1]}
+                        v3={data.remuneration_dirigeants[2]}
+                        fontWeight="600"
+                    />
+                    <TableRow4
+                        label="% augmentation"
+                        v1={augmentation_remuneration_dirig[0]}
+                        v2={augmentation_remuneration_dirig[1]}
+                        v3={augmentation_remuneration_dirig[2]}
+                        fontWeight="300"
+                    />
+                    <TableRow4
+                        label="Charges sociales du (des) dirigeant(s)"
+                        v1={charges_social_dirig[0]}
+                        v2={charges_social_dirig[1]}
+                        v3={charges_social_dirig[2]}
+                        fontWeight="300"
+                    />
+                    <TableRow4
+                        label="Salaires des employés"
+                        v1={data.salaires_employes[0]}
+                        v2={data.salaires_employes[1]}
+                        v3={data.salaires_employes[2]}
+                        fontWeight="600"
+                    />
+                    <TableRow4
+                        label="% augmentation"
+                        v1={augmentation_salaires_employes[0]}
+                        v2={augmentation_salaires_employes[1]}
+                        v3={augmentation_salaires_employes[2]}
+                        fontWeight="300"
+                    />
+                    <TableRow4
+                        label="Charges sociales employés"
+                        v1={charges_employes[0]}
+                        v2={charges_employes[1]}
+                        v3={charges_employes[2]}
+                        fontWeight="300"
+                    />
                 </TableBody>
             </Table>
             <Box
@@ -345,9 +321,9 @@ const PagePdf2 = ({ data }) => {
                 <TableBody>
                     <TableRow4
                         label="Amortissements incorporels"
-                        v1={totalAmortissementIncorp || 0}
-                        v2={totalAmortissementIncorp || 0}
-                        v3={totalAmortissementIncorp || 0}
+                        v1={totalAmortissementIncorp}
+                        v2={totalAmortissementIncorp}
+                        v3={totalAmortissementIncorp}
                         fontWeight="600"
                     />
                     {amortissementIncorporelsArray.map((el) => (
@@ -407,7 +383,7 @@ const PagePdf2 = ({ data }) => {
                                 fontWeight: "600",
                             }}
                         >
-                            {totalAmortissement || 0}
+                            {totalAmortissement}
                         </TableCell>
                         <TableCell
                             sx={{
@@ -419,7 +395,7 @@ const PagePdf2 = ({ data }) => {
                                 fontWeight: "600",
                             }}
                         >
-                            {totalAmortissement || 0}
+                            {totalAmortissement}
                         </TableCell>
                         <TableCell
                             sx={{
@@ -432,7 +408,7 @@ const PagePdf2 = ({ data }) => {
                                 fontWeight: "600",
                             }}
                         >
-                            {totalAmortissement || 0}
+                            {totalAmortissement}
                         </TableCell>
                     </TableRow>
                 </TableBody>

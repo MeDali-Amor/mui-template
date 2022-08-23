@@ -148,7 +148,7 @@ export function budgetPrevisionnelHandler(
     let solde_precedent = [0];
     let solde_tresorie = [];
     calculCumul(solde_tresorie, solde_precedent, solde_mois);
-    console.log(solde_precedent, solde_tresorie);
+    // console.log(solde_precedent, solde_tresorie);
 
     return {
         apoortPresonnel_mois,

@@ -233,12 +233,12 @@ export const amortissementHandler = (besoin_demarage, duree_amortissement) => {
             .map((el) => Number(el))
             .filter((v) => typeof Number(v) == "number" && !isNaN(v))
     );
-    console.log(
-        [totalAmortissementIncorp, totalAmortissementCorp],
-        [totalAmortissementIncorp, totalAmortissementCorp].map((el) =>
-            Number(el)
-        )
-    );
+    // console.log(
+    //     [totalAmortissementIncorp, totalAmortissementCorp],
+    //     [totalAmortissementIncorp, totalAmortissementCorp].map((el) =>
+    //         Number(el)
+    //     )
+    // );
     return {
         totalAmortissementIncorp,
         amortissementIncorporelsArray,

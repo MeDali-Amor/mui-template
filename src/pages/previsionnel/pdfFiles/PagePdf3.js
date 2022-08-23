@@ -77,22 +77,7 @@ const RegulatTableRow = ({ label = "", v1 = "", v2 = "", v3 = "" }) => {
     );
 };
 
-const PagePdf3 = ({
-    data,
-    totalVente,
-    totalServices,
-    // chargeExploit,
-    // margeBrute,
-    // chargesExternes,
-    TotalChargesExternes,
-    valerAjoutées,
-    // impots,
-    // autres_charges_fixes,
-    chargesSociales,
-    interetPrets,
-    excedentChargeBrute,
-    charges_bancaires,
-}) => {
+const PagePdf3 = ({ data }) => {
     const { totalAmortissement } = amortissementHandler(
         data?.besoin_demarage,
         data?.duree_amortissement
@@ -155,57 +140,6 @@ const PagePdf3 = ({
     //     // margeBrute,
     //     // totalChargesExternes,
     //     // valeurAjoutee
-    // );
-    function sumFunction(array) {
-        return array.reduce(
-            (previousValue, currentValue) =>
-                Number(previousValue) + Number(currentValue),
-            0
-        );
-    }
-    const excedentChargeBrute1 =
-        valerAjoutées.v1 -
-        sumFunction(
-            [
-                data.charges_fixes.annee1.impôt_taxes,
-                data.salaires_employes[0],
-                chargesSociales.annee1.cs_employes,
-                data.remuneration_dirigeants[0],
-                chargesSociales.annee1.total_charges_dirig,
-            ]
-                .map((el) => Number(el))
-                .filter((v) => typeof Number(v) == "number" && !isNaN(v))
-        );
-    const excedentChargeBrute2 =
-        valerAjoutées.v2 -
-        sumFunction(
-            [
-                data.charges_fixes.annee2.impôt_taxes,
-                data.salaires_employes[1],
-                chargesSociales.annee2.cs_employes,
-                data.remuneration_dirigeants[1],
-                chargesSociales.annee2.total_charges_dirig,
-            ]
-                .map((el) => Number(el))
-                .filter((v) => typeof Number(v) == "number" && !isNaN(v))
-        );
-    const excedentChargeBrute3 =
-        valerAjoutées.v3 -
-        sumFunction(
-            [
-                data.charges_fixes.annee3.impôt_taxes,
-                data.salaires_employes[2],
-                chargesSociales.annee3.cs_employes,
-                data.remuneration_dirigeants[2],
-                chargesSociales.annee3.total_charges_dirig,
-            ]
-                .map((el) => Number(el))
-                .filter((v) => typeof Number(v) == "number" && !isNaN(v))
-        );
-    // console.log(
-    //     chargesSociales.annee1.total_charges_dirig,
-    //     chargesSociales.annee2.total_charges_dirig,
-    //     chargesSociales.annee3.total_charges_dirig
     // );
 
     return (

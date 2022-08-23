@@ -229,7 +229,7 @@ const PagePdf7 = ({ data }) => {
         charges_social_dirig,
         totalChargesBancaire
     );
-    console.log(totalEncaissement_mois);
+    // console.log(totalEncaissement_mois);
     return (
         <Box
             sx={{

@@ -28,6 +28,35 @@ export const chargesSocialsHandler = (
                 ].filter((v) => typeof Number(v) == "number" && !isNaN(v))
             )
     );
+    const augmentation_remuneration_dirig = remuneration_dirigeants.map(
+        (el, index) =>
+            index > 0
+                ? !isNaN(
+                      (Number(el) -
+                          Number(remuneration_dirigeants[index - 1])) /
+                          Number(remuneration_dirigeants[index - 1])
+                  )
+                    ? ((Number(el) -
+                          Number(remuneration_dirigeants[index - 1])) /
+                          Number(remuneration_dirigeants[index - 1])) *
+                          100 +
+                      "%"
+                    : ""
+                : ""
+    );
+    const augmentation_salaires_employes = salaires_employes.map((el, index) =>
+        index > 0
+            ? !isNaN(
+                  (Number(el) - Number(salaires_employes[index - 1])) /
+                      Number(salaires_employes[index - 1])
+              )
+                ? ((Number(el) - Number(salaires_employes[index - 1])) /
+                      Number(salaires_employes[index - 1])) *
+                      100 +
+                  "%"
+                : ""
+            : ""
+    );
     const charges_social_dirig = determinationChargeDirig(
         remuneration_dirigeants,
         form_juridique,
@@ -82,7 +111,7 @@ export const chargesSocialsHandler = (
             ].filter((v) => typeof Number(v) == "number" && !isNaN(v))
         )
     );
-    console.log(resultat_net);
+
     return {
         charges_employes,
         charges_social_dirig,
@@ -91,6 +120,8 @@ export const chargesSocialsHandler = (
         impot_societes,
         chargesPersonnel,
         resultat_net,
+        augmentation_remuneration_dirig,
+        augmentation_salaires_employes,
     };
 };
 
@@ -103,7 +134,7 @@ const determinationChargeDirig = (
     totalServicesAnnuel
 ) => {
     if (fj === "Micro-entreprise") {
-        if (accre == "Oui")
+        if (accre === "Oui")
             return totalVenteAnnuel.map(
                 (el, index) =>
                     Number(el) * 0.032 * (index + 1) +
@@ -114,7 +145,7 @@ const determinationChargeDirig = (
                 Number(el) * 0.128 + totalServicesAnnuel[index] * 0.22
         );
     } else if (fj === "Entreprise individuelle au réel (IR)") {
-        if (accre == "Oui")
+        if (accre === "Oui")
             return RSI_EI.map((el, index) =>
                 el * 0.32 > 1103 ? Number(el) * 0.32 : 1103
             );
@@ -126,7 +157,7 @@ const determinationChargeDirig = (
             el * 0.45 > 1103 ? Number(el) * 0.45 : 1103
         );
     } else if (fj === "SAS (IS)" || fj === "SASU (IS)") {
-        if (accre == "Oui")
+        if (accre === "Oui")
             return remu_dirig.map((el, index) =>
                 index === 0 ? Number(el) * 0.33 : Number(el) * 0.7
             );

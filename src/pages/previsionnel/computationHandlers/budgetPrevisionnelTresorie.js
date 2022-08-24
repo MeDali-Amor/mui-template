@@ -149,7 +149,36 @@ export function budgetPrevisionnelHandler(
     let solde_tresorie = [];
     calculCumul(solde_tresorie, solde_precedent, solde_mois);
     // console.log(solde_precedent, solde_tresorie);
-
+    const totaux_budget = [
+        apoortPresonnel_mois,
+        emprunt_mois,
+        subventions_mois,
+        autreFinancement_mois,
+        vente_mois,
+        services_mois,
+        chiffre_affaire_mois,
+        immobilisationIncorp_mois,
+        immobilisationCorp_mois,
+        totalImmobilisation_mois,
+        aquisitionStock_mois,
+        echeances_emprunt,
+        achatMarchandises_mois,
+        chargesExterne_mois,
+        impotsTaxes_mois,
+        salairesEmployes_mois,
+        chargeEmployes_mois,
+        prelevementDirig_mois,
+        chargesDirig_mois,
+        totalCargesPersonnel_mois,
+        chargesBancaires_mois,
+        totalDecaissement_mois,
+        totalEncaissement_mois,
+    ].map((el) =>
+        arraySumFunction(
+            el.filter((v) => typeof Number(v) == "number" && !isNaN(v))
+        ).toFixed(2)
+    );
+    console.log(totaux_budget);
     return {
         apoortPresonnel_mois,
         emprunt_mois,
@@ -177,6 +206,7 @@ export function budgetPrevisionnelHandler(
         solde_mois: solde_mois.map((el) => Number(el).toFixed(2)),
         solde_precedent: solde_precedent.map((el) => Number(el).toFixed(2)),
         solde_tresorie: solde_tresorie.map((el) => Number(el).toFixed(2)),
+        totaux_budget,
     };
 }
 

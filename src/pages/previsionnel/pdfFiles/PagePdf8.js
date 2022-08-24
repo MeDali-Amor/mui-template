@@ -209,6 +209,7 @@ const PagePdf8 = ({ data }) => {
         solde_mois,
         solde_precedent,
         solde_tresorie,
+        totaux_budget,
     } = budgetPrevisionnelHandler(
         sommeApport_3ans,
         emprunt_3ans,
@@ -268,6 +269,7 @@ const PagePdf8 = ({ data }) => {
                         v5={apoortPresonnel_mois[9]}
                         v6={apoortPresonnel_mois[10]}
                         v7={apoortPresonnel_mois[11]}
+                        v8={totaux_budget[0]}
                     />
                     <TableRow6
                         v1={emprunt_mois[5]}
@@ -277,6 +279,7 @@ const PagePdf8 = ({ data }) => {
                         v5={emprunt_mois[9]}
                         v6={emprunt_mois[10]}
                         v7={emprunt_mois[11]}
+                        v8={totaux_budget[1]}
                     />
                     <TableRow6
                         v1={subventions_mois[5]}
@@ -286,6 +289,7 @@ const PagePdf8 = ({ data }) => {
                         v5={subventions_mois[9]}
                         v6={subventions_mois[10]}
                         v7={subventions_mois[11]}
+                        v8={totaux_budget[2]}
                     />
                     <TableRow6
                         v1={autreFinancement_mois[5]}
@@ -295,6 +299,7 @@ const PagePdf8 = ({ data }) => {
                         v5={autreFinancement_mois[9]}
                         v6={autreFinancement_mois[10]}
                         v7={autreFinancement_mois[11]}
+                        v8={totaux_budget[3]}
                     />
                 </TableBody>
                 <TableBody sx={{ borderBottom: "1px solid black" }}>
@@ -306,6 +311,7 @@ const PagePdf8 = ({ data }) => {
                         v5={vente_mois[9]}
                         v6={vente_mois[10]}
                         v7={vente_mois[11]}
+                        v8={totaux_budget[4]}
                     />
                     <TableRow6
                         v1={services_mois[5]}
@@ -315,6 +321,7 @@ const PagePdf8 = ({ data }) => {
                         v5={services_mois[9]}
                         v6={services_mois[10]}
                         v7={services_mois[11]}
+                        v8={totaux_budget[5]}
                     />
                     <TableRow6
                         highlighted
@@ -326,6 +333,7 @@ const PagePdf8 = ({ data }) => {
                         v5={chiffre_affaire_mois[9]}
                         v6={chiffre_affaire_mois[10]}
                         v7={chiffre_affaire_mois[11]}
+                        v8={totaux_budget[6]}
                     />
                     <TableRow6
                         v1={immobilisationIncorp_mois[5]}
@@ -335,6 +343,7 @@ const PagePdf8 = ({ data }) => {
                         v5={immobilisationIncorp_mois[9]}
                         v6={immobilisationIncorp_mois[10]}
                         v7={immobilisationIncorp_mois[11]}
+                        v8={totaux_budget[7]}
                     />
                     <TableRow6
                         v1={immobilisationCorp_mois[5]}
@@ -344,6 +353,7 @@ const PagePdf8 = ({ data }) => {
                         v5={immobilisationCorp_mois[9]}
                         v6={immobilisationCorp_mois[10]}
                         v7={immobilisationCorp_mois[11]}
+                        v8={totaux_budget[8]}
                     />
                     <TableRow6
                         highlighted
@@ -355,6 +365,7 @@ const PagePdf8 = ({ data }) => {
                         v5={totalImmobilisation_mois[9]}
                         v6={totalImmobilisation_mois[10]}
                         v7={totalImmobilisation_mois[11]}
+                        v8={totaux_budget[9]}
                     />
                     <TableRow6
                         v1={aquisitionStock_mois[5]}
@@ -364,6 +375,7 @@ const PagePdf8 = ({ data }) => {
                         v5={aquisitionStock_mois[9]}
                         v6={aquisitionStock_mois[10]}
                         v7={aquisitionStock_mois[11]}
+                        v8={totaux_budget[10]}
                     />
                     <TableRow6
                         v1={echeances_emprunt[5]}
@@ -373,6 +385,7 @@ const PagePdf8 = ({ data }) => {
                         v5={echeances_emprunt[9]}
                         v6={echeances_emprunt[10]}
                         v7={echeances_emprunt[11]}
+                        v8={totaux_budget[11]}
                     />
                     <TableRow6
                         v1={achatMarchandises_mois[5]}
@@ -382,6 +395,7 @@ const PagePdf8 = ({ data }) => {
                         v5={achatMarchandises_mois[9]}
                         v6={achatMarchandises_mois[10]}
                         v7={achatMarchandises_mois[11]}
+                        v8={totaux_budget[12]}
                     />
                     <TableRow6
                         v1={chargesExterne_mois[5]}
@@ -391,6 +405,7 @@ const PagePdf8 = ({ data }) => {
                         v5={chargesExterne_mois[9]}
                         v6={chargesExterne_mois[10]}
                         v7={chargesExterne_mois[11]}
+                        v8={totaux_budget[13]}
                     />
                     <TableRow6
                         v1={impotsTaxes_mois[5]}
@@ -400,6 +415,7 @@ const PagePdf8 = ({ data }) => {
                         v5={impotsTaxes_mois[9]}
                         v6={impotsTaxes_mois[10]}
                         v7={impotsTaxes_mois[11]}
+                        v8={totaux_budget[14]}
                     />
                 </TableBody>
                 <TableBody sx={{ borderBottom: "1px solid black" }}>
@@ -411,6 +427,7 @@ const PagePdf8 = ({ data }) => {
                         v5={salairesEmployes_mois[9]}
                         v6={salairesEmployes_mois[10]}
                         v7={salairesEmployes_mois[11]}
+                        v8={totaux_budget[15]}
                     />
 
                     <TableRow6
@@ -421,6 +438,7 @@ const PagePdf8 = ({ data }) => {
                         v5={chargeEmployes_mois[9]}
                         v6={chargeEmployes_mois[10]}
                         v7={chargeEmployes_mois[11]}
+                        v8={totaux_budget[16]}
                     />
                     <TableRow6
                         v1={prelevementDirig_mois[5]}
@@ -430,6 +448,7 @@ const PagePdf8 = ({ data }) => {
                         v5={prelevementDirig_mois[9]}
                         v6={prelevementDirig_mois[10]}
                         v7={prelevementDirig_mois[11]}
+                        v8={totaux_budget[17]}
                     />
                     <TableRow6
                         v1={chargesDirig_mois[5]}
@@ -439,6 +458,7 @@ const PagePdf8 = ({ data }) => {
                         v5={chargesDirig_mois[9]}
                         v6={chargesDirig_mois[10]}
                         v7={chargesDirig_mois[11]}
+                        v8={totaux_budget[18]}
                     />
                     {/* <TableRow6
                         v1={subventions_mois[5]}
@@ -448,6 +468,7 @@ const PagePdf8 = ({ data }) => {
                         v5={subventions_mois[9]}
                         v6={subventions_mois[10]}
                         v7={subventions_mois[11]}
+                        v8={totaux_budget[0]}
                     /> */}
                     <TableRow6
                         highlighted
@@ -459,6 +480,7 @@ const PagePdf8 = ({ data }) => {
                         v5={totalCargesPersonnel_mois[9]}
                         v6={totalCargesPersonnel_mois[10]}
                         v7={totalCargesPersonnel_mois[11]}
+                        v8={totaux_budget[19]}
                     />
                     <TableRow6
                         v1={chargesBancaires_mois[5]}
@@ -468,6 +490,7 @@ const PagePdf8 = ({ data }) => {
                         v5={chargesBancaires_mois[9]}
                         v6={chargesBancaires_mois[10]}
                         v7={chargesBancaires_mois[11]}
+                        v8={totaux_budget[20]}
                     />
                     <TableRow6
                         highlighted
@@ -479,6 +502,7 @@ const PagePdf8 = ({ data }) => {
                         v5={totalDecaissement_mois[9]}
                         v6={totalDecaissement_mois[10]}
                         v7={totalDecaissement_mois[11]}
+                        v8={totaux_budget[21]}
                     />
                     <TableRow6
                         highlighted
@@ -490,6 +514,7 @@ const PagePdf8 = ({ data }) => {
                         v5={totalEncaissement_mois[9]}
                         v6={totalEncaissement_mois[10]}
                         v7={totalEncaissement_mois[11]}
+                        v8={totaux_budget[22]}
                     />
                     <TableRow6
                         v1={solde_precedent[5]}
@@ -499,6 +524,7 @@ const PagePdf8 = ({ data }) => {
                         v5={solde_precedent[9]}
                         v6={solde_precedent[10]}
                         v7={solde_precedent[11]}
+                        v8={""}
                     />
                     <TableRow6
                         fontWeight={600}
@@ -509,6 +535,7 @@ const PagePdf8 = ({ data }) => {
                         v5={solde_mois[9]}
                         v6={solde_mois[10]}
                         v7={solde_mois[11]}
+                        v8={""}
                     />
                     <TableRow6
                         highlighted
@@ -520,6 +547,7 @@ const PagePdf8 = ({ data }) => {
                         v5={solde_tresorie[9]}
                         v6={solde_tresorie[10]}
                         v7={solde_tresorie[11]}
+                        v8={""}
                     />
                 </TableBody>
             </Table>

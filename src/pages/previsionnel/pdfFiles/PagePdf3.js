@@ -109,7 +109,7 @@ const PagePdf3 = ({ data }) => {
         data.charges_fixes.annee1.impôt_taxes,
         data.charges_fixes.annee2.impôt_taxes,
 
-        data.charges_fixes.annee2.impôt_taxes,
+        data.charges_fixes.annee3.impôt_taxes,
     ];
 
     const {
@@ -312,8 +312,8 @@ const PagePdf3 = ({ data }) => {
                     />
                     {impot_societes && (
                         <TableRow4
-                            highlighted
-                            fontWeight={"600"}
+                            // highlighted
+                            fontWeight={"500"}
                             label="Impôts sur les sociétés"
                             v1={impot_societes[0]}
                             v2={impot_societes[1]}

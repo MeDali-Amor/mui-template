@@ -159,9 +159,7 @@ const PrevisionnelForm = () => {
                         </form>
                     </FormProvider>
                 </Box>
-                <Box>
-                    <QuikFormMenu />
-                </Box>
+                <Box>{/* <QuikFormMenu /> */}</Box>
             </Box>
             {data && <FileToBePrinted data={data} />}
         </Box>

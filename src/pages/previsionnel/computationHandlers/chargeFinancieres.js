@@ -5,7 +5,7 @@ export const analysePret = (pret) => {
     const taux = checkNumber(pret.taux) / 100;
     const duree = checkInteger(pret.duree_en_mois);
     const mensualite = VPM(montant, taux, duree);
-    const principal_mois = montant / duree;
+    const principal_mois = Number(montant / duree).toFixed(2);
     const total_a_rembourser = mensualite * duree;
     const intert_mois = mensualite - principal_mois;
     const intert_duree = intert_mois * duree;
@@ -13,7 +13,7 @@ export const analysePret = (pret) => {
         analyseAnnuel(duree, el, intert_mois)
     );
     const principalAnnuel = [1, 2, 3].map((el) =>
-        analyseAnnuel(duree, el, principal_mois)
+        analyseAnnuel(duree, el, principal_mois).toFixed(2)
     );
     // console.log(mensualite);
     return {

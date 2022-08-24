@@ -52,7 +52,7 @@ const PagePdf5 = ({ data }) => {
         data.charges_fixes.annee1.impôt_taxes,
         data.charges_fixes.annee2.impôt_taxes,
 
-        data.charges_fixes.annee2.impôt_taxes,
+        data.charges_fixes.annee3.impôt_taxes,
     ];
 
     const {

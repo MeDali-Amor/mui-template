@@ -1,4 +1,4 @@
-import { arraySumFunction } from "../../utils/math";
+import { arraySumFunction, pourcentageArrondi } from "../../utils/math";
 
 export const chargesSocialsHandler = (
     form_juridique,
@@ -36,11 +36,11 @@ export const chargesSocialsHandler = (
                           Number(remuneration_dirigeants[index - 1])) /
                           Number(remuneration_dirigeants[index - 1])
                   )
-                    ? ((Number(el) -
-                          Number(remuneration_dirigeants[index - 1])) /
-                          Number(remuneration_dirigeants[index - 1])) *
-                          100 +
-                      "%"
+                    ? pourcentageArrondi(
+                          Number(el) -
+                              Number(remuneration_dirigeants[index - 1]),
+                          Number(remuneration_dirigeants[index - 1])
+                      ) + "%"
                     : ""
                 : ""
     );
@@ -50,10 +50,10 @@ export const chargesSocialsHandler = (
                   (Number(el) - Number(salaires_employes[index - 1])) /
                       Number(salaires_employes[index - 1])
               )
-                ? ((Number(el) - Number(salaires_employes[index - 1])) /
-                      Number(salaires_employes[index - 1])) *
-                      100 +
-                  "%"
+                ? pourcentageArrondi(
+                      Number(el) - Number(salaires_employes[index - 1]),
+                      Number(salaires_employes[index - 1])
+                  ) + "%"
                 : ""
             : ""
     );
@@ -76,7 +76,7 @@ export const chargesSocialsHandler = (
                     remuneration_dirigeants[index],
                     charges_social_dirig[index],
                 ].filter((v) => typeof Number(v) == "number" && !isNaN(v))
-            )
+            ).toFixed(2)
     );
     const resultat_avant_impot = excedentBrute.map(
         (el, index) =>
@@ -85,7 +85,7 @@ export const chargesSocialsHandler = (
                 [totalChargesBancaire[index], totalAmortissement].filter(
                     (v) => typeof Number(v) == "number" && !isNaN(v)
                 )
-            )
+            ).toFixed(2)
     );
     const impot_societes =
         form_juridique === "Micro-entreprise" ||
@@ -95,8 +95,8 @@ export const chargesSocialsHandler = (
                   Number(el) < 0
                       ? 0
                       : Number(el) > 38120
-                      ? 38120 * 0.15 + (Number(el) - 38120) * 0.28
-                      : Number(el) * 0.15
+                      ? (38120 * 0.15 + (Number(el) - 38120) * 0.28).toFixed(2)
+                      : (Number(el) * 0.15).toFixed(2)
               );
     const resultat_net = resultat_avant_impot.map((el, index) =>
         impot_societes ? Number(el) - Number(impot_societes[index]) : Number(el)
@@ -111,7 +111,7 @@ export const chargesSocialsHandler = (
             ].filter((v) => typeof Number(v) == "number" && !isNaN(v))
         )
     );
-
+    console.log(chargesPersonnel[0] / 12);
     return {
         charges_employes,
         charges_social_dirig,

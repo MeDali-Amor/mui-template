@@ -72,7 +72,7 @@ export function budgetPrevisionnelHandler(
     const achatMarchandises_mois = vente_mois
         .map((el) => (Number(el) * Number(pourcentage_vente_cout_achat)) / 100)
         .map((el) => Number(el).toFixed(2));
-    const chargesExterne_mois = totalChargesExternes
+    const chargesExterne_mois = emptyarray
         .map((el, index) => (el = totalChargesExternes[0] / 12))
         .map((el) => Number(el).toFixed(2));
     const impotsTaxes_mois = emptyarray
@@ -100,13 +100,14 @@ export function budgetPrevisionnelHandler(
             arraySumFunction(
                 [
                     Number(el),
-                    Number(salairesEmployes_mois[index]),
+                    Number(chargeEmployes_mois[index]),
                     Number(prelevementDirig_mois[index]),
                     Number(chargesDirig_mois[index]),
                 ].filter((v) => typeof Number(v) == "number" && !isNaN(v))
             )
         )
         .map((el) => Number(el).toFixed(2));
+    console.log(totalCargesPersonnel_mois);
     const totalDecaissement_mois = totalImmobilisation_mois
         .map((el, index) =>
             arraySumFunction(
@@ -178,7 +179,7 @@ export function budgetPrevisionnelHandler(
             el.filter((v) => typeof Number(v) == "number" && !isNaN(v))
         ).toFixed(2)
     );
-    console.log(totaux_budget);
+    // console.log(totaux_budget);
     return {
         apoortPresonnel_mois,
         emprunt_mois,

@@ -3,10 +3,10 @@ import React from "react";
 
 const TableRow4 = ({
     highlighted = false,
-    label = "titre",
-    v1 = "0",
-    v2 = "0",
-    v3 = "0",
+    label = "",
+    v1 = "-",
+    v2 = "-",
+    v3 = "-",
     fontWeight,
 }) => {
     return (

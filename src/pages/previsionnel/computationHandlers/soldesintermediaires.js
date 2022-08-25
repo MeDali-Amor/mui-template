@@ -24,16 +24,16 @@ export function soldesGestionHandler(
             return Math.round((Number(a) / Number(b)) * 100);
         return 0;
     };
-    const resultat_exploitation = excedentBrute.map(
-        (el) => Number(el) - totalAmortissement
-    );
-    const capacite_autofinancement = resultat_net.map(
-        (el) => Number(el) + totalAmortissement
-    );
+    const resultat_exploitation = excedentBrute
+        .map((el) => Number(el) - totalAmortissement)
+        .map((el) => Number(el).toFixed(2));
+    const capacite_autofinancement = resultat_net
+        .map((el) => Number(el) + totalAmortissement)
+        .map((el) => Number(el).toFixed(2));
 
-    const autofinancement_net = capacite_autofinancement.map(
-        (el, index) => Number(el) - totalPrincipaltAnnuel[index]
-    );
+    const autofinancement_net = capacite_autofinancement
+        .map((el, index) => Number(el) - totalPrincipaltAnnuel[index])
+        .map((el) => Number(el).toFixed(2));
 
     return {
         resultat_exploitation,

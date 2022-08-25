@@ -205,28 +205,28 @@ const PagePdf6 = ({ data }) => {
                 <TableBody>
                     <TableRow4
                         label="   Immobilisations"
-                        v1={immobilisations_3ans[0] || 0}
-                        v2={immobilisations_3ans[1] || 0}
-                        v3={immobilisations_3ans[2] || 0}
+                        v1={immobilisations_3ans[0]}
+                        v2={immobilisations_3ans[1]}
+                        v3={immobilisations_3ans[2]}
                         //   fontWeight="600"
                     />
                     <TableRow4
                         label="   Acquisition des stocks"
-                        v1={frais_stock_3ans[0] || 0}
-                        v2={frais_stock_3ans[1] || 0}
-                        v3={frais_stock_3ans[2] || 0}
+                        v1={frais_stock_3ans[0]}
+                        v2={frais_stock_3ans[1]}
+                        v3={frais_stock_3ans[2]}
                     />
                     <TableRow4
                         label="   Variation du Besoin en fonds de roulement"
-                        v1={variation_besoin_fonds_roulement[0] || 0}
-                        v2={variation_besoin_fonds_roulement[1] || 0}
-                        v3={variation_besoin_fonds_roulement[2] || 0}
+                        v1={variation_besoin_fonds_roulement[0]}
+                        v2={variation_besoin_fonds_roulement[1]}
+                        v3={variation_besoin_fonds_roulement[2]}
                     />
                     <TableRow4
                         label="   Remboursement d'emprunts"
-                        v1={totalPrincipaltAnnuel[0] || 0}
-                        v2={totalPrincipaltAnnuel[1] || 0}
-                        v3={totalPrincipaltAnnuel[2] || 0}
+                        v1={totalPrincipaltAnnuel[0]}
+                        v2={totalPrincipaltAnnuel[1]}
+                        v3={totalPrincipaltAnnuel[2]}
                     />
                     {/* {amortissementIncorporelsArray.map((el) => (
                       <TableRow4
@@ -242,54 +242,54 @@ const PagePdf6 = ({ data }) => {
                     <TableRow4
                         highlighted
                         label=" Total des besoins"
-                        v1={total_besoin_financement[0] || 0}
-                        v2={total_besoin_financement[1] || 0}
-                        v3={total_besoin_financement[2] || 0}
+                        v1={total_besoin_financement[0]}
+                        v2={total_besoin_financement[1]}
+                        v3={total_besoin_financement[2]}
                         fontWeight="600"
                     />
                     <TableRow4
                         label="Apport personnel"
-                        v1={sommeApport_3ans[0] || 0}
-                        v2={sommeApport_3ans[1] || 0}
-                        v3={sommeApport_3ans[2] || 0}
+                        v1={sommeApport_3ans[0]}
+                        v2={sommeApport_3ans[1]}
+                        v3={sommeApport_3ans[2]}
                     />
                     <TableRow4
                         label="Emprunts"
-                        v1={emprunt_3ans[0] || 0}
-                        v2={emprunt_3ans[1] || 0}
-                        v3={emprunt_3ans[2] || 0}
+                        v1={emprunt_3ans[0]}
+                        v2={emprunt_3ans[1]}
+                        v3={emprunt_3ans[2]}
                     />
                     <TableRow4
                         label="Subventions"
-                        v1={subventions_3ans[0] || 0}
-                        v2={subventions_3ans[1] || 0}
-                        v3={subventions_3ans[2] || 0}
+                        v1={subventions_3ans[0]}
+                        v2={subventions_3ans[1]}
+                        v3={subventions_3ans[2]}
                     />
                     <TableRow4
                         label=" Autres financements"
-                        v1={autre_financement_3ans[0] || 0}
-                        v2={autre_financement_3ans[1] || 0}
-                        v3={autre_financement_3ans[2] || 0}
+                        v1={autre_financement_3ans[0]}
+                        v2={autre_financement_3ans[1]}
+                        v3={autre_financement_3ans[2]}
                     />
                     <TableRow4
                         label="Capacité d'auto-financement"
-                        v1={capacite_autofinancement[0] || 0}
-                        v2={capacite_autofinancement[1] || 0}
-                        v3={capacite_autofinancement[2] || 0}
+                        v1={capacite_autofinancement[0]}
+                        v2={capacite_autofinancement[1]}
+                        v3={capacite_autofinancement[2]}
                     />
                     <TableRow4
                         label=" Total des ressources"
                         fontWeight="600"
                         highlighted
-                        v1={total_resources[0] || 0}
-                        v2={total_resources[1] || 0}
-                        v3={total_resources[2] || 0}
+                        v1={total_resources[0]}
+                        v2={total_resources[1]}
+                        v3={total_resources[2]}
                     />
                     <TableRow4
                         label="Variation de trésorerie"
-                        v1={variation_tresorie[0] || 0}
-                        v2={variation_tresorie[1] || 0}
-                        v3={variation_tresorie[2] || 0}
+                        v1={variation_tresorie[0]}
+                        v2={variation_tresorie[1]}
+                        v3={variation_tresorie[2]}
                     />
                     {/* {amortissementCorporelsArray.map((el) => (
                       <TableRow4

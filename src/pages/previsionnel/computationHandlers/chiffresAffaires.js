@@ -41,7 +41,7 @@ export const chiffresAffairesHandler = (
             ),
             chiffres_affaire.augmentation_vente2
         ),
-    ];
+    ].map((el) => Number(el).toFixed(2));
     const totalServicesAnnuel = [
         chiffres_affaire.total_service,
         tauxAugmentation(
@@ -55,16 +55,18 @@ export const chiffresAffairesHandler = (
             ),
             chiffres_affaire.augmentation_services2
         ),
-    ];
-    const chargeExploit = totalVenteAnnuel.map((value) =>
-        pourcentage(value, pourcentage_vente_cout_achat)
-    );
-    const margeBrute = totalVenteAnnuel.map(
-        (el, index) =>
-            Number(el) +
-            Number(totalServicesAnnuel[index]) -
-            Number(chargeExploit[index])
-    );
+    ].map((el) => Number(el).toFixed(2));
+    const chargeExploit = totalVenteAnnuel
+        .map((value) => pourcentage(value, pourcentage_vente_cout_achat))
+        .map((el) => Number(el).toFixed(2));
+    const margeBrute = totalVenteAnnuel
+        .map(
+            (el, index) =>
+                Number(el) +
+                Number(totalServicesAnnuel[index]) -
+                Number(chargeExploit[index])
+        )
+        .map((el) => Number(el).toFixed(2));
     const chargesExternes = [
         {
             label: "Assurances",
@@ -140,28 +142,30 @@ export const chiffresAffairesHandler = (
         },
     ];
     const autres_charges_fixes = charges_fixes.autres_charges_fixes;
-    const totalChargesExternes = [1, 2, 3].map((n) =>
-        arraySumFunction(
-            chargesExternes
-                .map((el) => Number(el[`v${n}`]))
-                .concat(
-                    autres_charges_fixes.map((elm) =>
-                        Number(elm[`autres_an${n}`])
+    const totalChargesExternes = [1, 2, 3]
+        .map((n) =>
+            arraySumFunction(
+                chargesExternes
+                    .map((el) => Number(el[`v${n}`]))
+                    .concat(
+                        autres_charges_fixes.map((elm) =>
+                            Number(elm[`autres_an${n}`])
+                        )
                     )
-                )
-                .filter((v) => typeof Number(v) == "number" && !isNaN(v))
+                    .filter((v) => typeof Number(v) == "number" && !isNaN(v))
+            )
         )
-    );
+        .map((el) => Number(el).toFixed(2));
     const impots = [
         charges_fixes.annee1.impôt_taxes,
         charges_fixes.annee2.impôt_taxes,
         charges_fixes.annee3.impôt_taxes,
-    ];
+    ].map((el) => Number(el).toFixed(2));
     const fraisBancaires = [
         charges_fixes.annee1.frais_bancaires,
         charges_fixes.annee2.frais_bancaires,
         charges_fixes.annee3.frais_bancaires,
-    ];
+    ].map((el) => Number(el).toFixed(2));
     const totalInteretAnnuel = [0, 1, 2].map((el) =>
         arraySumFunction(
             [
@@ -171,30 +175,32 @@ export const chiffresAffairesHandler = (
             ].filter((v) => typeof Number(v) == "number" && !isNaN(v))
         )
     );
-    const totalPrincipaltAnnuel = [0, 1, 2].map((el) =>
-        arraySumFunction(
-            [
-                analysePrets[0].principalAnnuel[el],
-                analysePrets[1].principalAnnuel[el],
-                analysePrets[2].principalAnnuel[el],
-            ].filter((v) => typeof Number(v) == "number" && !isNaN(v))
+    const totalPrincipaltAnnuel = [0, 1, 2]
+        .map((el) =>
+            arraySumFunction(
+                [
+                    analysePrets[0].principalAnnuel[el],
+                    analysePrets[1].principalAnnuel[el],
+                    analysePrets[2].principalAnnuel[el],
+                ].filter((v) => typeof Number(v) == "number" && !isNaN(v))
+            )
         )
-    );
-    const valeurAjoutee = margeBrute.map(
-        (el, index) => Number(el) - totalChargesExternes[index]
-    );
-    const totalChargesBancaire = fraisBancaires.map(
-        (el, index) => Number(el) + totalInteretAnnuel[index]
-    );
+        .map((el) => Number(el).toFixed(2));
+    const valeurAjoutee = margeBrute
+        .map((el, index) => Number(el) - totalChargesExternes[index])
+        .map((el) => Number(el).toFixed(2));
+    const totalChargesBancaire = fraisBancaires
+        .map((el, index) => Number(el) + totalInteretAnnuel[index])
+        .map((el) => Number(el).toFixed(2));
     // totalVenteAn1 +
     // totalServicesAn1 -
     // pourcentage(totalVenteAn1, data.pourcentage_vente_cout_achat);
 
     // );
-    // console.log(totalChargesBancaire, totalInteretAnnuel);
-    const produitsExploit = totalVenteAnnuel.map(
-        (el, index) => Number(el) + Number(totalServicesAnnuel[index])
-    );
+    console.log(fraisBancaires, totalInteretAnnuel);
+    const produitsExploit = totalVenteAnnuel
+        .map((el, index) => Number(el) + Number(totalServicesAnnuel[index]))
+        .map((el) => Number(el).toFixed(2));
     return {
         totalVenteAnnuel,
         totalServicesAnnuel,

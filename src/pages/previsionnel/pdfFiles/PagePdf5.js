@@ -124,80 +124,80 @@ const PagePdf5 = ({ data }) => {
                         label=" Ventes + Production réelle"
                         highlighted
                         fontWeight="600"
-                        v1={produitsExploit[0] || 0}
-                        v2={produitsExploit[1] || 0}
-                        v3={produitsExploit[2] || 0}
+                        v1={produitsExploit[0]}
+                        v2={produitsExploit[1]}
+                        v3={produitsExploit[2]}
                         //   fontWeight="600"
                     />
                     <TableRow4
                         label="Achats consommés"
-                        v1={chargeExploit[0] || 0}
-                        v2={chargeExploit[1] || 0}
-                        v3={chargeExploit[2] || 0}
+                        v1={chargeExploit[0]}
+                        v2={chargeExploit[1]}
+                        v3={chargeExploit[2]}
                         //   fontWeight="600"
                     />
                     <TableRow4
                         label="Total des coûts variables"
-                        v1={chargeExploit[0] || 0}
-                        v2={chargeExploit[1] || 0}
-                        v3={chargeExploit[2] || 0}
+                        v1={chargeExploit[0]}
+                        v2={chargeExploit[1]}
+                        v3={chargeExploit[2]}
                         //   fontWeight="600"
                     />
                     <TableRow4
                         label="Marge sur coûts variables"
-                        v1={margeBrute[0] || 0}
-                        v2={margeBrute[1] || 0}
-                        v3={margeBrute[2] || 0}
+                        v1={margeBrute[0]}
+                        v2={margeBrute[1]}
+                        v3={margeBrute[2]}
                         //   fontWeight="600"
                     />
                     <TableRow4
                         label="Taux de marge sur coûts variables"
                         highlighted
                         fontWeight="600"
-                        v1={taux_magrge_cout[0] || 0}
-                        v2={taux_magrge_cout[1] || 0}
-                        v3={taux_magrge_cout[2] || 0}
+                        v1={taux_magrge_cout[0]}
+                        v2={taux_magrge_cout[1]}
+                        v3={taux_magrge_cout[2]}
                     />
                     <TableRow4
                         label="coûts fixes"
-                        v1={couts_fixes[0] || 0}
-                        v2={couts_fixes[1] || 0}
-                        v3={couts_fixes[2] || 0}
+                        v1={couts_fixes[0]}
+                        v2={couts_fixes[1]}
+                        v3={couts_fixes[2]}
                         //   fontWeight="600"
                     />
                     <TableRow4
                         label=" Total des charges"
-                        v1={total_charges[0] || 0}
-                        v2={total_charges[1] || 0}
-                        v3={total_charges[2] || 0}
+                        v1={total_charges[0]}
+                        v2={total_charges[1]}
+                        v3={total_charges[2]}
                         fontWeight="600"
                         highlighted
                     />
                     <TableRow4
                         label="Résultat courant avant impôts"
-                        v1={resultat_avant_impot[0] || 0}
-                        v2={resultat_avant_impot[1] || 0}
-                        v3={resultat_avant_impot[2] || 0}
+                        v1={resultat_avant_impot[0]}
+                        v2={resultat_avant_impot[1]}
+                        v3={resultat_avant_impot[2]}
                     />
                     <TableRow4
                         label=" Seuil de rentabilité (chiffre d'affaires)"
-                        v1={seuil_rentabilite[0] || 0}
-                        v2={seuil_rentabilite[1] || 0}
-                        v3={seuil_rentabilite[2] || 0}
+                        v1={seuil_rentabilite[0]}
+                        v2={seuil_rentabilite[1]}
+                        v3={seuil_rentabilite[2]}
                         fontWeight="600"
                         highlighted
                     />
                     <TableRow4
                         label="Excédent / insuffisance"
-                        v1={excedent_insuffisence[0] || 0}
-                        v2={excedent_insuffisence[1] || 0}
-                        v3={excedent_insuffisence[2] || 0}
+                        v1={excedent_insuffisence[0]}
+                        v2={excedent_insuffisence[1]}
+                        v3={excedent_insuffisence[2]}
                     />
                     <TableRow4
                         label=" Point mort en chiffre d'affaires par jour ouvré"
-                        v1={point_mort_chiffres_affaires_jour[0] || 0}
-                        v2={point_mort_chiffres_affaires_jour[1] || 0}
-                        v3={point_mort_chiffres_affaires_jour[2] || 0}
+                        v1={point_mort_chiffres_affaires_jour[0]}
+                        v2={point_mort_chiffres_affaires_jour[1]}
+                        v3={point_mort_chiffres_affaires_jour[2]}
                     />
                 </TableBody>
             </Table>
@@ -218,40 +218,39 @@ const PagePdf5 = ({ data }) => {
                         label="Besoins"
                         highlighted
                         fontWeight="600"
-                        //   v1={amortisIncorp || 0}
-                        //   v2={amortisIncorp || 0}
-                        //   v3={amortisIncorp || 0}
-                        //   fontWeight="600"
+                        v1={""}
+                        v2={""}
+                        v3={""}
                     />
                     <TableRow4
                         label="Volume crédit client HT"
-                        v1={volume_credit_client[0] || 0}
-                        v2={volume_credit_client[1] || 0}
-                        v3={volume_credit_client[2] || 0}
+                        v1={volume_credit_client[0]}
+                        v2={volume_credit_client[1]}
+                        v3={volume_credit_client[2]}
                         //   fontWeight="600"
                     />
                     <TableRow4
                         label=" Ressources"
-                        //   v1={amortisIncorp || 0}
-                        //   v2={amortisIncorp || 0}
-                        //   v3={amortisIncorp || 0}
+                        v1={""}
+                        v2={""}
+                        v3={""}
                         highlighted
                         fontWeight="600"
                     />
                     <TableRow4
                         label="Volume dettes fournisseurs HT"
-                        v1={volume_dettes_fournisseurs[0] || 0}
-                        v2={volume_dettes_fournisseurs[1] || 0}
-                        v3={volume_dettes_fournisseurs[2] || 0}
+                        v1={volume_dettes_fournisseurs[0]}
+                        v2={volume_dettes_fournisseurs[1]}
+                        v3={volume_dettes_fournisseurs[2]}
                         //   fontWeight="600"
                     />
                     <TableRow4
                         label=" Besoin en fonds de roulement"
                         highlighted
                         fontWeight="600"
-                        v1={besoin_fonds_roulement[0] || 0}
-                        v2={besoin_fonds_roulement[1] || 0}
-                        v3={besoin_fonds_roulement[2] || 0}
+                        v1={besoin_fonds_roulement[0]}
+                        v2={besoin_fonds_roulement[1]}
+                        v3={besoin_fonds_roulement[2]}
                         //   fontWeight="600"
                     />
                 </TableBody>

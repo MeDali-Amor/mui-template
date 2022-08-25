@@ -12,9 +12,9 @@ export const chargesSocialsHandler = (
     totalVenteAnnuel,
     totalServicesAnnuel
 ) => {
-    const charges_employes = salaires_employes.map((el) =>
-        !isNaN(Number(el)) ? Number(el) * 0.72 : 0
-    );
+    const charges_employes = salaires_employes
+        .map((el) => (!isNaN(Number(el)) ? Number(el) * 0.72 : 0))
+        .map((el) => Number(el).toFixed(2));
     const RSI_EI = [0, 1, 2].map(
         (el) =>
             valeurAjoutee[el] -
@@ -64,7 +64,7 @@ export const chargesSocialsHandler = (
         RSI_EI,
         totalVenteAnnuel,
         totalServicesAnnuel
-    );
+    ).map((el) => Number(el).toFixed(2));
     const excedentBrute = valeurAjoutee.map(
         (el, index) =>
             Number(el) -
@@ -78,15 +78,17 @@ export const chargesSocialsHandler = (
                 ].filter((v) => typeof Number(v) == "number" && !isNaN(v))
             ).toFixed(2)
     );
-    const resultat_avant_impot = excedentBrute.map(
-        (el, index) =>
-            Number(el) -
-            arraySumFunction(
-                [totalChargesBancaire[index], totalAmortissement].filter(
-                    (v) => typeof Number(v) == "number" && !isNaN(v)
+    const resultat_avant_impot = excedentBrute
+        .map(
+            (el, index) =>
+                Number(el) -
+                arraySumFunction(
+                    [totalChargesBancaire[index], totalAmortissement].filter(
+                        (v) => typeof Number(v) == "number" && !isNaN(v)
+                    )
                 )
-            ).toFixed(2)
-    );
+        )
+        .map((el) => Number(el).toFixed(2));
     const impot_societes =
         form_juridique === "Micro-entreprise" ||
         form_juridique === "Entreprise individuelle au réel (IR)"
@@ -98,19 +100,25 @@ export const chargesSocialsHandler = (
                       ? (38120 * 0.15 + (Number(el) - 38120) * 0.28).toFixed(2)
                       : (Number(el) * 0.15).toFixed(2)
               );
-    const resultat_net = resultat_avant_impot.map((el, index) =>
-        impot_societes ? Number(el) - Number(impot_societes[index]) : Number(el)
-    );
-    const chargesPersonnel = [0, 1, 2].map((el, index) =>
-        arraySumFunction(
-            [
-                salaires_employes[index],
-                charges_employes[index],
-                remuneration_dirigeants[index],
-                charges_social_dirig[index],
-            ].filter((v) => typeof Number(v) == "number" && !isNaN(v))
+    const resultat_net = resultat_avant_impot
+        .map((el, index) =>
+            impot_societes
+                ? Number(el) - Number(impot_societes[index])
+                : Number(el)
         )
-    );
+        .map((el) => Number(el).toFixed(2));
+    const chargesPersonnel = [0, 1, 2]
+        .map((el, index) =>
+            arraySumFunction(
+                [
+                    salaires_employes[index],
+                    charges_employes[index],
+                    remuneration_dirigeants[index],
+                    charges_social_dirig[index],
+                ].filter((v) => typeof Number(v) == "number" && !isNaN(v))
+            )
+        )
+        .map((el) => Number(el).toFixed(2));
     console.log(chargesPersonnel[0] / 12);
     return {
         charges_employes,

@@ -39,6 +39,7 @@ const PagePdf2 = ({ data }) => {
         data.financement_demarage.pret_2,
         data.financement_demarage.pret_3,
     ].map((el) => analysePret(el));
+    console.log(analysePrets);
     const {
         totalVenteAnnuel,
         totalServicesAnnuel,

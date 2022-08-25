@@ -12,10 +12,11 @@ export const analysePret = (pret) => {
     const intretAnnuel = [1, 2, 3].map((el) =>
         analyseAnnuel(duree, el, intert_mois)
     );
-    const principalAnnuel = [1, 2, 3].map((el) =>
-        analyseAnnuel(duree, el, principal_mois).toFixed(2)
-    );
+    const principalAnnuel = [1, 2, 3]
+        .map((el) => analyseAnnuel(duree, el, principal_mois))
+        .map((el) => Number(el).toFixed(2));
     // console.log(mensualite);
+    console.log(intert_mois, intretAnnuel);
     return {
         intretAnnuel,
         principalAnnuel,

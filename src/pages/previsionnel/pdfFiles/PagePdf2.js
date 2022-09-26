@@ -267,7 +267,9 @@ const PagePdf2 = ({ data }) => {
                     />
                     <TableRow4
                         label="Charges sociales du (des) dirigeant(s)"
-                        v1={charges_social_dirig[0]}
+                        v1={new Intl.NumberFormat("fr-FR").format(
+                            Number(charges_social_dirig[0])
+                        )}
                         v2={charges_social_dirig[1]}
                         v3={charges_social_dirig[2]}
                         fontWeight="300"

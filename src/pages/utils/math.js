@@ -24,6 +24,6 @@ export const pourcentageArrondi = (a, b) => {
         !isNaN(Number(b)) &&
         Number(b) !== 0
     )
-        return Math.round((Number(a) / Number(b)) * 100);
+        return (Number(a) / Number(b)) * 100;
     return 0;
 };

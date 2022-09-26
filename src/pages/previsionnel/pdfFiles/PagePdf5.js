@@ -154,9 +154,9 @@ const PagePdf5 = ({ data }) => {
                         label="Taux de marge sur coûts variables"
                         highlighted
                         fontWeight="600"
-                        v1={taux_magrge_cout[0]}
-                        v2={taux_magrge_cout[1]}
-                        v3={taux_magrge_cout[2]}
+                        v1={Number(taux_magrge_cout[0]).toFixed(0)}
+                        v2={Number(taux_magrge_cout[1]).toFixed(0)}
+                        v3={Number(taux_magrge_cout[2]).toFixed(0)}
                     />
                     <TableRow4
                         label="coûts fixes"

@@ -15,6 +15,7 @@ import { useFormContext } from "react-hook-form";
 import { Box } from "@mui/system";
 // import { FastField, useField, useFormikContext } from "formik";
 import { useEffect } from "react";
+import { useState } from "react";
 // import { useDebounce } from "../hooks/debounceHook";
 
 const BootstrapInput = styled(InputBase)(
@@ -96,6 +97,8 @@ const InlineTextField = ({
     readOnly,
     ...props
 }) => {
+    const [input, setInput] = useState("");
+    const [start, setStart] = useState(0);
     // const { setFieldValue } = useFormikContext();
     // const [field, meta] = useField(props);
     // const { name, value, onBlur, onChange } = field;
@@ -179,6 +182,23 @@ const InlineTextField = ({
                     readOnly={readOnly}
                     align={textAlign}
                     sx={{ width: width ? `${width}%` : "40%" }}
+                    // onChange={(e) => {
+                    //     // setStart(e.target.selectionStart);
+                    //     let val = e.target.value;
+                    //     val = val.replace(/([^0-9.]+)/, "");
+                    //     val = val.replace(/^(0|\.)/, "");
+                    //     const match = /(\d{0,7})[^.]*((?:\.\d{0,2})?)/g.exec(
+                    //         val
+                    //     );
+                    //     const value = match[1] + match[2];
+                    //     e.target.value = value;
+                    //     setInput(value);
+                    //     if (val.length > 0) {
+                    //         e.target.value = Number(value).toFixed(2);
+                    //         e.target.setSelectionRange(start, start);
+                    //         setInput(Number(value).toFixed(2));
+                    //     }
+                    // }}
                     // sx={{ width: "35%" }}
                     // label={label}
                     // onBlur={onBlur}
@@ -187,7 +207,21 @@ const InlineTextField = ({
                     // {...field}
                     // {...props}
                     // error={meta.touched && Boolean(meta.error)}
-                    // onChange={changeHandler}
+                    // onBlur={(e) => {
+                    //     let targetValue = e.target.value
+                    //         .toString()
+                    //         .split(" ")
+                    //         .join("");
+                    //     let value = new Intl.NumberFormat(
+                    //         "fr-FR"
+                    //         //     {
+                    //         //     style: "currency",
+                    //         //     // currency: "EUR",
+                    //         // }
+                    //     ).format(Number(targetValue));
+                    //     setValue(name, value);
+                    //     // console.log(targetValue, value);
+                    // }}
                 />
                 {/* <button
                     type="button"

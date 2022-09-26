@@ -150,7 +150,9 @@ const PagePdf1 = ({ data }) => {
                                     fontWeight: "600",
                                 }}
                             >
-                                {totalIncorp || 0}
+                                {new Intl.NumberFormat("fr-FR").format(
+                                    Number(totalIncorp)
+                                )}
                             </TableCell>
                         </TableRow>
                         {tableDataIncorporelles.map((el) => (

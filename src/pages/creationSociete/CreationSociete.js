@@ -38,6 +38,7 @@ import SelectAutoComplete from "../../components/SelectAutoComplete";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import CheckBoxField from "../../components/CheckBoxField";
 import AssociesForm from "./AssociesForm";
+import DocSouscripteurs from "./DocSouscripteurs";
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 const validationSchema = yup.object({
     deno: yup.string().required("Ce champ est requis"),
@@ -100,6 +101,7 @@ const CreationSociete = () => {
 
     // console.log(directePleinePropriete, directeNuePropriete);
 
+    const [data, setData] = useState(null);
     const [sign, setSign] = useState(window.innerWidth);
 
     const [open, setOpen] = useState(false);
@@ -217,6 +219,7 @@ const CreationSociete = () => {
             });
             values.beneficiaires = associes;
             console.log(values.beneficiaires);
+            setData(values);
         } else setErrorForm("une erreur s'est produite veuillez réessayer");
         // const formData = new FormData();
         // values.dirig.forEach((el, index) => {
@@ -1210,6 +1213,7 @@ const CreationSociete = () => {
                         {errorForm}
                     </Typography>
                 )}
+                {data && <DocSouscripteurs data={data} />}
             </Box>
             <CustomizedSnackbar
                 open={open}

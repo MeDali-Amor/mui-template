@@ -1,5 +1,6 @@
 import {
     Box,
+    Stack,
     Table,
     TableBody,
     TableCell,
@@ -13,6 +14,7 @@ import TableHeader4 from "../previsionnel/pdfFiles/components/TableHeader4";
 import TableHeader7 from "../previsionnel/pdfFiles/components/TableHeader7";
 import TableRow4 from "../previsionnel/pdfFiles/components/TableRow4";
 import TableRow7 from "../previsionnel/pdfFiles/components/TableRow7";
+import { getCurrentDate } from "../utils/dates";
 
 const DocSouscripteurs = ({ data }) => {
     console.log(data);
@@ -162,9 +164,15 @@ const DocSouscripteurs = ({ data }) => {
                         },
                     }}
                 >
-                    {data?.datebeneficiaire?.length ? (
-                        data.datebeneficiaire.map((el) => (
-                            <TableRow>
+                    {data?.beneficiaires?.length > 0 ? (
+                        data.beneficiaires.map((el) => (
+                            <TableRow
+                                sx={{
+                                    "& th": {
+                                        borderBottom: "1px solid black",
+                                    },
+                                }}
+                            >
                                 <TableCell
                                     sx={{
                                         width: "50%",
@@ -172,6 +180,7 @@ const DocSouscripteurs = ({ data }) => {
                                         paddingBlock: 1,
                                         borderLeft: "1px solid black",
                                         borderTop: "1px solid black",
+                                        borderBottom: "1px solid black",
                                     }}
                                 >
                                     <Typography
@@ -197,14 +206,12 @@ const DocSouscripteurs = ({ data }) => {
                                             // fontStyle: "italic",
                                         }}
                                     >
+                                        Né
                                         {el?.datenaissancebenefi &&
-                                            `Né le ${el?.datenaissancebenefi}`}{" "}
-                                        à villenaissancebenefi
-                                        {el?.villenaissancebenefi}
+                                            ` le ${el?.datenaissancebenefi}`}{" "}
+                                        à {el?.villenaissancebenefi}
                                         {el?.paysnaissancebenefi &&
-                                            `(
-                                        ${el?.paysnaissancebenefi}
-                                        )`}
+                                            `(${el?.paysnaissancebenefi})`}
                                     </Typography>
                                     <Typography
                                         sx={{
@@ -241,11 +248,12 @@ const DocSouscripteurs = ({ data }) => {
                                         paddingBlock: 1,
                                         borderLeft: "1px solid black",
                                         // borderLeft: "1px dashed black",
+                                        borderBottom: "1px solid black",
                                         borderTop: "1px solid black",
                                         // backgroundColor: "lightgray",
                                     }}
                                 >
-                                    Nombre des actions souscrites
+                                    {el?.detentioncapital}
                                 </TableCell>
                                 <TableCell
                                     sx={{
@@ -254,12 +262,13 @@ const DocSouscripteurs = ({ data }) => {
                                         paddingInline: 1,
                                         paddingBlock: 1,
                                         borderTop: "1px solid black",
-                                        // borderBottom: "1px solid black",
+                                        borderBottom: "1px solid black",
                                         borderLeft: "1px dashed black",
                                         // backgroundColor: "lightgray",
                                     }}
                                 >
-                                    Montant total des souscriptions
+                                    {(el?.detentioncapital * data.capital) /
+                                        100}
                                 </TableCell>
                                 <TableCell
                                     sx={{
@@ -271,9 +280,11 @@ const DocSouscripteurs = ({ data }) => {
                                         borderTop: "1px solid black",
                                         borderLeft: "1px dashed black",
                                         // backgroundColor: "lightgray",
+                                        borderBottom: "1px solid black",
                                     }}
                                 >
-                                    Montant des versements effectués
+                                    {(el?.detentioncapital * data.capital) /
+                                        100}
                                 </TableCell>
                             </TableRow>
                         ))
@@ -332,8 +343,174 @@ const DocSouscripteurs = ({ data }) => {
                             </TableCell>
                         </TableRow>
                     )}
+                    <TableRow>
+                        <TableCell
+                            sx={{
+                                width: "50%",
+                                paddingInline: 1,
+                                paddingBlock: 1,
+                                borderLeft: "1px solid black",
+                                borderTop: "1px solid black",
+                                borderBottom: "1px solid black",
+                            }}
+                        >
+                            Total
+                        </TableCell>
+                        <TableCell
+                            sx={{
+                                textAlign: "center",
+                                width: "15%",
+                                paddingInline: 1,
+                                paddingBlock: 1,
+                                borderLeft: "1px solid black",
+                                // borderLeft: "1px dashed black",
+                                borderTop: "1px solid black",
+                                borderBottom: "1px solid black",
+
+                                // backgroundColor: "lightgray",
+                            }}
+                        >
+                            100
+                        </TableCell>
+                        <TableCell
+                            sx={{
+                                textAlign: "center",
+                                width: "15%",
+                                paddingInline: 1,
+                                paddingBlock: 1,
+                                borderTop: "1px solid black",
+                                // borderBottom: "1px solid black",
+                                borderLeft: "1px dashed black",
+                                borderBottom: "1px solid black",
+
+                                // backgroundColor: "lightgray",
+                            }}
+                        >
+                            {data.capital}
+                        </TableCell>
+                        <TableCell
+                            sx={{
+                                textAlign: "center",
+                                width: "15%",
+                                paddingInline: 1,
+                                paddingBlock: 1,
+                                borderRight: "1px solid black",
+                                borderTop: "1px solid black",
+                                borderBottom: "1px solid black",
+
+                                borderLeft: "1px dashed black",
+                                // backgroundColor: "lightgray",
+                            }}
+                        >
+                            {data.capital}
+                        </TableCell>
+                    </TableRow>
                 </TableBody>
             </Table>
+            <Box
+                sx={{
+                    position: "absolute",
+                    bottom: "8%",
+                    left: "5%",
+                    right: "5%",
+                }}
+            >
+                {" "}
+                <Box>
+                    <Typography style={{ display: "inline" }}>
+                        Certifié exact, sincère et véritable par{" "}
+                    </Typography>
+                    {data?.dirig?.map((el) => (
+                        <Typography
+                            style={{ display: "inline" }}
+                            sx={{
+                                // marginBlock: 1,
+                                // textAlign: "center",
+                                fontSize: 18,
+                                fontWeight: "600",
+                                // fontStyle: "italic",
+                            }}
+                        >
+                            {el.detcivdir} {el.detprenomdir} {el.detnomdir}{" "}
+                            <Typography style={{ display: "inline" }}>
+                                {el.titredirig},{" "}
+                            </Typography>
+                        </Typography>
+                    ))}{" "}
+                    {data?.beneficiaires?.map((el) => (
+                        <span>
+                            {el.prenombenefi} {el.nombenefi} associé ,{" "}
+                        </span>
+                    ))}{" "}
+                    de la société{" "}
+                    <Typography
+                        style={{ display: "inline" }}
+                        sx={{
+                            // marginBlock: 1,
+                            // textAlign: "center",
+                            fontSize: 18,
+                            fontWeight: "600",
+                            // fontStyle: "italic",
+                        }}
+                    >
+                        {" "}
+                        {data?.deno.toUpperCase()}
+                    </Typography>
+                    {data?.formejur && `, ${data?.formejur}`}.
+                </Box>
+                <Box sx={{ marginBlock: 2 }}>
+                    <Typography>
+                        Fait à ..... le{" "}
+                        <Typography
+                            style={{ display: "inline" }}
+                            sx={{
+                                // marginBlock: 1,
+                                // textAlign: "center",
+                                fontSize: 18,
+                                fontWeight: "600",
+                                // fontStyle: "italic",
+                            }}
+                        >
+                            {" "}
+                            {getCurrentDate()}{" "}
+                        </Typography>
+                        en deux exemplaires.
+                    </Typography>
+                </Box>
+                <Box textAlign={"right"}>
+                    <Typography>
+                        {data?.dirig?.map((el) => (
+                            <Typography
+                                style={{ display: "inline" }}
+                                sx={{
+                                    // marginBlock: 1,
+                                    // textAlign: "center",
+                                    fontSize: 18,
+                                    fontWeight: "600",
+                                    // fontStyle: "italic",
+                                }}
+                            >
+                                {el.detcivdir} {el.detprenomdir} {el.detnomdir}{" "}
+                                ,{" "}
+                            </Typography>
+                        ))}{" "}
+                        {data?.beneficiaires?.map((el) => (
+                            <Typography
+                                style={{ display: "inline" }}
+                                sx={{
+                                    // marginBlock: 1,
+                                    // textAlign: "center",
+                                    fontSize: 18,
+                                    fontWeight: "600",
+                                    // fontStyle: "italic",
+                                }}
+                            >
+                                {el.prenombenefi} {el.nombenefi} associé ,{" "}
+                            </Typography>
+                        ))}
+                    </Typography>
+                </Box>
+            </Box>
         </Box>
     );
 };

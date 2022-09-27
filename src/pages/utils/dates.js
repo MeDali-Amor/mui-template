@@ -10,6 +10,16 @@ export function dateFormatterFr(date) {
     const monthNameShort = dateObj.toLocaleString("fr", { month: "short" });
     return day + " " + monthNameLong + " " + year;
 }
+export function getCurrentDate(separator = "/") {
+    let newDate = new Date();
+    let date = newDate.getDate();
+    let month = newDate.getMonth() + 1;
+    let year = newDate.getFullYear();
+
+    return `${date}${separator}${
+        month < 10 ? `0${month}` : `${month}`
+    }${separator}${year}`;
+}
 
 // function getMonthName(monthNum) {
 //     const monthNames = [

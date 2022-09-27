@@ -87,7 +87,7 @@ const DocSouscripteurs = ({ data }) => {
                 sx={{
                     marginBottom: 8,
                     marginTop: 2,
-                    borderBottom: "1px solid black",
+                    // borderBottom: "1px solid black",
                 }}
             >
                 <TableHead
@@ -154,8 +154,184 @@ const DocSouscripteurs = ({ data }) => {
                         </TableCell>
                     </TableRow>
                 </TableHead>
-                <TableBody>
-                    <TableRow4 label={""} />
+
+                <TableBody
+                    sx={{
+                        "& th": {
+                            borderBottom: "1px solid black",
+                        },
+                    }}
+                >
+                    {data?.datebeneficiaire?.length ? (
+                        data.datebeneficiaire.map((el) => (
+                            <TableRow>
+                                <TableCell
+                                    sx={{
+                                        width: "50%",
+                                        paddingInline: 1,
+                                        paddingBlock: 1,
+                                        borderLeft: "1px solid black",
+                                        borderTop: "1px solid black",
+                                    }}
+                                >
+                                    <Typography
+                                        sx={{
+                                            // marginTop: 4,
+                                            // marginInline: 2,
+                                            // textAlign: "center",
+                                            fontSize: 16,
+                                            fontWeight: "700",
+                                            // fontStyle: "italic",
+                                        }}
+                                    >
+                                        {el?.prenombenefi}{" "}
+                                        {el?.nombenefi.toUpperCase()}
+                                    </Typography>
+                                    <Typography
+                                        sx={{
+                                            // marginTop: 4,
+                                            // marginInline: 2,
+                                            // textAlign: "center",
+                                            fontSize: 16,
+                                            fontWeight: "700",
+                                            // fontStyle: "italic",
+                                        }}
+                                    >
+                                        {el?.datenaissancebenefi &&
+                                            `Né le ${el?.datenaissancebenefi}`}{" "}
+                                        à villenaissancebenefi
+                                        {el?.villenaissancebenefi}
+                                        {el?.paysnaissancebenefi &&
+                                            `(
+                                        ${el?.paysnaissancebenefi}
+                                        )`}
+                                    </Typography>
+                                    <Typography
+                                        sx={{
+                                            // marginTop: 4,
+                                            // marginInline: 2,
+                                            // textAlign: "center",
+                                            fontSize: 16,
+                                            fontWeight: "700",
+                                            // fontStyle: "italic",
+                                        }}
+                                    >
+                                        de nationalité : {el?.nationalitebenefi}
+                                    </Typography>
+                                    <Typography
+                                        sx={{
+                                            // marginTop: 4,
+                                            // marginInline: 2,
+                                            // textAlign: "center",
+                                            fontSize: 16,
+                                            fontWeight: "700",
+                                            // fontStyle: "italic",
+                                        }}
+                                    >
+                                        Demeurant: {el?.dirigAdressebenefi} -{" "}
+                                        {el?.codepostalnaissancebenefi}{" "}
+                                        {el?.villenaissancebenefi}
+                                    </Typography>
+                                </TableCell>
+                                <TableCell
+                                    sx={{
+                                        textAlign: "center",
+                                        width: "15%",
+                                        paddingInline: 1,
+                                        paddingBlock: 1,
+                                        borderLeft: "1px solid black",
+                                        // borderLeft: "1px dashed black",
+                                        borderTop: "1px solid black",
+                                        // backgroundColor: "lightgray",
+                                    }}
+                                >
+                                    Nombre des actions souscrites
+                                </TableCell>
+                                <TableCell
+                                    sx={{
+                                        textAlign: "center",
+                                        width: "15%",
+                                        paddingInline: 1,
+                                        paddingBlock: 1,
+                                        borderTop: "1px solid black",
+                                        // borderBottom: "1px solid black",
+                                        borderLeft: "1px dashed black",
+                                        // backgroundColor: "lightgray",
+                                    }}
+                                >
+                                    Montant total des souscriptions
+                                </TableCell>
+                                <TableCell
+                                    sx={{
+                                        textAlign: "center",
+                                        width: "15%",
+                                        paddingInline: 1,
+                                        paddingBlock: 1,
+                                        borderRight: "1px solid black",
+                                        borderTop: "1px solid black",
+                                        borderLeft: "1px dashed black",
+                                        // backgroundColor: "lightgray",
+                                    }}
+                                >
+                                    Montant des versements effectués
+                                </TableCell>
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell
+                                sx={{
+                                    width: "50%",
+                                    paddingInline: 1,
+                                    paddingBlock: 1,
+                                    borderLeft: "1px solid black",
+                                    borderTop: "1px solid black",
+                                }}
+                            ></TableCell>
+                            <TableCell
+                                sx={{
+                                    textAlign: "center",
+                                    width: "15%",
+                                    paddingInline: 1,
+                                    paddingBlock: 1,
+                                    borderLeft: "1px solid black",
+                                    // borderLeft: "1px dashed black",
+                                    borderTop: "1px solid black",
+                                    // backgroundColor: "lightgray",
+                                }}
+                            >
+                                -
+                            </TableCell>
+                            <TableCell
+                                sx={{
+                                    textAlign: "center",
+                                    width: "15%",
+                                    paddingInline: 1,
+                                    paddingBlock: 1,
+                                    borderTop: "1px solid black",
+                                    // borderBottom: "1px solid black",
+                                    borderLeft: "1px dashed black",
+                                    // backgroundColor: "lightgray",
+                                }}
+                            >
+                                -
+                            </TableCell>
+                            <TableCell
+                                sx={{
+                                    textAlign: "center",
+                                    width: "15%",
+                                    paddingInline: 1,
+                                    paddingBlock: 1,
+                                    borderRight: "1px solid black",
+                                    borderTop: "1px solid black",
+                                    borderLeft: "1px dashed black",
+                                    // backgroundColor: "lightgray",
+                                }}
+                            >
+                                -
+                            </TableCell>
+                        </TableRow>
+                    )}
                 </TableBody>
             </Table>
         </Box>

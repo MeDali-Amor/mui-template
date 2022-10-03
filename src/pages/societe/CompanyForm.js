@@ -46,9 +46,15 @@ const ButtonContainerFloatRight = styled("div")(({ theme }) => ({
 const CompanyForm = ({ companyData }) => {
     const theme = useTheme();
     const [data, setData] = useState(companyData);
+    console.log(data);
     const handleDirigChange = (e, index) => {
         const { name, value } = e.target;
-        let dirigeant = { ...companyData.dirig[index], [name]: value };
+        let personne = { ...companyData.dirig[index].personne, [name]: value };
+        let dirigeant = {
+            ...companyData.dirig[index],
+            personne,
+            [name]: value,
+        };
         const dirigList = companyData.dirig;
         dirigList[index] = dirigeant;
         const companyAlt = { ...companyData, dirig: dirigList };
@@ -246,36 +252,36 @@ const CompanyForm = ({ companyData }) => {
                         <StyledTextField
                             onChange={(e) => handleDirigChange(e, index)}
                             variant="outlined"
-                            name="detcivdir"
+                            name="civilite"
                             // label="Nom"
-                            value={el.detcivdir || ""}
+                            value={el.personne.civilite || ""}
                         />
                     </Grid>
                     <Grid item xs={12} sm={3}>
                         <StyledTextField
                             onChange={(e) => handleDirigChange(e, index)}
                             variant="outlined"
-                            name="detnomdir"
+                            name="nom"
                             label="Nom"
-                            value={el.detnomdir || ""}
+                            value={el.personne.nom || ""}
                         />
                     </Grid>
                     <Grid item xs={12} sm={3}>
                         <StyledTextField
                             onChange={(e) => handleDirigChange(e, index)}
                             variant="outlined"
-                            name="detprenomdir"
-                            label="Prénom"
-                            value={el.detprenomdir || ""}
+                            name="prenom"
+                            label="Prenom"
+                            value={el.personne.prenom || ""}
                         />
                     </Grid>
                     <Grid item xs={12} sm={4}>
                         <StyledTextField
                             onChange={(e) => handleDirigChange(e, index)}
                             variant="outlined"
-                            name="titredirig"
+                            name="titre"
                             label="Type"
-                            value={el.titredirig || ""}
+                            value={el.titre || ""}
                         />
                     </Grid>
                 </Grid>

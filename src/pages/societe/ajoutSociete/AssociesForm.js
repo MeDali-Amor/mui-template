@@ -29,8 +29,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 const AssociesForm = ({
     isDirig,
     setisDirig,
-    nature,
-    setNature,
+    isPerson,
+    setIsPerson,
     montantCap,
     setMontantCap,
     pourcentageCapital,
@@ -61,15 +61,15 @@ const AssociesForm = ({
         console.log(value);
     };
     return (
-        <FieldArray name="associes">
+        <FieldArray name="beneficiaires">
             {(fieldArrayProps) => {
                 // console.log(fieldArrayProps);
                 const { push, remove, form } = fieldArrayProps;
                 const { values, errors, touched } = form;
-                const { dirig, associes } = values;
+                const { dirig, beneficiaires } = values;
                 // const options = isDirig
                 //     ? dirig.filter((el) => {
-                //           return associes.some((f) => {
+                //           return beneficiaires.some((f) => {
                 //               return (
                 //                   f.prenombenefi !==
                 //                       el.detprenomdir &&
@@ -102,7 +102,33 @@ const AssociesForm = ({
                             columnSpacing={6}
                             // sx={{ pb: 5 }}
                         >
-                            {associes.length - 1 > 0 && (
+                            <Grid item xs={12} sm={12}>
+                                <Typography variant="h6" gutterBottom>
+                                    Montant du capital
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <InputFeild
+                                    id="capmont"
+                                    name="capital"
+                                    label="Capital"
+                                    fullWidth
+                                    customValue={montantCap}
+                                    setCustomValue={setMontantCap}
+                                />
+                                {/* <InputFeild
+                                    // type="hidden"
+                                    id="cappercent"
+                                    name="restcapital"
+                                    // label="reste Capital"
+                                    hiddenLabel
+                                    height={0}
+                                    fullWidth
+                                    customValue={pourcentageCapital}
+                                    // setCustomValue={setMontantCap}
+                                /> */}
+                            </Grid>
+                            {beneficiaires.length - 1 > 0 && (
                                 <Grid item xs={12} sm={12}>
                                     <Typography variant="h6" gutterBottom>
                                         Liste des associés ajoutés
@@ -110,8 +136,10 @@ const AssociesForm = ({
                                 </Grid>
                             )}
                         </Grid>
-                        {associes.map((el, index) =>
-                            index === associes.length - 1 ? (
+                        {/* {dirig && dirig.length > 0 */}
+                        {/* ?  */}
+                        {beneficiaires.map((el, index) =>
+                            index === beneficiaires.length - 1 ? (
                                 <Grid
                                     container
                                     rowSpacing={3}
@@ -126,24 +154,40 @@ const AssociesForm = ({
                                     </Grid>
                                     <Grid item xs={12} sm={12}>
                                         <RadioButtonGroup
-                                            name={`associes[${index}].nature`}
+                                            name={`beneficiaires[${index}].person`}
                                             label=" L'associé est"
                                             label1="une personne physique"
                                             label2="une personne morale"
-                                            // value1="physique"
-                                            // value2="morale"
-                                            condition={nature}
-                                            setCondition={setNature}
+                                            condition={isPerson}
+                                            setCondition={setIsPerson}
                                         />
                                     </Grid>
                                     {/* <Grid item xs={12} sm={6}></Grid> */}
-                                    {nature === "physique" ? (
+                                    {isPerson === "yes" ? (
                                         <>
                                             <Grid item xs={12} sm={6}>
                                                 <FormControl>
+                                                    {/* <Grid
+                                                                container
+                                                                rowSpacing={3}
+                                                                columnSpacing={
+                                                                    6
+                                                                }
+                                                                key={index}
+                                                                // sx={{ pb: 5 }}
+                                                            >
+                                                                <Grid
+                                                                    item
+                                                                    xs={12}
+                                                                    sm={6}
+                                                                > */}
                                                     <FormLabel id="demo-controlled-radio-buttons-group">
                                                         L'associé est
                                                     </FormLabel>
+                                                    {/* </Grid>
+                                                                <Grid */}
+                                                    {/* item xs={12}
+                                                            sm={6}> */}
                                                     <RadioGroup
                                                         aria-labelledby="demo-controlled-radio-buttons-group"
                                                         name="controlled-radio-buttons-group"
@@ -204,7 +248,7 @@ const AssociesForm = ({
                                                     options={dirig}
                                                     autoHighlight
                                                     getOptionLabel={(option) =>
-                                                        option.personne.nom
+                                                        option.detnomdir
                                                     }
                                                     onChange={(e, value) => {
                                                         setDirigBeneficiaire(
@@ -223,13 +267,9 @@ const AssociesForm = ({
                                                             {...props}
                                                         >
                                                             {
-                                                                option.personne
-                                                                    .prenom
+                                                                option.detprenomdir
                                                             }{" "}
-                                                            {
-                                                                option.personne
-                                                                    .nom
-                                                            }
+                                                            {option.detnomdir}
                                                         </Box>
                                                     )}
                                                     renderInput={(params) => (
@@ -246,26 +286,24 @@ const AssociesForm = ({
                                             <Grid item xs={12} sm={6}>
                                                 <InputFeild
                                                     id="nombeneficiaire"
-                                                    name={`associes[${index}].personne.nom`}
+                                                    name={`beneficiaires[${index}].nombenefi`}
                                                     label="Nom"
                                                     fullWidth
                                                     customValue={
                                                         dirigBeneficiaire &&
-                                                        dirigBeneficiaire
-                                                            .personne.nom
+                                                        dirigBeneficiaire.detnomdir
                                                     }
                                                 />
                                             </Grid>
                                             <Grid item xs={12} sm={6}>
                                                 <InputFeild
                                                     id="prenombeneficiaire"
-                                                    name={`associes[${index}].personne.prenom`}
+                                                    name={`beneficiaires[${index}].prenombenefi`}
                                                     label="Prénom"
                                                     fullWidth
                                                     customValue={
                                                         dirigBeneficiaire &&
-                                                        dirigBeneficiaire
-                                                            .personne.prenom
+                                                        dirigBeneficiaire.detprenomdir
                                                     }
                                                 />
                                             </Grid>
@@ -275,7 +313,7 @@ const AssociesForm = ({
                                                         shrink: true,
                                                     }}
                                                     id="datebeneficiaire"
-                                                    name={`associes[${index}].date_debut`}
+                                                    name={`beneficiaires[${index}].datebeneficiaire`}
                                                     label="Date à la quelle est devenue associé effectif"
                                                     type="date"
                                                     fullWidth
@@ -287,15 +325,13 @@ const AssociesForm = ({
                                                         shrink: true,
                                                     }}
                                                     id="datenaissancebeneficiaire"
-                                                    name={`associes[${index}].personne.date_naissance`}
+                                                    name={`beneficiaires[${index}].datenaissancebenefi`}
                                                     label="Date de naissance"
                                                     type="date"
                                                     fullWidth
                                                     customValue={
                                                         dirigBeneficiaire &&
-                                                        dirigBeneficiaire
-                                                            .personne
-                                                            .date_naissance
+                                                        dirigBeneficiaire.datenaissance
                                                     }
                                                 />
                                             </Grid>
@@ -303,7 +339,7 @@ const AssociesForm = ({
                                                 <AutoCompleteInputField
                                                     // autoLabel="Pays"
                                                     id="paysnaissancebeneficiaire"
-                                                    name={`associes[${index}].personne.pays_naissance`}
+                                                    name={`beneficiaires[${index}].paysnaissancebenefi`}
                                                     label="Pays de naissance"
                                                     fullWidth
                                                     // handleChange={(
@@ -319,24 +355,31 @@ const AssociesForm = ({
                                                     // }
                                                     customValue={
                                                         dirigBeneficiaire &&
-                                                        dirigBeneficiaire
-                                                            .personne
-                                                            .pays_naissance
+                                                        dirigBeneficiaire.paysnaissance
                                                     }
                                                 />
                                             </Grid>
-
+                                            <Grid item xs={12} sm={6}>
+                                                <InputFeild
+                                                    id="codepostalnaissancebeneficiaire"
+                                                    name={`beneficiaires[${index}].codepostalnaissancebenefi`}
+                                                    label="Code postal de naissance"
+                                                    fullWidth
+                                                    customValue={
+                                                        dirigBeneficiaire &&
+                                                        dirigBeneficiaire.codepostalnaissance
+                                                    }
+                                                />
+                                            </Grid>
                                             <Grid item xs={12} sm={6}>
                                                 <InputFeild
                                                     id="villenaissancebeneficiaire"
-                                                    name={`associes[${index}].personne.ville_naissance`}
+                                                    name={`beneficiaires[${index}].villenaissancebenefi`}
                                                     label="Ville de naissance"
                                                     fullWidth
                                                     customValue={
                                                         dirigBeneficiaire &&
-                                                        dirigBeneficiaire
-                                                            .personne
-                                                            .ville_naissance
+                                                        dirigBeneficiaire.villenaissance
                                                     }
                                                 />
                                             </Grid>
@@ -344,14 +387,12 @@ const AssociesForm = ({
                                                 <AutoCompleteInputField
                                                     autoLabel="Pays"
                                                     id="nationalitebeneficiaire"
-                                                    name={`associes[${index}].personne.nationalite`}
+                                                    name={`beneficiaires[${index}].nationalitebenefi`}
                                                     label="Nationalité"
                                                     fullWidth
                                                     customValue={
                                                         dirigBeneficiaire &&
-                                                        dirigBeneficiaire
-                                                            .personne
-                                                            .nationalite
+                                                        dirigBeneficiaire.nationalite
                                                     }
                                                 />
                                             </Grid>
@@ -359,14 +400,12 @@ const AssociesForm = ({
                                                 <AutoCompleteInputField
                                                     autoLabel="Pays"
                                                     id="paysresidencebeneficiaire"
-                                                    name={`associes[${index}].personne.pays_residence`}
+                                                    name={`beneficiaires[${index}].paysresidencebenefi`}
                                                     label="Pays de residence"
                                                     fullWidth
                                                     customValue={
                                                         dirigBeneficiaire &&
-                                                        dirigBeneficiaire
-                                                            .personne
-                                                            .pays_residence
+                                                        dirigBeneficiaire.paysresidence
                                                     }
                                                     // handleChange={(
                                                     //     value
@@ -381,10 +420,10 @@ const AssociesForm = ({
                                                     // }
                                                 />
                                             </Grid>
-                                            {/* <Grid item xs={12} sm={6}>
+                                            <Grid item xs={12} sm={6}>
                                                 <InputFeild
                                                     id="adressebeneficiaire"
-                                                    name={`associes[${index}].dirigAdressebenefi`}
+                                                    name={`beneficiaires[${index}].dirigAdressebenefi`}
                                                     label="Adresse"
                                                     fullWidth
                                                     customValue={
@@ -392,14 +431,14 @@ const AssociesForm = ({
                                                         dirigBeneficiaire.dirigAdresse
                                                     }
                                                 />
-                                            </Grid> */}
+                                            </Grid>
                                         </>
                                     ) : (
                                         <>
                                             <Grid item xs={12} sm={6}>
                                                 <InputFeild
                                                     id="raisonsocialeassocie"
-                                                    name={`associes[${index}].societe.deno`}
+                                                    name={`beneficiaires[${index}].raisonsociale`}
                                                     label="Raison Sociale"
                                                     fullWidth
                                                 />
@@ -407,7 +446,7 @@ const AssociesForm = ({
                                             <Grid item xs={12} sm={6}>
                                                 <InputFeild
                                                     id="sirenassocie"
-                                                    name={`associes[${index}].societe.no`}
+                                                    name={`beneficiaires[${index}].siren`}
                                                     label="Siren"
                                                     fullWidth
                                                 />
@@ -418,19 +457,19 @@ const AssociesForm = ({
                                                         shrink: true,
                                                     }}
                                                     id="datebeneficiaire"
-                                                    name={`associes[${index}].date_debut`}
-                                                    label="Date à la quelle est devenue associé effectif"
+                                                    name={`beneficiaires[${index}].datebeneficiaire`}
+                                                    label="Date à la quelle est devenue un associé"
                                                     type="date"
                                                     fullWidth
                                                 />
                                             </Grid>
-                                            {/* <Grid item xs={12} sm={6}>
+                                            <Grid item xs={12} sm={6}>
                                                 <InputFeild
                                                     InputLabelProps={{
                                                         shrink: true,
                                                     }}
                                                     id="datecreationassocie"
-                                                    name={`associes[${index}].datecreation`}
+                                                    name={`beneficiaires[${index}].datecreation`}
                                                     label="Date de creation"
                                                     type="date"
                                                     fullWidth
@@ -439,12 +478,12 @@ const AssociesForm = ({
                                                         dirigBeneficiaire.datenaissance
                                                     }
                                                 />
-                                            </Grid> */}
-                                            {/* <Grid item xs={12} sm={6}>
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
                                                 <AutoCompleteInputField
                                                     autoLabel="Pays"
                                                     id="paysassocie"
-                                                    name={`associes[${index}].pays`}
+                                                    name={`beneficiaires[${index}].pays`}
                                                     label="Nationalité"
                                                     fullWidth
                                                     customValue={
@@ -452,11 +491,11 @@ const AssociesForm = ({
                                                         dirigBeneficiaire.nationalite
                                                     }
                                                 />
-                                            </Grid> */}
-                                            {/* <Grid item xs={12} sm={6}>
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
                                                 <InputFeild
                                                     id="adresseassocie"
-                                                    name={`associes[${index}].adresse`}
+                                                    name={`beneficiaires[${index}].adresse`}
                                                     label="Adresse"
                                                     fullWidth
                                                     // customValue={
@@ -464,7 +503,7 @@ const AssociesForm = ({
                                                     //     dirigBeneficiaire.dirigAdresse
                                                     // }
                                                 />
-                                            </Grid> */}
+                                            </Grid>
                                         </>
                                     )}
                                     <Grid item xs={12} sm={12}>
@@ -481,7 +520,7 @@ const AssociesForm = ({
                                         >
                                             {/* <InputFeild
                                                 id="adresseassocie"
-                                                name={`associes[${index}].detention_capital`}
+                                                name={`beneficiaires[${index}].detentioncapital`}
                                                 label="Détention du capital"
                                                 fullWidth
                                                 // customValue={
@@ -491,7 +530,7 @@ const AssociesForm = ({
                                             /> */}
                                             <Field
                                                 as={InputFeild}
-                                                name={`associes[${index}].detention_capital`}
+                                                name={`beneficiaires[${index}].detentioncapital`}
                                                 validate={(value) => {
                                                     let error;
                                                     const rest =
@@ -505,20 +544,20 @@ const AssociesForm = ({
                                                 }}
                                                 error={
                                                     touched[
-                                                        `associes[${index}].detention_capital`
+                                                        `beneficiaires[${index}].detentioncapital`
                                                     ] &&
                                                     Boolean(
                                                         errors[
-                                                            `associes[${index}].detention_capital`
+                                                            `beneficiaires[${index}].detentioncapital`
                                                         ]
                                                     )
                                                 }
                                                 helperText={
                                                     touched[
-                                                        `associes[${index}].detention_capital`
+                                                        `beneficiaires[${index}].detentioncapital`
                                                     ] &&
                                                     errors[
-                                                        `associes[${index}].detention_capital`
+                                                        `beneficiaires[${index}].detentioncapital`
                                                     ]
                                                 }
                                             />
@@ -534,7 +573,7 @@ const AssociesForm = ({
                                         >
                                             <Field
                                                 as={InputFeild}
-                                                name={`associes[${index}].detention_droit_vote`}
+                                                name={`beneficiaires[${index}].detentionvote`}
                                                 label="Détention du droit de vote"
                                                 fullWidth
                                                 validate={(value) => {
@@ -550,26 +589,26 @@ const AssociesForm = ({
                                                 }}
                                                 error={
                                                     touched[
-                                                        `associes[${index}].detention_droit_vote`
+                                                        `beneficiaires[${index}].detentionvote`
                                                     ] &&
                                                     Boolean(
                                                         errors[
-                                                            `associes[${index}].detention_droit_vote`
+                                                            `beneficiaires[${index}].detentionvote`
                                                         ]
                                                     )
                                                 }
                                                 helperText={
                                                     touched[
-                                                        `associes[${index}].detention_droit_vote`
+                                                        `beneficiaires[${index}].detentionvote`
                                                     ] &&
                                                     errors[
-                                                        `associes[${index}].detention_droit_vote`
+                                                        `beneficiaires[${index}].detentionvote`
                                                     ]
                                                 }
                                             />
                                             {/* <InputFeild
                                                 id="adresseassocie"
-                                                name={`associes[${index}].detention_droit_vote`}
+                                                name={`beneficiaires[${index}].detentionvote`}
                                                 
                                             />{" "} */}
                                             <Typography>%</Typography>
@@ -595,33 +634,33 @@ const AssociesForm = ({
                                 >
                                     <Grid item xs={12} sm={2}>
                                         <Typography variant="body2">
-                                            {el.nature === "physique"
-                                                ? el.personne.nom
-                                                : el.societe.no}
+                                            {el.person === "yes"
+                                                ? el.prenombenefi
+                                                : el.raisonsociale}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12} sm={2}>
                                         <Typography variant="body2">
-                                            {el.nature === "physique"
-                                                ? el.personne.nom
-                                                : el.societe.no}
+                                            {el.person === "yes"
+                                                ? el.nombenefi
+                                                : el.siren}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12} sm={2}>
                                         <Typography variant="body2">
-                                            {el.nature === "physique"
+                                            {el.person === "yes"
                                                 ? "Personne Physique"
                                                 : "Personne Morale"}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12} sm={2}>
                                         <Typography variant="body2">
-                                            {`${el.detention_capital}% du capital`}
+                                            {`${el.detentioncapital}% du capital`}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12} sm={2}>
                                         <Typography variant="body2">
-                                            {`${el.detention_droit_vote}% du droit de vote`}
+                                            {`${el.detentionvote}% du droit de vote`}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12} sm={1}>
@@ -644,16 +683,16 @@ const AssociesForm = ({
                                                             pourcentageVote
                                                         ) +
                                                         Number(
-                                                            associes[index]
-                                                                .detention_droit_vote
+                                                            beneficiaires[index]
+                                                                .detentionvote
                                                         );
                                                     const currentCap =
                                                         Number(
                                                             pourcentageCapital
                                                         ) +
                                                         Number(
-                                                            associes[index]
-                                                                .detention_capital
+                                                            beneficiaires[index]
+                                                                .detentioncapital
                                                         );
                                                     setpourcentageCapital(
                                                         currentCap
@@ -762,66 +801,74 @@ const AssociesForm = ({
                                 },
                             }}
                             disabled={
-                                nature === "physique"
-                                    ? !associes[associes.length - 1].personne
-                                          .nom ||
-                                      !associes[associes.length - 1].personne
-                                          .prenom ||
-                                      !associes[associes.length - 1]
-                                          .detention_capital ||
-                                      !associes[associes.length - 1]
-                                          .detention_droit_vote ||
+                                isPerson === "yes"
+                                    ? !beneficiaires[beneficiaires.length - 1]
+                                          .nombenefi ||
+                                      !beneficiaires[beneficiaires.length - 1]
+                                          .prenombenefi ||
+                                      !beneficiaires[beneficiaires.length - 1]
+                                          .detentioncapital ||
+                                      !beneficiaires[beneficiaires.length - 1]
+                                          .detentionvote ||
                                       Number(
-                                          associes[associes.length - 1]
-                                              .detention_capital
+                                          beneficiaires[
+                                              beneficiaires.length - 1
+                                          ].detentioncapital
                                       ) < 0 ||
                                       Number(
-                                          associes[associes.length - 1]
-                                              .detention_capital
+                                          beneficiaires[
+                                              beneficiaires.length - 1
+                                          ].detentioncapital
                                       ) > pourcentageCapital
-                                    : nature === "morale"
-                                    ? !associes[associes.length - 1].societe
-                                          .deno ||
-                                      !associes[associes.length - 1].societe
-                                          .no ||
+                                    : isPerson === "no"
+                                    ? !beneficiaires[beneficiaires.length - 1]
+                                          .raisonsociale ||
+                                      !beneficiaires[beneficiaires.length - 1]
+                                          .siren ||
                                       Number(
-                                          associes[associes.length - 1]
-                                              .detention_capital
+                                          beneficiaires[
+                                              beneficiaires.length - 1
+                                          ].detentioncapital
                                       ) < 0 ||
-                                      !associes[associes.length - 1]
-                                          .detention_capital ||
-                                      !associes[associes.length - 1]
-                                          .detention_droit_vote ||
+                                      !beneficiaires[beneficiaires.length - 1]
+                                          .detentioncapital ||
+                                      !beneficiaires[beneficiaires.length - 1]
+                                          .detentionvote ||
                                       Number(
-                                          associes[associes.length - 1]
-                                              .detention_capital
+                                          beneficiaires[
+                                              beneficiaires.length - 1
+                                          ].detentioncapital
                                       ) > pourcentageCapital
                                     : false
                             }
                             variant="outlined"
                             color="secondary"
                             onClick={() => {
-                                if (nature === "physique") {
+                                if (isPerson === "yes") {
                                     if (
-                                        associes[associes.length - 1].personne
-                                            .nom &&
-                                        associes[associes.length - 1].personne
-                                            .prenom &&
+                                        beneficiaires[beneficiaires.length - 1]
+                                            .nombenefi &&
+                                        beneficiaires[beneficiaires.length - 1]
+                                            .prenombenefi &&
                                         Number(
-                                            associes[associes.length - 1]
-                                                .detention_capital
+                                            beneficiaires[
+                                                beneficiaires.length - 1
+                                            ].detentioncapital
                                         ) > 0 &&
                                         Number(
-                                            associes[associes.length - 1]
-                                                .detention_capital
+                                            beneficiaires[
+                                                beneficiaires.length - 1
+                                            ].detentioncapital
                                         ) < pourcentageCapital &&
                                         Number(
-                                            associes[associes.length - 1]
-                                                .detention_droit_vote
+                                            beneficiaires[
+                                                beneficiaires.length - 1
+                                            ].detentionvote
                                         ) > 0 &&
                                         Number(
-                                            associes[associes.length - 1]
-                                                .detention_droit_vote
+                                            beneficiaires[
+                                                beneficiaires.length - 1
+                                            ].detentionvote
                                         ) < pourcentageVote
                                     ) {
                                         // if (dirigBeneficiaire) {
@@ -833,131 +880,123 @@ const AssociesForm = ({
                                         const currentVote =
                                             Number(pourcentageVote) -
                                             Number(
-                                                associes[associes.length - 1]
-                                                    .detention_droit_vote
+                                                beneficiaires[
+                                                    beneficiaires.length - 1
+                                                ].detentionvote
                                             );
                                         const currentCap =
                                             Number(pourcentageCapital) -
                                             Number(
-                                                associes[associes.length - 1]
-                                                    .detention_capital
+                                                beneficiaires[
+                                                    beneficiaires.length - 1
+                                                ].detentioncapital
                                             );
                                         setpourcentageCapital(currentCap);
                                         setpourcentageVote(currentVote);
-                                        // setNature("yes");
+                                        // setIsPerson("yes");
                                         setisDirig("no");
-                                        // console.log(associes);
+                                        // console.log(beneficiaires);
                                         setDirigBeneficiaire(null);
                                         push({
-                                            nature: "physique",
-                                            date_debut: "",
-                                            date_fin: "",
-                                            personne: {
-                                                nom: "",
-                                                prenom: "",
-                                                civilite: "",
-                                                date_naissance: "",
-                                                ville_naissance: "",
-                                                pays_naissance: "",
-                                                nationalite: "",
-                                                pays_residence: "",
-                                                num_tel: "",
-                                            },
-                                            societe: {
-                                                deno: "",
-                                                no: "",
-                                            },
-                                            detention_capital:
+                                            person: "yes",
+                                            datebeneficiaire: "",
+                                            nombenefi: "",
+                                            prenombenefi: "",
+                                            datenaissancebenefi: "",
+                                            paysnaissancebenefi: "",
+                                            codepostalnaissancebenefi: "",
+                                            villenaissancebenefi: "",
+                                            nationalitebenefi: "",
+                                            paysresidencebenefi: "",
+                                            dirigAdressebenefi: "",
+                                            detentioncapital:
                                                 pourcentageCapital -
                                                 Number(
-                                                    associes[
-                                                        associes.length - 1
-                                                    ].detention_capital
+                                                    beneficiaires[
+                                                        beneficiaires.length - 1
+                                                    ].detentioncapital
                                                 ),
-                                            detention_droit_vote:
+                                            detentionvote:
                                                 pourcentageVote -
                                                 Number(
-                                                    associes[
-                                                        associes.length - 1
-                                                    ].detention_droit_vote
+                                                    beneficiaires[
+                                                        beneficiaires.length - 1
+                                                    ].detentionvote
                                                 ),
+                                            raisonsociale: "",
+                                            siren: "",
+                                            adresse: "",
+                                            pays: "",
+                                            datecreation: "",
                                         });
                                     }
                                     // else console.log("error");
-                                } else if (nature === "morale") {
+                                } else if (isPerson === "no") {
                                     if (
-                                        associes[associes.length - 1].societe
-                                            .deno &&
-                                        associes[associes.length - 1].societe
-                                            .no &&
+                                        beneficiaires[beneficiaires.length - 1]
+                                            .raisonsociale &&
+                                        beneficiaires[beneficiaires.length - 1]
+                                            .siren &&
                                         Number(
-                                            associes[associes.length - 1]
-                                                .detention_capital
+                                            beneficiaires[
+                                                beneficiaires.length - 1
+                                            ].detentioncapital
                                         ) > 0 &&
                                         Number(
-                                            associes[associes.length - 1]
-                                                .detention_capital
+                                            beneficiaires[
+                                                beneficiaires.length - 1
+                                            ].detentioncapital
                                         ) < pourcentageCapital &&
                                         Number(
-                                            associes[associes.length - 1]
-                                                .detention_droit_vote
+                                            beneficiaires[
+                                                beneficiaires.length - 1
+                                            ].detentionvote
                                         ) > 0 &&
                                         Number(
-                                            associes[associes.length - 1]
-                                                .detention_droit_vote
+                                            beneficiaires[
+                                                beneficiaires.length - 1
+                                            ].detentionvote
                                         ) < pourcentageVote
                                     ) {
-                                        setNature("physique");
+                                        setIsPerson("yes");
                                         setisDirig("no");
                                         setDirigBeneficiaire(null);
 
                                         const currentVote =
                                             Number(pourcentageVote) -
                                             Number(
-                                                associes[associes.length - 1]
-                                                    .detention_droit_vote
+                                                beneficiaires[
+                                                    beneficiaires.length - 1
+                                                ].detentionvote
                                             );
                                         const currentCap =
                                             Number(pourcentageCapital) -
                                             Number(
-                                                associes[associes.length - 1]
-                                                    .detention_capital
+                                                beneficiaires[
+                                                    beneficiaires.length - 1
+                                                ].detentioncapital
                                             );
                                         setpourcentageCapital(currentCap);
                                         setpourcentageVote(currentVote);
                                         push({
-                                            nature: "physique",
-                                            date_debut: "",
-                                            date_fin: "",
-                                            personne: {
-                                                nom: "",
-                                                prenom: "",
-                                                civilite: "",
-                                                date_naissance: "",
-                                                ville_naissance: "",
-                                                pays_naissance: "",
-                                                nationalite: "",
-                                                pays_residence: "",
-                                                num_tel: "",
-                                            },
-                                            societe: {
-                                                deno: "",
-                                                no: "",
-                                            },
-                                            detention_capital:
-                                                pourcentageCapital -
-                                                Number(
-                                                    associes[
-                                                        associes.length - 1
-                                                    ].detention_capital
-                                                ),
-                                            detention_droit_vote:
-                                                pourcentageVote -
-                                                Number(
-                                                    associes[
-                                                        associes.length - 1
-                                                    ].detention_droit_vote
-                                                ),
+                                            person: "yes",
+                                            datebeneficiaire: "",
+                                            nombenefi: "",
+                                            prenombenefi: "",
+                                            datenaissancebenefi: "",
+                                            paysnaissancebenefi: "",
+                                            codepostalnaissancebenefi: "",
+                                            villenaissancebenefi: "",
+                                            nationalitebenefi: "",
+                                            paysresidencebenefi: "",
+                                            dirigAdressebenefi: "",
+                                            detentioncapital: "",
+                                            detentionvote: "",
+                                            raisonsociale: "",
+                                            siren: "",
+                                            adresse: "",
+                                            pays: "",
+                                            datecreation: "",
                                         });
                                     }
                                     // else console.log("error");

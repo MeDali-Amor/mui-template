@@ -38,7 +38,6 @@ import SelectAutoComplete from "../../components/SelectAutoComplete";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import CheckBoxField from "../../components/CheckBoxField";
 import AssociesForm from "./AssociesForm";
-import Step0 from "./Step0";
 // import DocSouscripteurs from "./DocSouscripteurs";
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 const validationSchema = yup.object({
@@ -112,7 +111,7 @@ const CreationSociete = () => {
     const [errorForm, setErrorForm] = useState("");
 
     const [isDirig, setisDirig] = useState("no");
-    const [nature, setNature] = useState("physique");
+    const [isPerson, setIsPerson] = useState("yes");
     const [montantCap, setMontantCap] = useState("");
     const [pourcentageCapital, setpourcentageCapital] = useState(100);
     const [pourcentageVote, setpourcentageVote] = useState(100);
@@ -166,43 +165,98 @@ const CreationSociete = () => {
         // console.log(...res.data);
     };
     const handleSubmit = async (values) => {
-        console.log(values);
-        try {
-            let dirigList = values.dirig;
-            let associesList = values.associes;
-            let associesRes = await Promise.all(
-                associesList.map(async (el) => {
-                    if (el.nature === "physique") delete el.societe;
-                    else if (el.nature === "morale") delete el.personne;
-
-                    const res = await axios.post(
-                        "http://localhost:8000/api/associe/create",
-                        el
-                    );
-                    return res.data.newAssocie._id;
-                    // return el;
-                })
+        // console.log(values);
+        setErrorForm("");
+        let capArray = values.beneficiaires.map((el) =>
+            Number(el.detentioncapital)
+        );
+        let capitalTotal = capArray.reduce(
+            (previousValue, currentValue) => previousValue + currentValue
+        );
+        if (Number(capitalTotal) !== 100) {
+            setErrorForm(
+                "La repartition de capital doit etre egale à 100% entre touts les associés!"
             );
-            console.log(associesRes);
-            // let dirigRes = await Promise.all(
-            //     dirigList.map(async (el) => {
-            //         const res = await axios.post(
-            //             "http://localhost:8000/api/dirig/create",
-            //             el
-            //         );
-            //         return res.data.newDirigeant._id;
-            //     })
-            // );
-            // let dataToSubmit = { ...values, dirig: dirigRes };
-
-            // const res = await axios.post(
-            //     "http://localhost:8000/api/company/create",
-            //     dataToSubmit
-            // );
-            // console.log(res);
-        } catch (error) {
-            console.log(error);
-        }
+            // console.log(capitalTotal, capArray);
+        } else if (Number(capitalTotal) === 100) {
+            setErrorForm("");
+            let associes = values.beneficiaires?.map((el) => {
+                if (el.person === "yes")
+                    return {
+                        person: el.person,
+                        type: "personne physique",
+                        datebeneficiaire: el.datebeneficiaire,
+                        nombenefi: el.nombenefi || "",
+                        prenombenefi: el.prenombenefi || "",
+                        datenaissancebenefi: el.datenaissancebenefi || "",
+                        paysnaissancebenefi: el.paysnaissancebenefi || "",
+                        codepostalnaissancebenefi:
+                            el.codepostalnaissancebenefi || "",
+                        villenaissancebenefi: el.villenaissancebenefi || "",
+                        nationalitebenefi: el.nationalitebenefi || "",
+                        paysresidencebenefi: el.paysresidencebenefi || "",
+                        dirigAdressebenefi: el.dirigAdressebenefi || "",
+                        detentioncapital: el.detentioncapital || "",
+                        detentionvote: el.detentionvote || "",
+                    };
+                else if (el.person === "no")
+                    return {
+                        person: el.person,
+                        type: "personne morale",
+                        raisonsociale: el.raisonsociale || "",
+                        siren: el.siren || "",
+                        adresse: el.adresse || "",
+                        pays: el.pays || "",
+                        datebeneficiaire: el.datebeneficiaire || "",
+                        datecreation: el.datecreation || "",
+                        detentioncapital: el.detentioncapital || "",
+                        detentionvote: el.detentionvote || "",
+                    };
+                else {
+                    console.log("ok");
+                    return el;
+                }
+            });
+            values.beneficiaires = associes;
+            console.log(values.beneficiaires);
+            setData(values);
+        } else setErrorForm("une erreur s'est produite veuillez réessayer");
+        // const formData = new FormData();
+        // values.dirig.forEach((el, index) => {
+        //     if (el.images.length) {
+        //         el.images.forEach((img, idx) => {
+        //             if (img.img) {
+        //                 formData.append(
+        //                     "image",
+        //                     img.img,
+        //                     `${index}-${idx}&${img.img.name}`
+        //                 );
+        //             }
+        //         });
+        //     }
+        // });
+        // formData.append("body", JSON.stringify(values));
+        // try {
+        //     setLoading(true);
+        //     const res = await axios.post(
+        //         "http://localhost:8000/api/company/create",
+        //         formData
+        //     );
+        //     console.log(res.data);
+        //     setMsg(res.data.msg);
+        //     setAlertType(res.data.alert);
+        //     setOpen(true);
+        //     setLoading(false);
+        //     // console.log(formData.values);
+        // } catch (error) {
+        //     setLoading(true);
+        //     console.log(error);
+        //     setMsg("une erreur s'est produite veuillez réessayer");
+        //     setAlertType("error");
+        //     setOpen(true);
+        //     setLoading(false);
+        // }
+        // }
     };
 
     return (
@@ -226,7 +280,9 @@ const CreationSociete = () => {
                     loading={loading}
                     initialValues={{
                         capital: "",
+                        // restcapital: 100,
                         deno: "",
+                        // commune: cityData?.nom || "",
                         commune: "",
                         codepostal: "",
                         // nationalite: "",
@@ -243,45 +299,42 @@ const CreationSociete = () => {
                         ape: "",
                         dirig: [
                             {
-                                personne: {
-                                    nom: "",
-                                    prenom: "",
-                                    civilite: "",
-                                    date_naissance: "",
-                                    ville_naissance: "",
-                                    pays_naissance: "",
-                                    nationalite: "",
-                                    pays_residence: "",
-                                    num_tel: "",
-                                },
-                                titre: "",
-                                date_debut: "",
-                                date_fin: "",
-                                // images: [{ typeidentite: "", img: null }],
+                                detcivdir: "",
+                                detnomdir: "",
+                                detprenomdir: "",
+                                titredirig: "",
+                                datenaissance: "",
+                                paysnaissance: "",
+                                codepostalnaissance: "",
+                                nationalite: "",
+                                paysresidence: "",
+                                typeidentite: "",
+                                villenaissance: "",
+                                dirigTelelphone: "",
+                                dirigAdresse: "",
+                                images: [{ typeidentite: "", img: null }],
                             },
                         ],
-                        associes: [
+                        beneficiaires: [
                             {
-                                nature: "physique",
-                                detention_capital: pourcentageCapital,
-                                detention_droit_vote: pourcentageVote,
-                                date_debut: "",
-                                date_fin: "",
-                                personne: {
-                                    nom: "",
-                                    prenom: "",
-                                    civilite: "",
-                                    date_naissance: "",
-                                    ville_naissance: "",
-                                    pays_naissance: "",
-                                    nationalite: "",
-                                    pays_residence: "",
-                                    num_tel: "",
-                                },
-                                societe: {
-                                    deno: "",
-                                    no: "",
-                                },
+                                person: "yes",
+                                datebeneficiaire: "",
+                                nombenefi: "",
+                                prenombenefi: "",
+                                datenaissancebenefi: "",
+                                paysnaissancebenefi: "",
+                                codepostalnaissancebenefi: "",
+                                villenaissancebenefi: "",
+                                nationalitebenefi: "",
+                                paysresidencebenefi: "",
+                                dirigAdressebenefi: "",
+                                detentioncapital: pourcentageCapital,
+                                detentionvote: pourcentageVote,
+                                raisonsociale: "",
+                                siren: "",
+                                adresse: "",
+                                pays: "",
+                                datecreation: "",
                             },
                         ],
                     }}
@@ -293,13 +346,34 @@ const CreationSociete = () => {
                         onSubmit={() => console.log("step 0")}
                         // validationSchema={validationSchema}
                     >
-                        <Step0 />
+                        <Typography
+                            component="h1"
+                            variant="h4"
+                            align="center"
+                            sx={{
+                                marginTop: 4,
+                                marginBottom: 2,
+                            }}
+                        >
+                            Vous souhaitez ajouter une societé?
+                        </Typography>
+
+                        <Typography
+                            variant="body1"
+                            align="center"
+                            sx={{
+                                marginBottom: 6,
+                            }}
+                        >
+                            Pour vous accompagner au mieux dans l'ajout de votre
+                            societé suivez les etapes suivantes!
+                        </Typography>
                     </FormStep>
                     <FormStep
                         sign={sign}
                         stepName="Identification"
                         onSubmit={() => console.log("step 1")}
-                        // validationSchema={validationSchema}
+                        validationSchema={validationSchema}
                     >
                         <Grid
                             // rowSpacing={3}
@@ -322,65 +396,7 @@ const CreationSociete = () => {
                                     autoComplete="deno"
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <InputFeild
-                                    id="formejur"
-                                    name="formejur"
-                                    label="Forme Juridique"
-                                    fullWidth
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <InputFeild
-                                    id="capmont"
-                                    name="capital"
-                                    label="Capital"
-                                    fullWidth
-                                    customValue={montantCap}
-                                    setCustomValue={setMontantCap}
-                                />
-                                {/* <InputFeild
-                                    // type="hidden"
-                                    id="cappercent"
-                                    name="restcapital"
-                                    // label="reste Capital"
-                                    hiddenLabel
-                                    height={0}
-                                    fullWidth
-                                    customValue={pourcentageCapital}
-                                    // setCustomValue={setMontantCap}
-                                /> */}
-                            </Grid>
-                            <Grid item xs={12} sm={12}>
-                                <SelectAutoComplete
-                                    handleChange={(value) =>
-                                        value
-                                            ? setActivité(value.code)
-                                            : setActivité("")
-                                    }
-                                    options={apeList}
-                                    id="ape"
-                                    name="ape"
-                                    label="Code APE"
-                                    fullWidth
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12}>
-                                <InputFeild
-                                    customValue={
-                                        activité.length ? activité : ""
-                                    }
-                                    multiline
-                                    setCustomValue={setActivité}
-                                    rows={4}
-                                    // type="textarea"
-                                    id="apetexte"
-                                    name="apetexte"
-                                    label="Activité"
-                                    fullWidth
-                                />
-                            </Grid>
-                            {/* <Grid item xs={12}>
+                            <Grid item xs={12}>
                                 <InputFeild
                                     id="adresse"
                                     name="adresse"
@@ -409,7 +425,7 @@ const CreationSociete = () => {
                                     fullWidth
                                     autoComplete="billing address-level2"
                                 />
-                            </Grid> */}
+                            </Grid>
                             {/* <Grid item xs={12} sm={4}>
                                 <InputFeild
                                     id="nationalite"
@@ -422,7 +438,7 @@ const CreationSociete = () => {
                         </Grid>
                     </FormStep>
 
-                    {/* <FormStep
+                    <FormStep
                         sign={sign}
                         stepName="Juridique"
                         onSubmit={() => console.log("step 2")}
@@ -439,14 +455,14 @@ const CreationSociete = () => {
                             //     .matches(/^[0-9]+$/, "Chiffres uniquement")
                             //     .min(14, "Doit avoir 14 chiffres")
                             //     .max(14, "Doit avoir 14 chiffres"),
-                            // formejur: yup.string(),
+                            formejur: yup.string(),
                             // .required("Ce champ est requis")
-                            // greffe: yup.string(),
+                            greffe: yup.string(),
                             // .required("Ce champ est requis")
-                            // tva: yup.string(),
-                            // dcren: yup.date(),
-                            // daterad: yup.date(),
-                            // dateimmat: yup.date(),
+                            tva: yup.string(),
+                            dcren: yup.date(),
+                            daterad: yup.date(),
+                            dateimmat: yup.date(),
                         })}
                     >
                         <Grid
@@ -461,6 +477,14 @@ const CreationSociete = () => {
                             </Typography>
                         </Grid>
                         <Grid container rowSpacing={3} columnSpacing={6}>
+                            <Grid item xs={12} sm={6}>
+                                <InputFeild
+                                    id="formejur"
+                                    name="formejur"
+                                    label="Forme Juridique"
+                                    fullWidth
+                                />
+                            </Grid>
                             <Grid item xs={12} sm={6}>
                                 <InputFeild
                                     InputLabelProps={{ shrink: true }}
@@ -524,8 +548,8 @@ const CreationSociete = () => {
                                 />
                             </Grid>
                         </Grid>
-                    </FormStep> */}
-                    {/* <FormStep
+                    </FormStep>
+                    <FormStep
                         sign={sign}
                         stepName="Activité"
                         onSubmit={() => console.log("step 3")}
@@ -546,8 +570,38 @@ const CreationSociete = () => {
                             </Typography>
                         </Grid>
 
-                        <Grid container rowSpacing={3} columnSpacing={6}></Grid>
-                    </FormStep> */}
+                        <Grid container rowSpacing={3} columnSpacing={6}>
+                            <Grid item xs={12} sm={12}>
+                                <SelectAutoComplete
+                                    handleChange={(value) =>
+                                        value
+                                            ? setActivité(value.code)
+                                            : setActivité("")
+                                    }
+                                    options={apeList}
+                                    id="ape"
+                                    name="ape"
+                                    label="Code APE"
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12}>
+                                <InputFeild
+                                    customValue={
+                                        activité.length ? activité : ""
+                                    }
+                                    multiline
+                                    setCustomValue={setActivité}
+                                    rows={4}
+                                    // type="textarea"
+                                    id="apetexte"
+                                    name="apetexte"
+                                    label="Activité"
+                                    fullWidth
+                                />
+                            </Grid>
+                        </Grid>
+                    </FormStep>
                     <FormStep
                         sign={sign}
                         stepName="Dirigeant"
@@ -649,7 +703,7 @@ const CreationSociete = () => {
                                                                 "Mlle",
                                                             ]}
                                                             id="detcivdir"
-                                                            name={`dirig[${index}].personne.civilite`}
+                                                            name={`dirig[${index}].detcivdir`}
                                                             label="civilité"
                                                             fullWidth
                                                         />
@@ -657,7 +711,7 @@ const CreationSociete = () => {
                                                     <Grid item xs={12} sm={4.5}>
                                                         <InputFeild
                                                             id="detnomdir"
-                                                            name={`dirig[${index}].personne.nom`}
+                                                            name={`dirig[${index}].detnomdir`}
                                                             label="Nom"
                                                             fullWidth
                                                         />
@@ -665,7 +719,7 @@ const CreationSociete = () => {
                                                     <Grid item xs={12} sm={4.5}>
                                                         <InputFeild
                                                             id="detprenomdir"
-                                                            name={`dirig[${index}].personne.prenom`}
+                                                            name={`dirig[${index}].detprenomdir`}
                                                             label="Prénom"
                                                             fullWidth
                                                         />
@@ -687,8 +741,8 @@ const CreationSociete = () => {
                                                     <Grid item xs={12} sm={12}>
                                                         <InputFeild
                                                             id="titredirig"
-                                                            name={`dirig[${index}].titre`}
-                                                            label="Titre"
+                                                            name={`dirig[${index}].titredirig`}
+                                                            label="Type"
                                                             fullWidth
                                                         />
                                                     </Grid>
@@ -699,7 +753,7 @@ const CreationSociete = () => {
                                                                 shrink: true,
                                                             }}
                                                             id="datenaissance"
-                                                            name={`dirig[${index}].personne.date_naissance`}
+                                                            name={`dirig[${index}].datenaissance`}
                                                             label="Date de naissance"
                                                             type="date"
                                                             fullWidth
@@ -709,35 +763,35 @@ const CreationSociete = () => {
                                                         <AutoCompleteInputField
                                                             autoLabel="Pays"
                                                             id="paysnaissance"
-                                                            name={`dirig[${index}].personne.pays_naissance`}
+                                                            name={`dirig[${index}].paysnaissance`}
                                                             label="Pays de naissance"
                                                             fullWidth
-                                                            // handleChange={(
-                                                            //     value
-                                                            // ) =>
-                                                            //     value
-                                                            //         ? setNationality(
-                                                            //               value.label
-                                                            //           )
-                                                            //         : setNationality(
-                                                            //               ""
-                                                            //           )
-                                                            // }
+                                                            handleChange={(
+                                                                value
+                                                            ) =>
+                                                                value
+                                                                    ? setNationality(
+                                                                          value.label
+                                                                      )
+                                                                    : setNationality(
+                                                                          ""
+                                                                      )
+                                                            }
                                                         />
                                                     </Grid>
 
-                                                    {/* <Grid item xs={12} sm={6}>
+                                                    <Grid item xs={12} sm={6}>
                                                         <InputFeild
                                                             id="codepostalnaissance"
                                                             name={`dirig[${index}].codepostalnaissance`}
                                                             label="Code postal de naissance"
                                                             fullWidth
                                                         />
-                                                    </Grid> */}
+                                                    </Grid>
                                                     <Grid item xs={12} sm={6}>
                                                         <InputFeild
                                                             id="villenaissance"
-                                                            name={`dirig[${index}].personne.ville_naissance`}
+                                                            name={`dirig[${index}].villenaissance`}
                                                             label="Ville de naissance"
                                                             fullWidth
                                                         />
@@ -747,57 +801,57 @@ const CreationSociete = () => {
                                                         <AutoCompleteInputField
                                                             autoLabel="Pays"
                                                             id="nationalite"
-                                                            name={`dirig[${index}].personne.nationalite`}
+                                                            name={`dirig[${index}].nationalite`}
                                                             label="Nationalité"
                                                             fullWidth
-                                                            // customValue={
-                                                            //     nationality
-                                                            // }
+                                                            customValue={
+                                                                nationality
+                                                            }
                                                         />
                                                     </Grid>
                                                     <Grid item xs={12} sm={6}>
                                                         <AutoCompleteInputField
                                                             autoLabel="Pays"
                                                             id="paysresidence"
-                                                            name={`dirig[${index}].personne.pays_residence`}
+                                                            name={`dirig[${index}].paysresidence`}
                                                             label="Pays de residence"
                                                             fullWidth
-                                                            // handleChange={(
-                                                            //     value
-                                                            // ) =>
-                                                            //     value
-                                                            //         ? setDirigTel(
-                                                            //               `+${value.phone}`
-                                                            //           )
-                                                            //         : setDirigTel(
-                                                            //               ""
-                                                            //           )
-                                                            // }
+                                                            handleChange={(
+                                                                value
+                                                            ) =>
+                                                                value
+                                                                    ? setDirigTel(
+                                                                          `+${value.phone}`
+                                                                      )
+                                                                    : setDirigTel(
+                                                                          ""
+                                                                      )
+                                                            }
                                                         />
                                                     </Grid>
                                                     <Grid item xs={12} sm={6}>
                                                         <InputFeild
                                                             id="dirigTelelphone"
-                                                            name={`dirig[${index}].personne.num_tel`}
+                                                            name={`dirig[${index}].dirigTelelphone`}
                                                             label="Téléphone"
                                                             fullWidth
-                                                            // customValue={
-                                                            //     dirigTel
-                                                            // }
-                                                            // setCustomValue={
-                                                            //     setDirigTel
-                                                            // }
+                                                            customValue={
+                                                                dirigTel
+                                                            }
+                                                            setCustomValue={
+                                                                setDirigTel
+                                                            }
                                                         />
                                                     </Grid>
-                                                    {/* <Grid item xs={12} sm={6}>
+                                                    <Grid item xs={12} sm={6}>
                                                         <InputFeild
                                                             id="dirigAdresse"
                                                             name={`dirig[${index}].dirigAdresse`}
                                                             label="Adresse"
                                                             fullWidth
                                                         />
-                                                    </Grid> */}
-                                                    {/* <Grid item xs={12} sm={12}>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={12}>
                                                         <FieldArray
                                                             name={`dirig[${index}].images`}
                                                         >
@@ -951,7 +1005,7 @@ const CreationSociete = () => {
                                                                 );
                                                             }}
                                                         </FieldArray>
-                                                    </Grid> */}
+                                                    </Grid>
                                                 </Grid>
                                             ) : (
                                                 <Grid
@@ -978,21 +1032,14 @@ const CreationSociete = () => {
                                                             spacing={2}
                                                         >
                                                             <Typography variant="body2">
-                                                                {
-                                                                    el.personne
-                                                                        .civilite
-                                                                }
+                                                                {el.detcivdir}
+                                                            </Typography>
+                                                            <Typography variant="body2">
+                                                                {el.detnomdir}
                                                             </Typography>
                                                             <Typography variant="body2">
                                                                 {
-                                                                    el.personne
-                                                                        .nom
-                                                                }
-                                                            </Typography>
-                                                            <Typography variant="body2">
-                                                                {
-                                                                    el.personne
-                                                                        .prenom
+                                                                    el.detprenomdir
                                                                 }
                                                             </Typography>
                                                         </Stack>
@@ -1005,7 +1052,7 @@ const CreationSociete = () => {
                                                                 color: "#364a63",
                                                             }}
                                                         >
-                                                            {el.titre}
+                                                            {el.titredirig}
                                                         </Typography>
                                                     </Grid>
                                                     <Grid item xs={12} sm={1}>
@@ -1052,42 +1099,40 @@ const CreationSociete = () => {
                                             }}
                                             disabled={
                                                 !dirig[dirig.length - 1]
-                                                    .personne.civilite ||
+                                                    .detcivdir ||
                                                 !dirig[dirig.length - 1]
-                                                    .personne.nom ||
+                                                    .detnomdir ||
                                                 !dirig[dirig.length - 1]
-                                                    .personne.prenom ||
-                                                !dirig[dirig.length - 1].titre
+                                                    .detprenomdir ||
+                                                !dirig[dirig.length - 1]
+                                                    .titredirig
                                             }
                                             variant="outlined"
                                             color="secondary"
                                             onClick={() => {
                                                 if (
                                                     dirig[dirig.length - 1]
-                                                        .personne.civilite &&
+                                                        .detcivdir &&
                                                     dirig[dirig.length - 1]
-                                                        .personne.nom &&
+                                                        .detnomdir &&
                                                     dirig[dirig.length - 1]
-                                                        .personne.prenom &&
+                                                        .detprenomdir &&
                                                     dirig[dirig.length - 1]
-                                                        .titre
+                                                        .titredirig
                                                 ) {
                                                     push({
-                                                        personne: {
-                                                            nom: "",
-                                                            prenom: "",
-                                                            civilite: "",
-                                                            date_naissance: "",
-                                                            ville_naissance: "",
-                                                            pays_naissance: "",
-                                                            nationalite: "",
-                                                            pays_residence: "",
-                                                            num_tel: "",
-                                                        },
-                                                        titre: "",
-                                                        date_debut: "",
-                                                        date_fin: "",
-                                                        // images: [],
+                                                        detcivdir: "",
+                                                        detnomdir: "",
+                                                        detprenomdir: "",
+                                                        titredirig: "",
+                                                        datenaissance: "",
+                                                        paysnaissance: "",
+                                                        codepostalnaissance: "",
+                                                        villenaissance: "",
+                                                        nationalite: "",
+                                                        paysresidence: "",
+                                                        typeidentite: "",
+                                                        images: [],
                                                     });
                                                 }
                                                 return;
@@ -1114,46 +1159,46 @@ const CreationSociete = () => {
                         //         .matches(/^[0-9]+$/, "Doit avoir 5 chiffres")
                         //         .min(0, "Doit avoir 5 chiffres"),
                         // }})}
-                        // validationSchema={yup.object({
-                        //     associes: yup.array().of(
-                        //         // nature === "yes"
-                        //         // ?
-                        //         yup.object({
-                        //             nature: yup.string(),
-                        //             datebeneficiaire: yup.string(),
-                        //             nombenefi: yup.string(),
-                        //             prenombenefi: yup.string(),
-                        //             datenaissancebenefi: yup.string(),
-                        //             paysnaissancebenefi: yup.string(),
-                        //             codepostalnaissancebenefi: yup.string(),
-                        //             villenaissancebenefi: yup.string(),
-                        //             nationalitebenefi: yup.string(),
-                        //             paysresidencebenefi: yup.string(),
-                        //             dirigAdressebenefi: yup.string(),
-                        //             raisonsociale: yup.string(),
-                        //             siren: yup.string(),
-                        //             adresse: yup.string(),
-                        //             pays: yup.string(),
-                        //             datecreation: yup.string(),
-                        //             detentioncapital: yup.number().required(),
-                        //             detentionvote: yup.number().required(),
-                        //         })
-                        //     ),
-                        //     capital: yup
-                        //         .number()
-                        //         .required()
-                        //         .moreThan(
-                        //             0,
-                        //             "le montant doit etre superieur à 0"
-                        //         ),
-                        //     // restcapital: yup.number().required(),
-                        // })}
+                        validationSchema={yup.object({
+                            beneficiaires: yup.array().of(
+                                // isPerson === "yes"
+                                // ?
+                                yup.object({
+                                    person: yup.string(),
+                                    datebeneficiaire: yup.string(),
+                                    nombenefi: yup.string(),
+                                    prenombenefi: yup.string(),
+                                    datenaissancebenefi: yup.string(),
+                                    paysnaissancebenefi: yup.string(),
+                                    codepostalnaissancebenefi: yup.string(),
+                                    villenaissancebenefi: yup.string(),
+                                    nationalitebenefi: yup.string(),
+                                    paysresidencebenefi: yup.string(),
+                                    dirigAdressebenefi: yup.string(),
+                                    raisonsociale: yup.string(),
+                                    siren: yup.string(),
+                                    adresse: yup.string(),
+                                    pays: yup.string(),
+                                    datecreation: yup.string(),
+                                    detentioncapital: yup.number().required(),
+                                    detentionvote: yup.number().required(),
+                                })
+                            ),
+                            capital: yup
+                                .number()
+                                .required()
+                                .moreThan(
+                                    0,
+                                    "le montant doit etre superieur à 0"
+                                ),
+                            // restcapital: yup.number().required(),
+                        })}
                     >
                         <AssociesForm
                             isDirig={isDirig}
                             setisDirig={setisDirig}
-                            nature={nature}
-                            setNature={setNature}
+                            isPerson={isPerson}
+                            setIsPerson={setIsPerson}
                             montantCap={montantCap}
                             setMontantCap={setMontantCap}
                             pourcentageCapital={pourcentageCapital}

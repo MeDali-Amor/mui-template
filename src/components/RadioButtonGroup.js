@@ -45,7 +45,7 @@ const RadioButtonGroup = ({
                 // onChange={onChange}
             >
                 <FormControlLabel
-                    value="yes"
+                    value="physique"
                     control={<Radio />}
                     label={
                         <Typography
@@ -60,7 +60,7 @@ const RadioButtonGroup = ({
                     }
                 />
                 <FormControlLabel
-                    value="no"
+                    value="morale"
                     control={<Radio />}
                     label={
                         <Typography

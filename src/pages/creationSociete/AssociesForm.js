@@ -381,18 +381,58 @@ const AssociesForm = ({
                                                     // }
                                                 />
                                             </Grid>
-                                            {/* <Grid item xs={12} sm={6}>
+                                            <Grid item xs={12} sm={12}>
                                                 <InputFeild
-                                                    id="adressebeneficiaire"
-                                                    name={`associes[${index}].dirigAdressebenefi`}
+                                                    id="adressesAdresse"
+                                                    name={`associes[${index}].adresse.adresse`}
                                                     label="Adresse"
                                                     fullWidth
                                                     customValue={
                                                         dirigBeneficiaire &&
-                                                        dirigBeneficiaire.dirigAdresse
+                                                        dirigBeneficiaire
+                                                            .adresse.adresse
                                                     }
                                                 />
-                                            </Grid> */}
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <InputFeild
+                                                    id="associesAdresse"
+                                                    name={`associes[${index}].adresse.code_postal`}
+                                                    label="Code postal"
+                                                    fullWidth
+                                                    customValue={
+                                                        dirigBeneficiaire &&
+                                                        dirigBeneficiaire
+                                                            .adresse.code_postal
+                                                    }
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <InputFeild
+                                                    id="associesAdresse"
+                                                    name={`associes[${index}].adresse.ville`}
+                                                    label="Ville"
+                                                    fullWidth
+                                                    customValue={
+                                                        dirigBeneficiaire &&
+                                                        dirigBeneficiaire
+                                                            .adresse.ville
+                                                    }
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={12}>
+                                                <InputFeild
+                                                    id="associesAdresse"
+                                                    name={`associes[${index}].adresse.pays`}
+                                                    label="Pays"
+                                                    fullWidth
+                                                    customValue={
+                                                        dirigBeneficiaire &&
+                                                        dirigBeneficiaire
+                                                            .adresse.pays
+                                                    }
+                                                />
+                                            </Grid>
                                         </>
                                     ) : (
                                         <>
@@ -420,6 +460,62 @@ const AssociesForm = ({
                                                     id="datebeneficiaire"
                                                     name={`associes[${index}].date_debut`}
                                                     label="Date à la quelle est devenue associé effectif"
+                                                    type="date"
+                                                    fullWidth
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={12}>
+                                                <InputFeild
+                                                    id="adressesAdresse"
+                                                    name={`associes[${index}].societe.adresses[0].adresse`}
+                                                    label="Adresse"
+                                                    fullWidth
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <InputFeild
+                                                    id="dirigAdresse"
+                                                    name={`associes[${index}].societe.adresses[0].code_postal`}
+                                                    label="Code postal"
+                                                    fullWidth
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <InputFeild
+                                                    id="dirigAdresse"
+                                                    name={`associes[${index}].societe.adresses[0].ville`}
+                                                    label="Ville"
+                                                    fullWidth
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={12}>
+                                                <InputFeild
+                                                    id="dirigAdresse"
+                                                    name={`associes[${index}].societe.adresses[0].pays`}
+                                                    label="Pays"
+                                                    fullWidth
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <InputFeild
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+                                                    id="datenaissance"
+                                                    name={`associes[${index}].societe.adresses[0].date_de`}
+                                                    label="De"
+                                                    type="date"
+                                                    fullWidth
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <InputFeild
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+                                                    id="datenaissance"
+                                                    name={`associes[${index}].societe.adresses[0].date_a`}
+                                                    label="A"
                                                     type="date"
                                                     fullWidth
                                                 />
@@ -852,6 +948,14 @@ const AssociesForm = ({
                                             nature: "physique",
                                             date_debut: "",
                                             date_fin: "",
+                                            adresse: {
+                                                adresse: "",
+                                                code_postal: "",
+                                                ville: "",
+                                                pays: "",
+                                                date_de: "",
+                                                date_a: "",
+                                            },
                                             personne: {
                                                 nom: "",
                                                 prenom: "",
@@ -866,6 +970,16 @@ const AssociesForm = ({
                                             societe: {
                                                 deno: "",
                                                 no: "",
+                                                adresses: [
+                                                    {
+                                                        adresse: "",
+                                                        code_postal: "",
+                                                        ville: "",
+                                                        pays: "",
+                                                        date_de: "",
+                                                        date_a: "",
+                                                    },
+                                                ],
                                             },
                                             detention_capital:
                                                 pourcentageCapital -
@@ -929,6 +1043,14 @@ const AssociesForm = ({
                                             nature: "physique",
                                             date_debut: "",
                                             date_fin: "",
+                                            adresse: {
+                                                adresse: "",
+                                                code_postal: "",
+                                                ville: "",
+                                                pays: "",
+                                                date_de: "",
+                                                date_a: "",
+                                            },
                                             personne: {
                                                 nom: "",
                                                 prenom: "",
@@ -943,6 +1065,16 @@ const AssociesForm = ({
                                             societe: {
                                                 deno: "",
                                                 no: "",
+                                                adresses: [
+                                                    {
+                                                        adresse: "",
+                                                        code_postal: "",
+                                                        ville: "",
+                                                        pays: "",
+                                                        date_de: "",
+                                                        date_a: "",
+                                                    },
+                                                ],
                                             },
                                             detention_capital:
                                                 pourcentageCapital -

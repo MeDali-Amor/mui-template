@@ -166,7 +166,6 @@ const CreationSociete = () => {
         // console.log(...res.data);
     };
     const handleSubmit = async (values) => {
-        console.log(values);
         try {
             let dirigList = values.dirig;
             let associesList = values.associes;
@@ -183,23 +182,29 @@ const CreationSociete = () => {
                     // return el;
                 })
             );
-            console.log(associesRes);
-            // let dirigRes = await Promise.all(
-            //     dirigList.map(async (el) => {
-            //         const res = await axios.post(
-            //             "http://localhost:8000/api/dirig/create",
-            //             el
-            //         );
-            //         return res.data.newDirigeant._id;
-            //     })
-            // );
-            // let dataToSubmit = { ...values, dirig: dirigRes };
+            let dirigRes = await Promise.all(
+                dirigList.map(async (el) => {
+                    const res = await axios.post(
+                        "http://localhost:8000/api/dirig/create",
+                        el
+                    );
+                    return res.data.newDirigeant._id;
+                })
+            );
+            // console.log(dirigRes);
+            // console.log(associesRes);
+            let dataToSubmit = {
+                ...values,
+                dirig: dirigRes,
+                associes: associesRes,
+            };
+            // console.log(dataToSubmit);
 
-            // const res = await axios.post(
-            //     "http://localhost:8000/api/company/create",
-            //     dataToSubmit
-            // );
-            // console.log(res);
+            const res = await axios.post(
+                "http://localhost:8000/api/company/create",
+                dataToSubmit
+            );
+            console.log(res);
         } catch (error) {
             console.log(error);
         }
@@ -227,10 +232,6 @@ const CreationSociete = () => {
                     initialValues={{
                         capital: "",
                         deno: "",
-                        commune: "",
-                        codepostal: "",
-                        // nationalite: "",
-                        adresse: "",
                         no: "",
                         psiret: "",
                         greffe: "",
@@ -241,6 +242,18 @@ const CreationSociete = () => {
                         dateimmat: "",
                         apetexte: "",
                         ape: "",
+                        telephone: "",
+                        adresses: [
+                            {
+                                adresse: "",
+                                code_postal: "",
+                                ville: "",
+                                pays: "",
+                                date_de: "",
+                                date_a: "",
+                            },
+                        ],
+
                         dirig: [
                             {
                                 personne: {
@@ -253,6 +266,14 @@ const CreationSociete = () => {
                                     nationalite: "",
                                     pays_residence: "",
                                     num_tel: "",
+                                },
+                                adresse: {
+                                    adresse: "",
+                                    code_postal: "",
+                                    ville: "",
+                                    pays: "",
+                                    date_de: "",
+                                    date_a: "",
                                 },
                                 titre: "",
                                 date_debut: "",
@@ -267,6 +288,14 @@ const CreationSociete = () => {
                                 detention_droit_vote: pourcentageVote,
                                 date_debut: "",
                                 date_fin: "",
+                                adresse: {
+                                    adresse: "",
+                                    code_postal: "",
+                                    ville: "",
+                                    pays: "",
+                                    date_de: "",
+                                    date_a: "",
+                                },
                                 personne: {
                                     nom: "",
                                     prenom: "",
@@ -281,6 +310,16 @@ const CreationSociete = () => {
                                 societe: {
                                     deno: "",
                                     no: "",
+                                    adresses: [
+                                        {
+                                            adresse: "",
+                                            code_postal: "",
+                                            ville: "",
+                                            pays: "",
+                                            date_de: "",
+                                            date_a: "",
+                                        },
+                                    ],
                                 },
                             },
                         ],
@@ -380,6 +419,243 @@ const CreationSociete = () => {
                                     fullWidth
                                 />
                             </Grid>
+                            {/* <Grid item xs={12}>
+                                <InputFeild
+                                    id="adresse"
+                                    name="adresse"
+                                    label="Address"
+                                    fullWidth
+                                    autoComplete="billing address-line1"
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <InputFeild
+                                    id="codepostal"
+                                    name="codepostal"
+                                    label="Code Postal"
+                                    fullWidth
+                                    autoComplete="billing postal-code"
+                                    handleChange={handleAdressChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <InputFeild
+                                    id="commune"
+                                    name="commune"
+                                    label="Ville"
+                                    customValue={city ? city : ""}
+                                    setCustomValue={setCity}
+                                    fullWidth
+                                    autoComplete="billing address-level2"
+                                />
+                            </Grid> */}
+                            {/* <Grid item xs={12} sm={4}>
+                                <InputFeild
+                                    id="nationalite"
+                                    name="nationalite"
+                                    label="Pays"
+                                    fullWidth
+                                    autoComplete="billing country"
+                                />
+                            </Grid> */}
+                        </Grid>
+                    </FormStep>
+                    <FormStep
+                        sign={sign}
+                        stepName="Adresses"
+                        onSubmit={() => console.log("step 2")}
+                        // validationSchema={validationSchema}
+                    >
+                        <Grid
+                            // rowSpacing={3}
+                            // columnSpacing={6}
+                            // container
+                            sx={{ py: 3 }}
+                            // xs={12}
+                        >
+                            <Typography variant="h6" gutterBottom>
+                                Adresses
+                            </Typography>
+                        </Grid>
+                        <Grid container rowSpacing={3} columnSpacing={6}>
+                            <FieldArray name="adresses">
+                                {(fieldArrayProps) => {
+                                    // console.log(fieldArrayProps);
+                                    const { push, remove, form } =
+                                        fieldArrayProps;
+                                    const { values } = form;
+                                    const { adresses } = values;
+                                    return (
+                                        <Box
+                                            sx={{
+                                                position: "relative",
+                                            }}
+                                        >
+                                            <Grid
+                                                // rowSpacing={3}
+                                                // columnSpacing={6}
+                                                // container
+                                                sx={{ py: 3 }}
+                                                // xs={12}
+                                            >
+                                                <Typography
+                                                    variant="h4"
+                                                    gutterBottom
+                                                >
+                                                    Adresses
+                                                </Typography>
+                                            </Grid>
+                                            {/* {dirig && dirig.length > 0 */}
+                                            {/* ?  */}
+                                            {adresses.map((el, index) => (
+                                                <Grid
+                                                    container
+                                                    rowSpacing={3}
+                                                    columnSpacing={6}
+                                                    key={index}
+                                                    sx={{
+                                                        position: "relative",
+                                                        // backgroundColor: "red",
+                                                    }}
+                                                >
+                                                    {/* <Grid item xs={12} sm={12}>
+                                                    <Divider>
+                                                        <Chip
+                                                            label={index + 1}
+                                                        />
+                                                    </Divider>
+                                                </Grid> */}
+                                                    <Tooltip title="Supprimer adresse">
+                                                        <IconButton
+                                                            sx={{
+                                                                position:
+                                                                    "absolute",
+                                                                top: "25%",
+                                                                right: -40,
+                                                                transform:
+                                                                    "translateY(-50%)",
+                                                            }}
+                                                            color="error"
+                                                            ria-label="delete"
+                                                            size="small"
+                                                            onClick={() =>
+                                                                remove(index)
+                                                            }
+                                                        >
+                                                            <DeleteOutlineOutlinedIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                    <Grid
+                                                        item
+                                                        xs={12}
+                                                        sm={12}
+                                                        // rowSpacing={3}
+                                                        // columnSpacing={6}
+                                                        // container
+                                                        sx={{ my: 2 }}
+                                                        // xs={12}
+                                                    >
+                                                        <Typography
+                                                            variant="h6"
+                                                            gutterBottom
+                                                        >
+                                                            Ajouter une adresse
+                                                        </Typography>
+                                                    </Grid>
+
+                                                    <Grid item xs={12} sm={12}>
+                                                        <InputFeild
+                                                            id="adressesAdresse"
+                                                            name={`adresses[${index}].adresse`}
+                                                            label="Adresse"
+                                                            fullWidth
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <InputFeild
+                                                            id="adressesAdresse"
+                                                            name={`adresses[${index}].code_postal`}
+                                                            label="Code postal"
+                                                            fullWidth
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <InputFeild
+                                                            id="adressesAdresse"
+                                                            name={`adresses[${index}].ville`}
+                                                            label="Ville"
+                                                            fullWidth
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={12}>
+                                                        <InputFeild
+                                                            id="adressesAdresse"
+                                                            name={`adresses[${index}].pays`}
+                                                            label="Pays"
+                                                            fullWidth
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <InputFeild
+                                                            InputLabelProps={{
+                                                                shrink: true,
+                                                            }}
+                                                            id="datenaissance"
+                                                            name={`adresses[${index}].date_de`}
+                                                            label="De"
+                                                            type="date"
+                                                            fullWidth
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <InputFeild
+                                                            InputLabelProps={{
+                                                                shrink: true,
+                                                            }}
+                                                            id="datenaissance"
+                                                            name={`adresses[${index}].date_a`}
+                                                            label="A"
+                                                            type="date"
+                                                            fullWidth
+                                                        />
+                                                    </Grid>
+                                                </Grid>
+                                            ))}
+
+                                            <Button
+                                                size="large"
+                                                sx={{
+                                                    position: "absolute",
+                                                    marginTop: 3,
+                                                    bottom: -42,
+                                                    right: "50%",
+                                                    transform:
+                                                        "translateX(50%) translateY(100%)",
+                                                    "&.MuiButton-outlinedSecondary":
+                                                        {
+                                                            border: "2px solid",
+                                                        },
+                                                }}
+                                                variant="outlined"
+                                                color="secondary"
+                                                onClick={() => {
+                                                    push({
+                                                        adresse: "",
+                                                        code_postal: "",
+                                                        ville: "",
+                                                        pays: "",
+                                                        date_de: "",
+                                                        date_a: "",
+                                                    });
+                                                }}
+                                            >
+                                                Ajouter une adresses
+                                                {/* <BorderColorIcon fontSize="medium" /> */}
+                                            </Button>
+                                        </Box>
+                                    );
+                                }}
+                            </FieldArray>
                             {/* <Grid item xs={12}>
                                 <InputFeild
                                     id="adresse"
@@ -692,6 +968,22 @@ const CreationSociete = () => {
                                                             fullWidth
                                                         />
                                                     </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <InputFeild
+                                                            // id="titredirig"
+                                                            name={`dirig[${index}].date_debut`}
+                                                            label="date debut"
+                                                            fullWidth
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <InputFeild
+                                                            // id="titredirig"
+                                                            name={`dirig[${index}].date_fin`}
+                                                            label="date fin"
+                                                            fullWidth
+                                                        />
+                                                    </Grid>
 
                                                     <Grid item xs={12} sm={6}>
                                                         <InputFeild
@@ -789,14 +1081,39 @@ const CreationSociete = () => {
                                                             // }
                                                         />
                                                     </Grid>
-                                                    {/* <Grid item xs={12} sm={6}>
+                                                    <Grid item xs={12} sm={12}>
                                                         <InputFeild
-                                                            id="dirigAdresse"
-                                                            name={`dirig[${index}].dirigAdresse`}
+                                                            id="adressesAdresse"
+                                                            name={`dirig[${index}].adresse.adresse`}
                                                             label="Adresse"
                                                             fullWidth
                                                         />
-                                                    </Grid> */}
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <InputFeild
+                                                            id="dirigAdresse"
+                                                            name={`dirig[${index}].adresse.code_postal`}
+                                                            label="Code postal"
+                                                            fullWidth
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <InputFeild
+                                                            id="dirigAdresse"
+                                                            name={`dirig[${index}].adresse.ville`}
+                                                            label="Ville"
+                                                            fullWidth
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={12}>
+                                                        <InputFeild
+                                                            id="dirigAdresse"
+                                                            name={`dirig[${index}].adresse.pays`}
+                                                            label="Pays"
+                                                            fullWidth
+                                                        />
+                                                    </Grid>
+
                                                     {/* <Grid item xs={12} sm={12}>
                                                         <FieldArray
                                                             name={`dirig[${index}].images`}

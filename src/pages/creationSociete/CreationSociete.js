@@ -245,10 +245,12 @@ const CreationSociete = () => {
                         telephone: "",
                         adresses: [
                             {
-                                adresse: "",
-                                code_postal: "",
-                                ville: "",
-                                pays: "",
+                                adresse: {
+                                    adresse: "",
+                                    code_postal: "",
+                                    ville: "",
+                                    pays: "",
+                                },
                                 date_de: "",
                                 date_a: "",
                             },
@@ -272,8 +274,6 @@ const CreationSociete = () => {
                                     code_postal: "",
                                     ville: "",
                                     pays: "",
-                                    date_de: "",
-                                    date_a: "",
                                 },
                                 titre: "",
                                 date_debut: "",
@@ -293,8 +293,6 @@ const CreationSociete = () => {
                                     code_postal: "",
                                     ville: "",
                                     pays: "",
-                                    date_de: "",
-                                    date_a: "",
                                 },
                                 personne: {
                                     nom: "",
@@ -312,10 +310,12 @@ const CreationSociete = () => {
                                     no: "",
                                     adresses: [
                                         {
-                                            adresse: "",
-                                            code_postal: "",
-                                            ville: "",
-                                            pays: "",
+                                            adresse: {
+                                                adresse: "",
+                                                code_postal: "",
+                                                ville: "",
+                                                pays: "",
+                                            },
                                             date_de: "",
                                             date_a: "",
                                         },
@@ -566,7 +566,7 @@ const CreationSociete = () => {
                                                     <Grid item xs={12} sm={12}>
                                                         <InputFeild
                                                             id="adressesAdresse"
-                                                            name={`adresses[${index}].adresse`}
+                                                            name={`adresses[${index}].adresse.adresse`}
                                                             label="Adresse"
                                                             fullWidth
                                                         />
@@ -574,7 +574,7 @@ const CreationSociete = () => {
                                                     <Grid item xs={12} sm={6}>
                                                         <InputFeild
                                                             id="adressesAdresse"
-                                                            name={`adresses[${index}].code_postal`}
+                                                            name={`adresses[${index}].adresse.code_postal`}
                                                             label="Code postal"
                                                             fullWidth
                                                         />
@@ -582,7 +582,7 @@ const CreationSociete = () => {
                                                     <Grid item xs={12} sm={6}>
                                                         <InputFeild
                                                             id="adressesAdresse"
-                                                            name={`adresses[${index}].ville`}
+                                                            name={`adresses[${index}].adresse.ville`}
                                                             label="Ville"
                                                             fullWidth
                                                         />
@@ -590,7 +590,7 @@ const CreationSociete = () => {
                                                     <Grid item xs={12} sm={12}>
                                                         <InputFeild
                                                             id="adressesAdresse"
-                                                            name={`adresses[${index}].pays`}
+                                                            name={`adresses[${index}].adresse.pays`}
                                                             label="Pays"
                                                             fullWidth
                                                         />
@@ -640,10 +640,12 @@ const CreationSociete = () => {
                                                 color="secondary"
                                                 onClick={() => {
                                                     push({
-                                                        adresse: "",
-                                                        code_postal: "",
-                                                        ville: "",
-                                                        pays: "",
+                                                        adresse: {
+                                                            adresse: "",
+                                                            code_postal: "",
+                                                            ville: "",
+                                                            pays: "",
+                                                        },
                                                         date_de: "",
                                                         date_a: "",
                                                     });

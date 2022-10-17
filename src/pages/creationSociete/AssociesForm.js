@@ -467,7 +467,7 @@ const AssociesForm = ({
                                             <Grid item xs={12} sm={12}>
                                                 <InputFeild
                                                     id="adressesAdresse"
-                                                    name={`associes[${index}].societe.adresses[0].adresse`}
+                                                    name={`associes[${index}].societe.adresses[0].adresse.adresse`}
                                                     label="Adresse"
                                                     fullWidth
                                                 />
@@ -475,7 +475,7 @@ const AssociesForm = ({
                                             <Grid item xs={12} sm={6}>
                                                 <InputFeild
                                                     id="dirigAdresse"
-                                                    name={`associes[${index}].societe.adresses[0].code_postal`}
+                                                    name={`associes[${index}].societe.adresses[0].adresse.code_postal`}
                                                     label="Code postal"
                                                     fullWidth
                                                 />
@@ -483,7 +483,7 @@ const AssociesForm = ({
                                             <Grid item xs={12} sm={6}>
                                                 <InputFeild
                                                     id="dirigAdresse"
-                                                    name={`associes[${index}].societe.adresses[0].ville`}
+                                                    name={`associes[${index}].societe.adresses[0].adresse.ville`}
                                                     label="Ville"
                                                     fullWidth
                                                 />
@@ -491,7 +491,7 @@ const AssociesForm = ({
                                             <Grid item xs={12} sm={12}>
                                                 <InputFeild
                                                     id="dirigAdresse"
-                                                    name={`associes[${index}].societe.adresses[0].pays`}
+                                                    name={`associes[${index}].societe.adresses[0].adresse.pays`}
                                                     label="Pays"
                                                     fullWidth
                                                 />

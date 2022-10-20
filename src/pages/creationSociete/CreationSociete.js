@@ -195,6 +195,7 @@ const CreationSociete = () => {
             // console.log(associesRes);
             let dataToSubmit = {
                 ...values,
+                status: "En cours de création",
                 dirig: dirigRes,
                 associes: associesRes,
             };
